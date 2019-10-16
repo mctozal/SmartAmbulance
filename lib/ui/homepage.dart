@@ -8,8 +8,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+      appBar:  AppBar(title: Text('Smart Ambulance'),),
+      body: Center(child: Text('cool',
+      ))
       
-    );
+);
   }
 }
