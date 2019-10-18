@@ -27,7 +27,7 @@ class _FireMapState extends State<FireMap> {
           myLocationButtonEnabled: true,
           mapType: MapType.normal,
           compassEnabled: true,
-          markers: buildMarkers(),
+          markers: markers,
         ),
         Positioned(
           bottom: 20,
@@ -44,8 +44,6 @@ class _FireMapState extends State<FireMap> {
     );
   }
 
-  Set<Marker> buildMarkers() => markers;
-
   // Its an instance when map created, controller exists.
 
   _onMapCreated(GoogleMapController controller) {
@@ -56,18 +54,19 @@ class _FireMapState extends State<FireMap> {
 
   // gets camera to location.
 
-  _animeteToUser(lon, lat) async {
+  _animeteToUser(lat, lon) async {
+    var pos = await location.getLocation();
     mapController.animateCamera(
       CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(lon, lat),
-        zoom: 17.0,
+        target: LatLng(lat, lon),
+        zoom: 15.0,
       )),
     );
   }
 
   // Adding a marker to map
 
-  _addMarker(lon, lat) async {
+  _addMarker(lat, lon) async {
     setState(() {
       Marker marker = Marker(
         markerId: MarkerId("mymarker"),
@@ -77,8 +76,8 @@ class _FireMapState extends State<FireMap> {
         position: LatLng(lat, lon),
       );
       markers.add(marker);
-      _animeteToUser(lon, lat);
     });
+    _animeteToUser(lat, lon);
   }
 
 // Function to send GeoPoint to Firestore .
@@ -88,7 +87,7 @@ class _FireMapState extends State<FireMap> {
     GeoFirePoint point =
         geo.point(latitude: pos.latitude, longitude: pos.longitude);
 
-    _addMarker(pos.longitude, pos.latitude);
+    _addMarker(pos.latitude, pos.longitude);
 
     return fireStore
         .collection('locations')
