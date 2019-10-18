@@ -11,9 +11,27 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Smart Ambulance'),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.not_listed_location,
+                color: Colors.white,
+              ),
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.white,
+              ),
+            ),
+          ],
+          title: Text(
+            'Smart Ambulance',
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
         ),
         body: FireMap());
   }
 }
-

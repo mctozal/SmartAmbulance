@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireMap extends StatefulWidget {
   @override
@@ -10,9 +12,11 @@ class FireMap extends StatefulWidget {
 class _FireMapState extends State<FireMap> {
   GoogleMapController mapController;
   Location location = new Location();
-  List<Marker> allMarkers = [];
 
-  
+  Firestore fireStore = Firestore.instance;
+  Geoflutterfire geo = Geoflutterfire();
+  final Set<Marker> markers = {};
+
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
@@ -23,7 +27,7 @@ class _FireMapState extends State<FireMap> {
           myLocationButtonEnabled: true,
           mapType: MapType.normal,
           compassEnabled: true,
-          markers: Set.from(allMarkers),
+          markers: buildMarkers(),
         ),
         Positioned(
           bottom: 20,
@@ -33,12 +37,16 @@ class _FireMapState extends State<FireMap> {
                 borderRadius: new BorderRadius.circular(100.0)),
             child: Icon(Icons.pin_drop, color: Colors.white),
             color: Colors.blue,
-            onPressed: _addMarker,
+            onPressed: _addGeoPoint,
           ),
         )
       ],
     );
   }
+
+  Set<Marker> buildMarkers() => markers;
+
+  // Its an instance when map created, controller exists.
 
   _onMapCreated(GoogleMapController controller) {
     setState(() {
@@ -46,27 +54,44 @@ class _FireMapState extends State<FireMap> {
     });
   }
 
-  _animeteToUser() async {
-    var pos = await location.getLocation();
+  // gets camera to location.
+
+  _animeteToUser(lon, lat) async {
     mapController.animateCamera(
       CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(pos.latitude, pos.longitude),
+        target: LatLng(lon, lat),
         zoom: 17.0,
       )),
     );
   }
 
-  _addMarker() async {
+  // Adding a marker to map
+
+  _addMarker(lon, lat) async {
+    setState(() {
+      Marker marker = Marker(
+        markerId: MarkerId("mymarker"),
+        visible: true,
+        draggable: true,
+        icon: BitmapDescriptor.defaultMarker,
+        position: LatLng(lat, lon),
+      );
+      markers.add(marker);
+      _animeteToUser(lon, lat);
+    });
+  }
+
+// Function to send GeoPoint to Firestore .
+
+  Future<DocumentReference> _addGeoPoint() async {
     var pos = await location.getLocation();
-    allMarkers.add(Marker(
-      markerId: MarkerId("mymarker"),
-      visible: true,
-      draggable: true,
-      icon: BitmapDescriptor.defaultMarker,
-      position: LatLng(pos.latitude, pos.longitude),
-    ));
+    GeoFirePoint point =
+        geo.point(latitude: pos.latitude, longitude: pos.longitude);
 
-     _animeteToUser();
+    _addMarker(pos.longitude, pos.latitude);
 
+    return fireStore
+        .collection('locations')
+        .add({'position': point.data, 'name': 'We can query'});
   }
 }
