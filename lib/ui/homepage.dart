@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'firemap.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,22 +17,3 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class FireMap extends StatefulWidget {
-  @override
-  _FireMapState createState() => _FireMapState();
-}
-
-class _FireMapState extends State<FireMap> {
-  @override
-  Widget build(BuildContext context) {
-    return Stack(children: <Widget>[
-      GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: LatLng(24.142,-110.321),
-          zoom:15
-        ),
-
-      )
-    ],);
-  }
-}
