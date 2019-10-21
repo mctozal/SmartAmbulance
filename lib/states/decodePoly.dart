@@ -2,7 +2,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DecodePoly {
   
-  List _decodePoly(String poly) {
+  List decodePoly(String poly) {
     var list = poly.codeUnits;
     var lList = new List();
     int index = 0;
@@ -36,7 +36,7 @@ class DecodePoly {
     return lList;
   }
 
-  List<LatLng> _convertToLatLng(List points) {
+  List<LatLng> convertToLatLng(List points) {
     List<LatLng> result = <LatLng>[];
     for (int i = 0; i < points.length; i++) {
       if (i % 2 != 0) {
