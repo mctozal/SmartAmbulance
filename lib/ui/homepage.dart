@@ -17,12 +17,14 @@ class _HomePageState extends State<HomePage> {
                 Icons.not_listed_location,
                 color: Colors.white,
               ),
+              onPressed: () { },
             ),
             IconButton(
               icon: Icon(
                 Icons.more_vert,
                 color: Colors.white,
               ),
+              onPressed: () {},
             ),
           ],
           title: Text(
