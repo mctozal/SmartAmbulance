@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/widgets.dart';
@@ -33,14 +35,38 @@ class _FireMapState extends State<FireMap> {
                 markers: appState.marker,
               ),
               Positioned(
-                bottom: 20,
                 right: 10,
-                child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(100.0)),
-                    child: Icon(Icons.pin_drop, color: Colors.white),
-                    color: Colors.blue,
-                    onPressed: appState.addGeoPoint),
+                bottom: 2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+
+                  children: <Widget>[
+                    FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(100.0)),
+                        child: Icon(Icons.pin_drop, color: Colors.white),
+                        color: Colors.blue,
+                        onPressed: appState.addGeoPoint),
+                    Container(
+                      width: 200,
+                      height: 50,
+                      child: TextField(
+                        controller: appState.destinationController,
+                        enabled: true,
+                        cursorColor: Colors.blue,
+                        maxLength: 20,
+                        onChanged: (value){appState.sendRequest(value);},
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          fillColor: Colors.white,
+                          semanticCounterText: 'Hospital name',
+                          filled: true,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               )
             ],
           );

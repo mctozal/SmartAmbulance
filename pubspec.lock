@@ -82,7 +82,7 @@ packages:
     source: hosted
     version: "0.5.21+7"
   google_maps_webservice:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: google_maps_webservice
       url: "https://pub.dartlang.org"

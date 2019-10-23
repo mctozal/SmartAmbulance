@@ -15,6 +15,7 @@ class MapState with ChangeNotifier {
   GoogleMapController _mapController;
   GoogleMapsServices _googleMapsServices = GoogleMapsServices();
   Location location = new Location();
+  TextEditingController destinationController = TextEditingController();
 
   LatLng get initialPosition => _initialPosition;
   LatLng get lastPosition => _lastPosition;
@@ -49,6 +50,20 @@ class MapState with ChangeNotifier {
       )),
     );
     notifyListeners();
+  }
+
+  // Function to send GeoPoint to Firestore .
+
+  Future<DocumentReference> addGeoPoint() {
+    GeoFirePoint point = geo.point(
+        latitude: _initialPosition.latitude,
+        longitude: _initialPosition.longitude);
+
+    addMarker();
+    addRoute();
+    return fireStore
+        .collection('locations')
+        .add({'position': point.data, 'name': 'We can query'});
   }
 
   addRoute() async {
@@ -90,19 +105,7 @@ class MapState with ChangeNotifier {
     notifyListeners();
   }
 
-  // Function to send GeoPoint to Firestore .
-
-  Future<DocumentReference> addGeoPoint() {
-    GeoFirePoint point = geo.point(
-        latitude: _initialPosition.latitude,
-        longitude: _initialPosition.longitude);
-
-    addMarker();
-    addRoute();
-    return fireStore
-        .collection('locations')
-        .add({'position': point.data, 'name': 'We can query'});
-  }
+  
 
   void createRoute(String encondedPoly) {
     _polyLines.add(Polyline(
@@ -111,6 +114,14 @@ class MapState with ChangeNotifier {
         points: _convertToLatLng(_decodePoly(encondedPoly)),
         color: Colors.black));
 
+    notifyListeners();
+  }
+
+    void sendRequest(String intendedLocation) async {
+    LatLng destination = LatLng(40.990178, 28.8233053);
+    
+    String route = await _googleMapsServices.getRouteCoordinates(_initialPosition, destination);
+    createRoute(route);
     notifyListeners();
   }
 
@@ -158,10 +169,5 @@ class MapState with ChangeNotifier {
     return result;
   }
 
-  void sendRequest(String intendedLocation) async {
-    LatLng destination = LatLng(40.990178, 28.8233053);
-    String route = await _googleMapsServices.getRouteCoordinates(_initialPosition, destination);
-    createRoute(route);
-    notifyListeners();
-  }
+
 }
