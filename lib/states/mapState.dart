@@ -27,7 +27,7 @@ class MapState with ChangeNotifier {
 
   LatLng get initialPosition => _initialPosition;
   LatLng get lastPosition => _lastPosition;
-  bool get traffic => _traffic;
+  bool get traffic => _traffic=true;
   String get apiKey => _apiKey;
   GoogleMapsServices get googleMapsServices => _googleMapsServices;
   GoogleMapController get mapController => _mapController;
@@ -144,8 +144,16 @@ class MapState with ChangeNotifier {
     return randomInt;
   }
 
+  createRouteToHospital(LatLng destination) async {
+    String route = await _googleMapsServices.getRouteCoordinates(
+        _initialPosition, destination);
+    createRoute(route);
+    notifyListeners();
+  }
+
   showHospitals() async {
     List<LocationHospital> list = await _googleMapsServices.getHospitals();
+
     for (var i = 0; i < list.length; i++) {
       var markerIdVal = generateIds();
       final MarkerId markerId = MarkerId(markerIdVal.toString());
@@ -155,6 +163,10 @@ class MapState with ChangeNotifier {
         infoWindow: InfoWindow(title: 'Hospital'),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
         draggable: true,
+        consumeTapEvents: true,
+        onTap: () async {
+          await createRouteToHospital(LatLng(list[i].lat, list[i].lng));
+        },
         position: LatLng(
           list[i].lat,
           list[i].lng,
@@ -162,8 +174,7 @@ class MapState with ChangeNotifier {
       );
       _markers.add(marker);
     }
-
-    // double lon = detail.result.geometry.location.lng;
+    notifyListeners();
   }
 
   List _decodePoly(String poly) {
