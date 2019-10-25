@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as locationa;
 import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:smart_ambulance/model/location.dart';
 import 'package:smart_ambulance/requests/google_request.dart';
 import 'package:google_maps_webservice/places.dart';
 
@@ -14,7 +17,7 @@ class MapState with ChangeNotifier {
   LatLng _lastPosition = _initialPosition;
   final Set<Marker> _markers = {};
   final Set<Polyline> _polyLines = {};
-  bool _traffic = false;
+  bool _traffic;
 
   GoogleMapController _mapController;
   GoogleMapsServices _googleMapsServices = GoogleMapsServices();
@@ -49,11 +52,12 @@ class MapState with ChangeNotifier {
   }
 
   checkTraffic() {
-    if (_traffic = true) {
-      _traffic = false;
-    }
-    if (_traffic = false) {
+    if (_traffic == null) {
       _traffic = true;
+    } else if (_traffic == false) {
+      _traffic = true;
+    } else if (_traffic == true) {
+      _traffic = false;
     }
     notifyListeners();
   }
@@ -130,6 +134,36 @@ class MapState with ChangeNotifier {
       animeteToUser();
     }
     notifyListeners();
+  }
+
+  int generateIds() {
+    var rng = new Random();
+    var randomInt;
+    randomInt = rng.nextInt(100);
+    print(rng.nextInt(100));
+    return randomInt;
+  }
+
+  showHospitals() async {
+    List<LocationHospital> list = await _googleMapsServices.getHospitals();
+    for (var i = 0; i < list.length; i++) {
+      var markerIdVal = generateIds();
+      final MarkerId markerId = MarkerId(markerIdVal.toString());
+      final Marker marker = Marker(
+        markerId: markerId,
+        visible: true,
+        infoWindow: InfoWindow(title: 'Hospital'),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        draggable: true,
+        position: LatLng(
+          list[i].lat,
+          list[i].lng,
+        ),
+      );
+      _markers.add(marker);
+    }
+
+    // double lon = detail.result.geometry.location.lng;
   }
 
   List _decodePoly(String poly) {

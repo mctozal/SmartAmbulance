@@ -35,49 +35,73 @@ class _FireMapState extends State<FireMap> {
                 compassEnabled: true,
                 markers: appState.marker,
               ),
-              Column(
-                children: <Widget>[
-                  RaisedButton(
+              Positioned(
+                top: 5,
+                right: 5,
+                child: Container(
+                  child: RaisedButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(100.0)),
-                    child: Icon(
-                      Icons.traffic,
-                      color: Colors.white,
-                    ),
                     color: Colors.blue,
-                    onPressed: () {
-                      // traffic information changes
-                      appState.checkTraffic();
+                    onPressed: () async {
+                      // show input autocomplete with selected mode
+                      // then get the Prediction selected
+                      Prediction prediction = await PlacesAutocomplete.show(
+                          components: [new Component(Component.country, "tr")],
+                          language: "tr",
+                          mode: Mode.overlay,
+                          context: context,
+                          apiKey: appState.apiKey);
+                      appState.sendRequest(prediction);
                     },
-                  ),
-                  FlatButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(100.0)),
-                      child: Icon(Icons.pin_drop, color: Colors.white),
-                      color: Colors.blue,
-                      onPressed: appState.addGeoPoint),
-                ],
-              ),
-              Container(
-                height: 50,
-                child: RaisedButton(
-                  color: Colors.blue,
-                  onPressed: () async {
-                    // show input autocomplete with selected mode
-                    // then get the Prediction selected
-                    Prediction prediction = await PlacesAutocomplete.show(
-                        components: [new Component(Component.country, "tr")],
-                        language: "tr",
-                        mode: Mode.overlay,
-                        context: context,
-                        apiKey: appState.apiKey);
-                    appState.sendRequest(prediction);
-                  },
-                  child: Text(
-                    'Find Hospitals',
-                    style: TextStyle(fontSize: 14),
+                    child: Icon(Icons.search),
                   ),
                 ),
+              ),
+              Positioned(
+                top: 50,
+                right: 5,
+                child: RaisedButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(100.0)),
+                  child: Icon(
+                    Icons.traffic,
+                    color: Colors.white,
+                  ),
+                  color: Colors.blue,
+                  onPressed: () {
+                    // traffic information changes
+                    appState.checkTraffic();
+                  },
+                ),
+              ),
+              Positioned(
+                top: 90,
+                right: 5,
+                child: Container(
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(100.0)),
+                    color: Colors.blue,
+                    onPressed: () async {
+                      appState.showHospitals();
+                    },
+                    child: Icon(
+                      Icons.local_hospital,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 130,
+                right: 5,
+                child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(100.0)),
+                    child: Icon(Icons.pin_drop, color: Colors.white),
+                    color: Colors.blue,
+                    onPressed: appState.addGeoPoint),
               ),
             ],
           );
