@@ -1,28 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' as locationa;
 import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_ambulance/requests/google_request.dart';
+import 'package:google_maps_webservice/places.dart';
+
+const _apiKey = "AIzaSyDjJdyuszYbdiK3eW6OFyx9uyNszjPBlyk";
 
 class MapState with ChangeNotifier {
   static LatLng _initialPosition;
   LatLng _lastPosition = _initialPosition;
   final Set<Marker> _markers = {};
   final Set<Polyline> _polyLines = {};
+  bool _traffic = false;
 
   GoogleMapController _mapController;
   GoogleMapsServices _googleMapsServices = GoogleMapsServices();
-  Location location = new Location();
+  locationa.Location location = new locationa.Location();
+  TextEditingController destinationController = TextEditingController();
+  GoogleMapsPlaces places = GoogleMapsPlaces(apiKey: _apiKey);
 
   LatLng get initialPosition => _initialPosition;
   LatLng get lastPosition => _lastPosition;
-   GoogleMapsServices get googleMapsServices => _googleMapsServices;
+  bool get traffic => _traffic;
+  String get apiKey => _apiKey;
+  GoogleMapsServices get googleMapsServices => _googleMapsServices;
   GoogleMapController get mapController => _mapController;
   Set<Marker> get marker => _markers;
   Set<Polyline> get polyLines => _polyLines;
-
   Firestore fireStore = Firestore.instance;
   Geoflutterfire geo = Geoflutterfire();
 
@@ -41,6 +48,16 @@ class MapState with ChangeNotifier {
     notifyListeners();
   }
 
+  checkTraffic() {
+    if (_traffic = true) {
+      _traffic = false;
+    }
+    if (_traffic = false) {
+      _traffic = true;
+    }
+    notifyListeners();
+  }
+
   animeteToUser() async {
     _mapController.animateCamera(
       CameraUpdate.newCameraPosition(CameraPosition(
@@ -51,28 +68,17 @@ class MapState with ChangeNotifier {
     notifyListeners();
   }
 
-  addRoute() async {
-    LatLng destination = LatLng(41.036945, 28.985832);
-    String route = await _googleMapsServices.getRouteCoordinates(_initialPosition, destination);
-    Polyline polyline = Polyline(
-      polylineId: PolylineId('first'),
-      visible: true,
-      color: Colors.blue,
-      points: _convertToLatLng(_decodePoly(route)),
-    );
-    _polyLines.add(polyline);
+  // Function to send GeoPoint to Firestore .
 
-    Marker marker2 = Marker(
-      markerId: MarkerId("mymarker2"),
-      infoWindow: InfoWindow(title: 'Hospital'),
-      visible: true,
-      draggable: true,
-      icon: BitmapDescriptor.defaultMarker,
-      position: destination,
-    );
-    _markers.add(marker2);
-    animeteToUser();
-    notifyListeners();
+  Future<DocumentReference> addGeoPoint() {
+    GeoFirePoint point = geo.point(
+        latitude: _initialPosition.latitude,
+        longitude: _initialPosition.longitude);
+
+    addMarker();
+    return fireStore
+        .collection('locations')
+        .add({'position': point.data, 'name': 'We can query'});
   }
 
   // Adding a marker to map
@@ -90,27 +96,39 @@ class MapState with ChangeNotifier {
     notifyListeners();
   }
 
-  // Function to send GeoPoint to Firestore .
-
-  Future<DocumentReference> addGeoPoint() {
-    GeoFirePoint point = geo.point(
-        latitude: _initialPosition.latitude,
-        longitude: _initialPosition.longitude);
-
-    addMarker();
-    addRoute();
-    return fireStore
-        .collection('locations')
-        .add({'position': point.data, 'name': 'We can query'});
-  }
-
   void createRoute(String encondedPoly) {
     _polyLines.add(Polyline(
         polylineId: PolylineId('first'),
         width: 10,
         points: _convertToLatLng(_decodePoly(encondedPoly)),
-        color: Colors.black));
+        color: Colors.blue));
+    notifyListeners();
+  }
 
+  void sendRequest(Prediction intendedLocation) async {
+    if (intendedLocation != null) {
+      PlacesDetailsResponse detail =
+          await places.getDetailsByPlaceId(intendedLocation.placeId);
+      double lat = detail.result.geometry.location.lat;
+      double lng = detail.result.geometry.location.lng;
+      LatLng destination = LatLng(lat, lng);
+
+      String route = await _googleMapsServices.getRouteCoordinates(
+          _initialPosition, destination);
+
+      Marker marker2 = Marker(
+        markerId: MarkerId("mymarker2"),
+        infoWindow: InfoWindow(title: 'Hospital'),
+        visible: true,
+        draggable: true,
+        icon: BitmapDescriptor.defaultMarker,
+        position: destination,
+      );
+      _markers.add(marker2);
+
+      createRoute(route);
+      animeteToUser();
+    }
     notifyListeners();
   }
 
@@ -156,12 +174,5 @@ class MapState with ChangeNotifier {
       }
     }
     return result;
-  }
-
-  void sendRequest(String intendedLocation) async {
-    LatLng destination = LatLng(40.990178, 28.8233053);
-    String route = await _googleMapsServices.getRouteCoordinates(_initialPosition, destination);
-    createRoute(route);
-    notifyListeners();
   }
 }
