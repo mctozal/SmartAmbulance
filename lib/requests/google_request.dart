@@ -2,6 +2,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:smart_ambulance/model/location.dart';
+
 const apiKey = "AIzaSyDjJdyuszYbdiK3eW6OFyx9uyNszjPBlyk";
 
 class GoogleMapsServices {
@@ -13,15 +15,15 @@ class GoogleMapsServices {
     return values["routes"][0]["overview_polyline"]["points"];
   }
 
-  Future<List<LatLng>> getHospitals() async {
+  Future<List<LocationHospital>> getHospitals() async {
     final String url =
         "https://maps.googleapis.com/maps/api/place/textsearch/json?query=hospitals+in+Turkey&key=$apiKey";
     http.Response response = await http.get(url);
     List data = json.decode(response.body)["results"];
-    var locations = <LatLng>[];
+    var locations = <LocationHospital>[];
 
     data.forEach((f) => locations
-        .add(new LatLng(f["geometry"]["location"]["lat"], f["geometry"]["location"]["lng"])));
+        .add(new LocationHospital(f["geometry"]["location"]["lat"],f["geometry"]["location"]["lng"],f["id"],f["name"])));
 
     return locations;
   }

@@ -1,17 +1,24 @@
+
 class LocationHospital {
-  final double lat;
-  final double lng;
+  final double latitude;
+  final double longitude;
+  final String id;
+  final String name;
 
 
-  LocationHospital(this.lat,this.lng);
+  LocationHospital(this.latitude,this.longitude,this.id,this.name);
 
   LocationHospital.fromMappedJson(Map<String, dynamic> json)
-      : lat = json['lat'],
-        lng = json['lng'];
+      : latitude = json['latitude'],
+        longitude = json['longitude'],
+        id = json['id'],
+        name = json['name'];
 
   Map<String, dynamic> toJson() =>
     {
-      'lat': lat,
-      'lng': lng,
+      'latitude': latitude,
+      'longitude': longitude,
+      'id': id,
+      'name': name,
     };
 }

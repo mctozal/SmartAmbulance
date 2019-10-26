@@ -36,8 +36,7 @@ dev_dependencies:
   location: ^2.3.5
   google_maps_flutter: ^0.5.21+7
   flutter_google_places: ^0.2.3
-assets:
-  - assets/images/alert.png
+
 
 
 
@@ -51,6 +50,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  
+  assets:
+    - images/hospital.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

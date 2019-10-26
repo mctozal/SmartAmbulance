@@ -4,6 +4,7 @@ import 'package:location/location.dart' as locationa;
 import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:smart_ambulance/model/location.dart';
 import 'package:smart_ambulance/requests/google_request.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:smart_ambulance/src/convertToLatLng.dart';
@@ -12,7 +13,6 @@ import 'package:smart_ambulance/src/decodePoly.dart';
 const _apiKey = "AIzaSyDjJdyuszYbdiK3eW6OFyx9uyNszjPBlyk";
 
 class MapState with ChangeNotifier {
-  
   static LatLng _initialPosition;
   LatLng _lastPosition = _initialPosition;
   final Set<Marker> _markers = {};
@@ -146,15 +146,14 @@ class MapState with ChangeNotifier {
   }
 
   showHospitals(BuildContext context) async {
-    List<LatLng> list = await _googleMapsServices.getHospitals();
+    List<LocationHospital> list = await _googleMapsServices.getHospitals();
 
     for (var i = 0; i < list.length; i++) {
-      var markerIdVal = convert.generateIds();
-      final MarkerId markerId = MarkerId(markerIdVal.toString());
+      final MarkerId markerId = MarkerId(list[i].id);
       final Marker marker = Marker(
         markerId: markerId,
         visible: true,
-        infoWindow: InfoWindow(title: 'Hospital'),
+        infoWindow: InfoWindow(title: list[i].name),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
         draggable: false,
         consumeTapEvents: true,
@@ -167,8 +166,11 @@ class MapState with ChangeNotifier {
                       style: TextStyle(
                           fontSize: 22.0, fontWeight: FontWeight.w600),
                     ),
-                    content: Text("Do you want to add a route?"),
+                    content: Text("Do you want to go to ${list[i].name} ?"),
                     actions: <Widget>[
+                      Image(height: 100,width: 100,
+                        image: AssetImage('images/hospital.png'),
+                      ),
                       FlatButton(
                         child: Icon(Icons.close),
                         onPressed: () => Navigator.of(context).pop(),

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ConvertToLatLng {
@@ -11,13 +9,5 @@ class ConvertToLatLng {
       }
     }
     return result;
-  }
-
-  int generateIds() {
-    var rng = new Random();
-    var randomInt;
-    randomInt = rng.nextInt(100);
-    print(rng.nextInt(100));
-    return randomInt;
   }
 }
