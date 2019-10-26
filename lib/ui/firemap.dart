@@ -12,6 +12,15 @@ class FireMap extends StatefulWidget {
 }
 
 class _FireMapState extends State<FireMap> {
+
+  MapType type ;
+
+  @override
+  void initState() {
+    super.initState();
+    type= MapType.normal;
+  }
+
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<MapState>(context);
@@ -28,9 +37,9 @@ class _FireMapState extends State<FireMap> {
                 initialCameraPosition: CameraPosition(
                     target: LatLng(40.990178, 28.8233053), zoom: 15),
                 onMapCreated: appState.onMapCreated,
-                trafficEnabled: appState.traffic,
+                trafficEnabled: true,
                 myLocationButtonEnabled: true,
-                mapType: MapType.normal,
+                mapType: type,
                 polylines: appState.polyLines,
                 compassEnabled: true,
                 markers: appState.marker,
@@ -65,13 +74,15 @@ class _FireMapState extends State<FireMap> {
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(100.0)),
                   child: Icon(
-                    Icons.traffic,
+                    Icons.map,
                     color: Colors.white,
                   ),
                   color: Colors.blue,
                   onPressed: () {
                     // traffic information changes
-                    appState.checkTraffic();
+                    setState(() {
+                      type = type == MapType.hybrid ? MapType.normal : MapType.hybrid;
+                    });
                   },
                 ),
               ),
@@ -99,7 +110,7 @@ class _FireMapState extends State<FireMap> {
                 child: FlatButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(100.0)),
-                    child: Icon(Icons.pin_drop, color: Colors.white),
+                    child: Icon(Icons.my_location, color: Colors.white),
                     color: Colors.blue,
                     onPressed: appState.addGeoPoint),
               ),

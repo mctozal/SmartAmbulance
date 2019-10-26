@@ -17,6 +17,7 @@ class MapState with ChangeNotifier {
   LatLng _lastPosition = _initialPosition;
   final Set<Marker> _markers = {};
   final Set<Polyline> _polyLines = {};
+
   bool _traffic;
 
   GoogleMapController _mapController;
@@ -29,7 +30,7 @@ class MapState with ChangeNotifier {
 
   LatLng get initialPosition => _initialPosition;
   LatLng get lastPosition => _lastPosition;
-  bool get traffic => _traffic = true;
+  bool get traffic => _traffic;
   String get apiKey => _apiKey;
   GoogleMapsServices get googleMapsServices => _googleMapsServices;
   GoogleMapController get mapController => _mapController;
@@ -61,6 +62,7 @@ class MapState with ChangeNotifier {
     } else if (_traffic == true) {
       _traffic = false;
     }
+    _traffic = true;
     notifyListeners();
   }
 
@@ -168,7 +170,9 @@ class MapState with ChangeNotifier {
                     ),
                     content: Text("Do you want to go to ${list[i].name} ?"),
                     actions: <Widget>[
-                      Image(height: 100,width: 100,
+                      Image(
+                        height: 100,
+                        width: 100,
                         image: AssetImage('images/hospital.png'),
                       ),
                       FlatButton(
