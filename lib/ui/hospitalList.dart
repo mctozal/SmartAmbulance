@@ -38,6 +38,7 @@ class _HospitalListState extends State<HospitalList> {
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
+                              leading: Icon(Icons.local_hospital),
                               title: Text(snapshot.data[index].name.toString()),
                             );
                           },
