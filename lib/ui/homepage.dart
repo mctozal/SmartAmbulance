@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
           actions: <Widget>[
             IconButton(
               icon: Icon(
-                Icons.not_listed_location,
+                Icons.location_on,
                 color: Colors.white,
               ),
               onPressed: () {
