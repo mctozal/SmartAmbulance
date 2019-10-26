@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_ambulance/ui/hospitalList.dart';
 import 'firemap.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +18,12 @@ class _HomePageState extends State<HomePage> {
                 Icons.not_listed_location,
                 color: Colors.white,
               ),
-              onPressed: () { },
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HospitalUI()),
+                );
+              },
             ),
             IconButton(
               icon: Icon(

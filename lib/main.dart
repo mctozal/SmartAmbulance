@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_ambulance/states/hospitalState.dart';
 import 'package:smart_ambulance/states/mapState.dart';
 import 'package:smart_ambulance/ui/homepage.dart';
 
 void main() {
-  return runApp(MultiProvider(providers: [
-      ChangeNotifierProvider.value(value: MapState(),)
-  ],
-  child: MyApp(),));
+  return runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider.value(value: MapState()),
+      ChangeNotifierProvider.value(value: HospitalState())
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
