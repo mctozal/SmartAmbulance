@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_ambulance/ui/hospitalList.dart';
 import 'firemap.dart';
+import 'package:smart_ambulance/ui/settings.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -30,7 +31,7 @@ class _HomePageState extends State<HomePage> {
                 Icons.more_vert,
                 color: Colors.white,
               ),
-              onPressed: () {},
+              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=> SettingsUI()));},
             ),
           ],
           title: Text(

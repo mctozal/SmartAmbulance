@@ -21,8 +21,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Smart Ambulance',
       theme: ThemeData.light(),
+      darkTheme: ThemeData(
+    brightness: Brightness.light,
+  ),
       debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
   }
+
 }
