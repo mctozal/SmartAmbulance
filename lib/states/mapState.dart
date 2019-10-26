@@ -1,18 +1,18 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as locationa;
 import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_ambulance/model/location.dart';
 import 'package:smart_ambulance/requests/google_request.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:smart_ambulance/src/convertToLatLng.dart';
+import 'package:smart_ambulance/src/decodePoly.dart';
 
 const _apiKey = "AIzaSyDjJdyuszYbdiK3eW6OFyx9uyNszjPBlyk";
 
 class MapState with ChangeNotifier {
+  
   static LatLng _initialPosition;
   LatLng _lastPosition = _initialPosition;
   final Set<Marker> _markers = {};
@@ -24,10 +24,12 @@ class MapState with ChangeNotifier {
   locationa.Location location = new locationa.Location();
   TextEditingController destinationController = TextEditingController();
   GoogleMapsPlaces places = GoogleMapsPlaces(apiKey: _apiKey);
+  DecodePoly decode = new DecodePoly();
+  ConvertToLatLng convert = new ConvertToLatLng();
 
   LatLng get initialPosition => _initialPosition;
   LatLng get lastPosition => _lastPosition;
-  bool get traffic => _traffic=true;
+  bool get traffic => _traffic = true;
   String get apiKey => _apiKey;
   GoogleMapsServices get googleMapsServices => _googleMapsServices;
   GoogleMapController get mapController => _mapController;
@@ -104,8 +106,9 @@ class MapState with ChangeNotifier {
     _polyLines.add(Polyline(
         polylineId: PolylineId('first'),
         width: 10,
-        points: _convertToLatLng(_decodePoly(encondedPoly)),
+        points: convert.convertToLatLng(decode.decodePoly(encondedPoly)),
         color: Colors.blue));
+    animeteToUser();
     notifyListeners();
   }
 
@@ -131,17 +134,8 @@ class MapState with ChangeNotifier {
       _markers.add(marker2);
 
       createRoute(route);
-      animeteToUser();
     }
     notifyListeners();
-  }
-
-  int generateIds() {
-    var rng = new Random();
-    var randomInt;
-    randomInt = rng.nextInt(100);
-    print(rng.nextInt(100));
-    return randomInt;
   }
 
   createRouteToHospital(LatLng destination) async {
@@ -151,73 +145,52 @@ class MapState with ChangeNotifier {
     notifyListeners();
   }
 
-  showHospitals() async {
-    List<LocationHospital> list = await _googleMapsServices.getHospitals();
+  showHospitals(BuildContext context) async {
+    List<LatLng> list = await _googleMapsServices.getHospitals();
 
     for (var i = 0; i < list.length; i++) {
-      var markerIdVal = generateIds();
+      var markerIdVal = convert.generateIds();
       final MarkerId markerId = MarkerId(markerIdVal.toString());
       final Marker marker = Marker(
         markerId: markerId,
         visible: true,
         infoWindow: InfoWindow(title: 'Hospital'),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-        draggable: true,
+        draggable: false,
         consumeTapEvents: true,
-        onTap: () async {
-          await createRouteToHospital(LatLng(list[i].lat, list[i].lng));
+        onTap: () {
+          showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                    title: Text(
+                      'Routing',
+                      style: TextStyle(
+                          fontSize: 22.0, fontWeight: FontWeight.w600),
+                    ),
+                    content: Text("Do you want to add a route?"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Icon(Icons.close),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      FlatButton(
+                        child: Icon(Icons.done),
+                        onPressed: () async {
+                          await createRouteToHospital(
+                              LatLng(list[i].latitude, list[i].longitude));
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ));
         },
         position: LatLng(
-          list[i].lat,
-          list[i].lng,
+          list[i].latitude,
+          list[i].longitude,
         ),
       );
       _markers.add(marker);
     }
     notifyListeners();
-  }
-
-  List _decodePoly(String poly) {
-    var list = poly.codeUnits;
-    var lList = new List();
-    int index = 0;
-    int len = poly.length;
-    int c = 0;
-    // repeating until all attributes are decoded
-    do {
-      var shift = 0;
-      int result = 0;
-
-      // for decoding value of one attribute
-      do {
-        c = list[index] - 63;
-        result |= (c & 0x1F) << (shift * 5);
-        index++;
-        shift++;
-      } while (c >= 32);
-      /* if value is negetive then bitwise not the value */
-      if (result & 1 == 1) {
-        result = ~result;
-      }
-      var result1 = (result >> 1) * 0.00001;
-      lList.add(result1);
-    } while (index < len);
-
-    /*adding to previous value as done in encoding */
-    for (var i = 2; i < lList.length; i++) lList[i] += lList[i - 2];
-
-    print(lList.toString());
-
-    return lList;
-  }
-
-  List<LatLng> _convertToLatLng(List points) {
-    List<LatLng> result = <LatLng>[];
-    for (int i = 0; i < points.length; i++) {
-      if (i % 2 != 0) {
-        result.add(LatLng(points[i - 1], points[i]));
-      }
-    }
-    return result;
   }
 }

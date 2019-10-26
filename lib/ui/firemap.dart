@@ -84,7 +84,7 @@ class _FireMapState extends State<FireMap> {
                         borderRadius: new BorderRadius.circular(100.0)),
                     color: Colors.blue,
                     onPressed: () async {
-                      appState.showHospitals();
+                      appState.showHospitals(context);
                     },
                     child: Icon(
                       Icons.local_hospital,
