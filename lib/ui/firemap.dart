@@ -12,18 +12,20 @@ class FireMap extends StatefulWidget {
 }
 
 class _FireMapState extends State<FireMap> {
-
-  MapType type ;
+  MapType type;
+  bool traffic;
 
   @override
   void initState() {
     super.initState();
-    type= MapType.normal;
+    type = MapType.normal;
+    traffic = false;
   }
 
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<MapState>(context);
+
     return appState.initialPosition == null
         ? Container(
             alignment: Alignment.center,
@@ -37,7 +39,7 @@ class _FireMapState extends State<FireMap> {
                 initialCameraPosition: CameraPosition(
                     target: LatLng(40.990178, 28.8233053), zoom: 15),
                 onMapCreated: appState.onMapCreated,
-                trafficEnabled: true,
+                trafficEnabled: traffic,
                 myLocationButtonEnabled: true,
                 mapType: type,
                 polylines: appState.polyLines,
@@ -81,7 +83,9 @@ class _FireMapState extends State<FireMap> {
                   onPressed: () {
                     // traffic information changes
                     setState(() {
-                      type = type == MapType.hybrid ? MapType.normal : MapType.hybrid;
+                      type = type == MapType.hybrid
+                          ? MapType.normal
+                          : MapType.hybrid;
                     });
                   },
                 ),
@@ -114,6 +118,19 @@ class _FireMapState extends State<FireMap> {
                     color: Colors.blue,
                     onPressed: appState.addGeoPoint),
               ),
+              Positioned(
+                top: 170,
+                right: 5,
+                child: Switch(
+                  value: appState.traffic,
+                  onChanged: (newValue) {
+                    appState.checkTraffic(newValue);
+                    setState(() {
+                      traffic = appState.traffic ? true : false;
+                    });
+                  },
+                ),
+              )
             ],
           );
   }

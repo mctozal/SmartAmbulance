@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as locationa;
@@ -18,8 +19,7 @@ class MapState with ChangeNotifier {
   final Set<Marker> _markers = {};
   final Set<Polyline> _polyLines = {};
 
-  bool _traffic;
-
+  bool _traffic=false;
   GoogleMapController _mapController;
   GoogleMapsServices _googleMapsServices = GoogleMapsServices();
   locationa.Location location = new locationa.Location();
@@ -54,15 +54,8 @@ class MapState with ChangeNotifier {
     notifyListeners();
   }
 
-  checkTraffic() {
-    if (_traffic == null) {
-      _traffic = true;
-    } else if (_traffic == false) {
-      _traffic = true;
-    } else if (_traffic == true) {
-      _traffic = false;
-    }
-    _traffic = true;
+  checkTraffic(traffic) {
+    _traffic=traffic;
     notifyListeners();
   }
 
@@ -110,7 +103,6 @@ class MapState with ChangeNotifier {
         width: 10,
         points: convert.convertToLatLng(decode.decodePoly(encondedPoly)),
         color: Colors.blue));
-    animeteToUser();
     notifyListeners();
   }
 
@@ -196,6 +188,12 @@ class MapState with ChangeNotifier {
         ),
       );
       _markers.add(marker);
+       _mapController.animateCamera(
+      CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(_initialPosition.latitude, _initialPosition.longitude),
+        zoom: 12.0,
+      )),
+    );
     }
     notifyListeners();
   }
