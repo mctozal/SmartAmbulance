@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_ambulance/states/authenticationState.dart';
 import 'package:smart_ambulance/states/settingState.dart';
 
 class SettingsUI extends StatefulWidget {
@@ -11,6 +12,7 @@ class _SettingsUIState extends State<SettingsUI> {
   @override
   Widget build(BuildContext context) {
     final settingState = Provider.of<SettingState>(context);
+    final authenticationState = Provider.of<AuthenticationState>(context);
     return Scaffold(
       appBar: AppBar(
           title: Text(
@@ -52,6 +54,17 @@ class _SettingsUIState extends State<SettingsUI> {
                 backgroundImage: NetworkImage(
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR9EraXc--8tPahHj7HYlNSGyFMyXdD5kENptlcy-R5tPIXgBT_")),
             title: Text("About Us"),
+          ),
+          ListTile(
+            onTap: () async {
+              await authenticationState.signOut();
+              final current = ModalRoute.of(context);
+              Navigator.removeRoute(context, current);
+            },
+            leading: CircleAvatar(
+              backgroundColor: Colors.redAccent,
+            ),
+            title: Text("Sign Out"),
           ),
         ]).toList(),
       ),
