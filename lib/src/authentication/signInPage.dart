@@ -56,6 +56,10 @@ class SignInPage extends StatelessWidget {
                               children: <Widget>[
                                 Text(
                                   logoTitle,
+                                  style: TextStyle(fontSize: 25),
+                                ),
+                                SizedBox(
+                                  height: 5,
                                 ),
                                 Text(
                                   logoSubTitle,
@@ -78,7 +82,7 @@ class SignInPage extends StatelessWidget {
                                   onPressed: () =>
                                       authenticationState.changeToSignIn(),
                                   borderSide: new BorderSide(
-                                    style: BorderStyle.none,
+                                    style: BorderStyle.solid,
                                   ),
                                   child: new Text(
                                     signInMenuButton,
@@ -88,7 +92,7 @@ class SignInPage extends StatelessWidget {
                                   onPressed: () =>
                                       authenticationState.changeToSignUp(),
                                   borderSide: BorderSide(
-                                    style: BorderStyle.none,
+                                    style: BorderStyle.solid,
                                   ),
                                   child: Text(
                                     signUpMenuButton,

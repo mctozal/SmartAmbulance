@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_ambulance/src/authentication/signInPage.dart';
+import 'package:smart_ambulance/ui/RouteManager/routeManager.dart';
 import 'package:smart_ambulance/ui/homepage.dart';
 
 class LandingPage extends StatelessWidget {
@@ -13,6 +14,9 @@ class LandingPage extends StatelessWidget {
           FirebaseUser user = snapshot.data;
           if (user == null) {
             return SignInPage();
+          }
+          if(user.email=="admin@admin.com"){
+            return RouteManager();
           }
           return HomePage();
         } else {
