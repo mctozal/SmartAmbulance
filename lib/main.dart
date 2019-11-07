@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_ambulance/states/authenticationState.dart';
 import 'package:smart_ambulance/states/hospitalState.dart';
 import 'package:smart_ambulance/states/mapState.dart';
 import 'package:smart_ambulance/states/settingState.dart';
-import 'package:smart_ambulance/ui/homepage.dart';
+import 'src/authentication/landingPage.dart';
 
 void main() {
   return runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider.value(value: MapState()),
       ChangeNotifierProvider.value(value: HospitalState()),
-      ChangeNotifierProvider.value(value: SettingState())
+      ChangeNotifierProvider.value(value: SettingState()),
+      ChangeNotifierProvider.value(value: AuthenticationState())
     ],
     child: MyApp(),
   ));
@@ -30,7 +32,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Smart Ambulance',
       theme: settingState.darkModeEnabled?ThemeData.dark():ThemeData.light(),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: LandingPage(),
     );
   }
 }
