@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthenticationState with ChangeNotifier {
   bool _signUpActive = false;
   bool _signInActive = true;
+  Firestore fireStore = Firestore.instance;
 
   bool get signUpActive => _signUpActive;
 
@@ -59,6 +61,7 @@ class AuthenticationState with ChangeNotifier {
       AuthResult result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: email.text.trim().toLowerCase(), password: password.text);
+              addToFirebase(email.text.trim().toLowerCase(), password.text,result.user.uid);
       print('Signed up: ${result.user.uid}');
       return true;
     } catch (e) {
@@ -72,6 +75,12 @@ class AuthenticationState with ChangeNotifier {
     notifyListeners();
   }
   
+   Future<DocumentReference> addToFirebase(email,password,uid) {
+    
+    return fireStore
+        .collection('users')
+        .add({'user-mail': email, 'user-password':password,'role':'user','uid':uid });
+  }
   
 
 }

@@ -62,6 +62,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_auth0:
+    dependency: "direct dev"
+    description:
+      name: flutter_auth0
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
   flutter_google_places:
     dependency: "direct dev"
     description:

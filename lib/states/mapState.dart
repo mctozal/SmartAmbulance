@@ -18,8 +18,9 @@ class MapState with ChangeNotifier {
   LatLng _lastPosition = _initialPosition;
   final Set<Marker> _markers = {};
   final Set<Polyline> _polyLines = {};
+  String uid;
 
-  bool _traffic=false;
+  bool _traffic = false;
   GoogleMapController _mapController;
   GoogleMapsServices _googleMapsServices = GoogleMapsServices();
   locationa.Location location = new locationa.Location();
@@ -55,7 +56,7 @@ class MapState with ChangeNotifier {
   }
 
   checkTraffic(traffic) {
-    _traffic=traffic;
+    _traffic = traffic;
     notifyListeners();
   }
 
@@ -70,16 +71,15 @@ class MapState with ChangeNotifier {
   }
 
   // Function to send GeoPoint to Firestore .
-
+  
   Future<DocumentReference> addGeoPoint() {
     GeoFirePoint point = geo.point(
         latitude: _initialPosition.latitude,
         longitude: _initialPosition.longitude);
-
     addMarker();
     return fireStore
-        .collection('locations')
-        .add({'position': point.data, 'name': 'We can query'});
+        .collection('location')
+        .add({'position': point.data, 'uid': uid});
   }
 
   // Adding a marker to map
@@ -188,12 +188,12 @@ class MapState with ChangeNotifier {
         ),
       );
       _markers.add(marker);
-       _mapController.animateCamera(
-      CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(_initialPosition.latitude, _initialPosition.longitude),
-        zoom: 12.0,
-      )),
-    );
+      _mapController.animateCamera(
+        CameraUpdate.newCameraPosition(CameraPosition(
+          target: LatLng(_initialPosition.latitude, _initialPosition.longitude),
+          zoom: 12.0,
+        )),
+      );
     }
     notifyListeners();
   }
