@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_ambulance/states/ambulanceState.dart';
 import 'package:smart_ambulance/states/authenticationState.dart';
 import 'package:smart_ambulance/states/hospitalState.dart';
+import 'package:smart_ambulance/states/managerState.dart';
 import 'package:smart_ambulance/states/mapState.dart';
 import 'package:smart_ambulance/states/settingState.dart';
 import 'src/authentication/landingPage.dart';
@@ -14,8 +15,8 @@ void main() {
       ChangeNotifierProvider.value(value: HospitalState()),
       ChangeNotifierProvider.value(value: SettingState()),
       ChangeNotifierProvider.value(value: AuthenticationState()),
-      ChangeNotifierProvider.value(value: AmbulanceState())
-      
+      ChangeNotifierProvider.value(value: AmbulanceState()),
+      ChangeNotifierProvider.value(value: ManagerState())
     ],
     child: MyApp(),
   ));

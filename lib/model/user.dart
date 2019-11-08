@@ -16,7 +16,6 @@ class User{
   String _fbID;
   String _url;
   var _profileData;
-  //User(this._email, this._password, this._saltKey, [this._name]);
 
   //User.facebook(this._email, this._name, this._fbID, [this._profileData]);
 
