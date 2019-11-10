@@ -2,27 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ManagerState with ChangeNotifier {
-  var _uid = <String>[];
-  get uid => _uid;
+  QuerySnapshot _users;
+  QuerySnapshot _locations;
+  QuerySnapshot get users => _users;
+  QuerySnapshot get locations => _locations;
   final databaseReference = Firestore.instance;
 
-  ManagerState() {}
-
-  Future<List<dynamic>> showUser() async {
-    getData();
-    return _uid;
+  ManagerState() {
+    showUsers();
+    showLocations();
   }
 
-  getData() async {
-    var list;
-    await databaseReference
-        .collection("users")
-        .getDocuments()
-        .then((QuerySnapshot snapshot) {
-      snapshot.documents.forEach((f) => list = f.data);
-      _uid.add(list["user-mail"]);
+  showUsers() async {
+    await databaseReference.collection("users").getDocuments().then((result) {
+      _users = result;
     });
+    notifyListeners();
+  }
 
+  showLocations() async {
+    await databaseReference
+        .collection("location")
+        .getDocuments()
+        .then((result) {
+      _locations = result;
+    });
     notifyListeners();
   }
 }
