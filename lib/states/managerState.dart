@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ManagerState with ChangeNotifier {
-  QuerySnapshot _users;
   QuerySnapshot _locations;
-  QuerySnapshot get users => _users;
   QuerySnapshot get locations => _locations;
   final databaseReference = Firestore.instance;
 
@@ -13,20 +11,15 @@ class ManagerState with ChangeNotifier {
     showLocations();
   }
 
-  showUsers() async {
-    await databaseReference.collection("users").getDocuments().then((result) {
-      _users = result;
-    });
-    notifyListeners();
+  Stream<QuerySnapshot> showUsers() {
+    Stream<QuerySnapshot> stream =
+        Firestore.instance.collection('users').getDocuments().asStream();
+    return stream;
   }
 
-  showLocations() async {
-    await databaseReference
-        .collection("location")
-        .getDocuments()
-        .then((result) {
-      _locations = result;
-    });
-    notifyListeners();
+  Stream<QuerySnapshot> showLocations() {
+     Stream<QuerySnapshot> stream =
+    Firestore.instance.collection("location").getDocuments().asStream();
+    return stream;
   }
 }
