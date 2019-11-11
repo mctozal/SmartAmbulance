@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_ambulance/states/authenticationState.dart';
 import 'package:smart_ambulance/states/mapState.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
@@ -25,8 +26,7 @@ class _FireMapState extends State<FireMap> {
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<MapState>(context);
-
-    return appState.initialPosition == null
+   return appState.initialPosition == null
         ? Container(
             alignment: Alignment.center,
             child: Center(
@@ -109,15 +109,19 @@ class _FireMapState extends State<FireMap> {
                 ),
               ),
               Positioned(
-                top: 130,
-                right: 5,
-                child: FlatButton(
+                  top: 130,
+                  right: 5,
+                  child: FlatButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(100.0)),
                     child: Icon(Icons.my_location, color: Colors.white),
                     color: Colors.blue,
-                    onPressed: appState.addGeoPoint),
-              ),
+                    onPressed: () {
+                      final authenticationState =
+                          Provider.of<AuthenticationState>(context);
+                     appState.addGeoPoint(authenticationState.uids);
+                    },
+                  )),
               Positioned(
                 top: 170,
                 right: 5,

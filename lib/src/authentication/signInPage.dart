@@ -1,27 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_ambulance/model/authentication.dart';
 import 'package:smart_ambulance/states/authenticationState.dart';
 
 TextEditingController _emailController = TextEditingController();
 TextEditingController _passwordController = TextEditingController();
 TextEditingController _newEmailController = TextEditingController();
+TextEditingController _newNameController = TextEditingController();
 TextEditingController _newPasswordController = TextEditingController();
 
-const String logoTitle = "SMART AMBULANCE";
-const String logoSubTitle = "GROWTH * HAPPENS * TODAY";
-const String signInMenuButton = "SIGN IN";
-const String signUpMenuButton = "SIGN UP";
-const String hintTextEmail = "Email";
-const String hintTextPassword = "Password";
-const String hintTextNewEmail = "Enter your Email";
-const String hintTextNewPassword = "Enter a Password";
-const String signUpButtonText = "SIGN UP";
-const String signInWithEmailButtonText = "Sign in with Email";
-const String signInWithAnonymouslyButtonText = "Sign in with Anonymously";
-const String alternativeLogInSeparatorText = "or";
-const String emailLogInFailed =
-    "Email or Password was incorrect. Please try again";
+Authentication model = new Authentication();
 
 class SignInPage extends StatelessWidget {
   @override
@@ -55,14 +44,14 @@ class SignInPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  logoTitle,
+                                  model.logoTitle,
                                   style: TextStyle(fontSize: 25),
                                 ),
                                 SizedBox(
                                   height: 5,
                                 ),
                                 Text(
-                                  logoSubTitle,
+                                  model.logoSubTitle,
                                 ),
                               ],
                             )),
@@ -85,7 +74,7 @@ class SignInPage extends StatelessWidget {
                                     style: BorderStyle.solid,
                                   ),
                                   child: new Text(
-                                    signInMenuButton,
+                                    model.signInMenuButton,
                                   ),
                                 ),
                                 OutlineButton(
@@ -95,7 +84,7 @@ class SignInPage extends StatelessWidget {
                                     style: BorderStyle.solid,
                                   ),
                                   child: Text(
-                                    signUpMenuButton,
+                                    model.signUpMenuButton,
                                   ),
                                 )
                               ],
@@ -136,7 +125,7 @@ Widget _showSignIn(context) {
             style: TextStyle(color: Theme.of(context).accentColor),
             controller: _emailController,
             decoration: InputDecoration(
-              hintText: hintTextEmail,
+              hintText: model.hintTextEmail,
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                       color: Theme.of(context).accentColor, width: 1.0)),
@@ -164,7 +153,7 @@ Widget _showSignIn(context) {
             controller: _passwordController,
             decoration: InputDecoration(
               //Add th Hint text here.
-              hintText: hintTextPassword,
+              hintText: model.hintTextPassword,
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                       color: Theme.of(context).accentColor, width: 1.0)),
@@ -191,7 +180,7 @@ Widget _showSignIn(context) {
                 Icon(Icons.mail),
                 Expanded(
                   child: Text(
-                    signInWithEmailButtonText,
+                    model.signInWithEmailButtonText,
                     textAlign: TextAlign.center,
                   ),
                 )
@@ -208,7 +197,7 @@ Widget _showSignIn(context) {
           padding: EdgeInsets.only(),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[Text(alternativeLogInSeparatorText)],
+            children: <Widget>[Text(model.alternativeLogInSeparatorText)],
           ),
         ),
       ),
@@ -221,7 +210,7 @@ Widget _showSignIn(context) {
                   Icon(Icons.account_box),
                   Expanded(
                     child: Text(
-                      signInWithAnonymouslyButtonText,
+                      model.signInWithAnonymouslyButtonText,
                       textAlign: TextAlign.center,
                     ),
                   )
@@ -240,6 +229,32 @@ Widget _showSignUp(context) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: <Widget>[
+            Container(
+        child: Padding(
+          padding: EdgeInsets.only(),
+          child: TextField(
+            obscureText: false,
+            controller: _newNameController,
+            decoration: InputDecoration(
+              //Add th Hint text here.
+              hintText: model.hintTextName,
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).accentColor, width: 1.0)),
+              focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).accentColor, width: 1.0)),
+              prefixIcon: const Icon(
+                Icons.account_circle,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+      ),
+      SizedBox(
+        height: 20,
+      ),
       Container(
         child: Padding(
           padding: EdgeInsets.only(),
@@ -248,7 +263,7 @@ Widget _showSignUp(context) {
             controller: _newEmailController,
             decoration: InputDecoration(
               //Add th Hint text here.
-              hintText: hintTextNewEmail,
+              hintText: model.hintTextNewEmail,
               enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                       color: Theme.of(context).accentColor, width: 1.0)),
@@ -264,7 +279,7 @@ Widget _showSignUp(context) {
         ),
       ),
       SizedBox(
-        height: 40,
+        height: 20,
       ),
       Container(
         child: Padding(
@@ -274,7 +289,7 @@ Widget _showSignUp(context) {
             controller: _newPasswordController,
             decoration: InputDecoration(
               //Add the Hint text here.
-              hintText: hintTextNewPassword,
+              hintText: model.hintTextNewPassword,
               focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                       color: Theme.of(context).accentColor, width: 1.0)),
@@ -294,10 +309,10 @@ Widget _showSignUp(context) {
           padding: EdgeInsets.only(),
           child: RaisedButton(
             child: Text(
-              signUpMenuButton,
+              model.signUpMenuButton,
             ),
             color: Colors.blueGrey,
-            onPressed: () => authenticationState.signUpWithEmailAndPassword(
+            onPressed: () => authenticationState.signUpWithEmailAndPassword(_newNameController,
                 _newEmailController, _newPasswordController),
           ),
         ),

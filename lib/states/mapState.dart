@@ -18,8 +18,6 @@ class MapState with ChangeNotifier {
   LatLng _lastPosition = _initialPosition;
   final Set<Marker> _markers = {};
   final Set<Polyline> _polyLines = {};
-  String uid;
-
   bool _traffic = false;
   GoogleMapController _mapController;
   GoogleMapsServices _googleMapsServices = GoogleMapsServices();
@@ -72,14 +70,15 @@ class MapState with ChangeNotifier {
 
   // Function to send GeoPoint to Firestore .
   
-  Future<DocumentReference> addGeoPoint() {
+  Future<DocumentReference> addGeoPoint(String uid) {
     GeoFirePoint point = geo.point(
         latitude: _initialPosition.latitude,
         longitude: _initialPosition.longitude);
+        DateTime time = DateTime.now();
     addMarker();
     return fireStore
         .collection('location')
-        .add({'position': point.data, 'uid': uid});
+        .add({'position': point.data, 'uid': uid, 'time':time});
   }
 
   // Adding a marker to map
