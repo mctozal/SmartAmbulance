@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AuthenticationState with ChangeNotifier {
   bool _signUpActive = false;
   bool _signInActive = true;
+  bool isOnline = true;
   Firestore fireStore = Firestore.instance;
   String _docId;
   String uid;
@@ -14,6 +15,10 @@ class AuthenticationState with ChangeNotifier {
   String get uids => uid;
 
   bool get signInActive => _signInActive;
+
+  AuthenticationState() {
+    updateFirebase();
+  }
 
   void changeToSignUp() {
     _signUpActive = true;
@@ -30,6 +35,8 @@ class AuthenticationState with ChangeNotifier {
   Future<void> signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
+      isOnline = false;
+      updateFirebase();
     } catch (e) {
       print(e);
     }
@@ -51,6 +58,8 @@ class AuthenticationState with ChangeNotifier {
       AuthResult result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
               email: email.text.trim().toLowerCase(), password: password.text);
+      isOnline = true;
+      updateFirebase();
       print('Signed in: ${result.user.uid}');
       return true;
     } catch (e) {
@@ -80,18 +89,21 @@ class AuthenticationState with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<DocumentReference> addToFirebase(email, password, uid, name) async {
-    DocumentReference ref = await fireStore.collection('users').add({
+  Future<void> addToFirebase(email, password, uid, name) async {
+    await fireStore.collection('users').document(uid).setData({
       'user-mail': email,
       'user-password': password,
       'role': 'user',
       'uid': uid,
       'name': name,
-    });
-    _docId = ref.documentID;
-    return ref;
+      'isOnline': isOnline
+    }, merge: false);
   }
 
-  
-
+  Future<void> updateFirebase() async {
+    await fireStore
+        .collection('users')
+        .document(uid)
+        .updateData({'isOnline': isOnline});
+  }
 }

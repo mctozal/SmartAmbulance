@@ -77,8 +77,7 @@ class MapState with ChangeNotifier {
         DateTime time = DateTime.now();
     addMarker();
     return fireStore
-        .collection('location')
-        .add({'position': point.data, 'uid': uid, 'time':time});
+        .collection('users').document(uid).updateData({'position': point.data, 'time':time});
   }
 
   // Adding a marker to map
