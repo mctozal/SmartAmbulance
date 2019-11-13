@@ -86,9 +86,12 @@ class AuthenticationState with ChangeNotifier {
       'user-password': password,
       'role': 'user',
       'uid': uid,
-      'name': name
+      'name': name,
     });
     _docId = ref.documentID;
     return ref;
   }
+
+  
+
 }

@@ -29,10 +29,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-     final settingState = Provider.of<SettingState>(context);
+    final settingState = Provider.of<SettingState>(context);
     return MaterialApp(
       title: 'Smart Ambulance',
-      theme: settingState.darkModeEnabled?ThemeData.dark():ThemeData.light(),
+      theme:
+          settingState.darkModeEnabled ? ThemeData.dark() : ThemeData.light(),
       debugShowCheckedModeBanner: false,
       home: LandingPage(),
     );

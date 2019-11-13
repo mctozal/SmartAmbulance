@@ -13,24 +13,38 @@ class _RouteManagerState extends State<RouteManager> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          elevation: 2.0,
+          title: Text('Dashboard',
+              style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20.0)),
           actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.more_vert,
-                color: Colors.white,
+            Container(
+              margin: EdgeInsets.only(right: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text('Smart Ambulance',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14.0)),
+                  Icon(Icons.arrow_drop_down),
+                  IconButton(
+                    icon: Icon(
+                      Icons.more_vert,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SettingsUI()));
+                    },
+                  ),
+                ],
               ),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SettingsUI()));
-              },
             ),
           ],
-          title: Text(
-            'Manager Panel',
-            style: TextStyle(
-              fontSize: 16,
-            ),
-          ),
         ),
         body: RoutePanel());
   }

@@ -9,6 +9,7 @@ class ManagerState with ChangeNotifier {
   ManagerState() {
     showUsers();
     showLocations();
+    showOnlineUsers();
   }
 
   Stream<QuerySnapshot> showUsers() {
@@ -22,4 +23,9 @@ class ManagerState with ChangeNotifier {
     Firestore.instance.collection("location").getDocuments().asStream();
     return stream;
   }
+
+  Stream<QuerySnapshot> showOnlineUsers(){
+  }
+
+
 }
