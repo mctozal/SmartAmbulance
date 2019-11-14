@@ -26,7 +26,37 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  AppLifecycleState notification;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    setState(() {
+      notification = state;
+      if (AppLifecycleState.inactive == state) {
+        final authenticationState = Provider.of<AuthenticationState>(context);
+        authenticationState.isOnline = false;
+        authenticationState.updateFirebase();
+      } else if (AppLifecycleState.resumed == state) {
+        final authenticationState = Provider.of<AuthenticationState>(context);
+        authenticationState.isOnline = true;
+        authenticationState.updateFirebase();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final settingState = Provider.of<SettingState>(context);

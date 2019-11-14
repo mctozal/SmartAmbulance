@@ -16,7 +16,6 @@ class LandingPage extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active) {
           FirebaseUser user = snapshot.data;
           if (user == null) {
-            authenticationState.isOnline = false;
             return SignInPage();
           }
           if (user.email == "admin@admin.com") {
