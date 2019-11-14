@@ -251,11 +251,7 @@ class _RoutePanelState extends State<RoutePanel> {
                     children: <Widget>[
                       Text('Online Ambulances',
                           style: TextStyle(color: Colors.blueAccent)),
-                      Text('5',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 34.0)),
+                      managerState.showUsersOnline(),
                     ],
                   ),
                   Material(

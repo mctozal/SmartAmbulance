@@ -16,10 +16,6 @@ class AuthenticationState with ChangeNotifier {
 
   bool get signInActive => _signInActive;
 
-  AuthenticationState() {
-    updateFirebase();
-  }
-
   void changeToSignUp() {
     _signUpActive = true;
     _signInActive = false;
@@ -74,8 +70,10 @@ class AuthenticationState with ChangeNotifier {
       AuthResult result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: email.text.trim().toLowerCase(), password: password.text);
+      isOnline = true;
       addToFirebase(email.text.trim().toLowerCase(), password.text,
           result.user.uid, name.text);
+
       print('Signed up: ${result.user.uid}');
       return true;
     } catch (e) {
@@ -101,9 +99,11 @@ class AuthenticationState with ChangeNotifier {
   }
 
   Future<void> updateFirebase() async {
-    await fireStore
-        .collection('users')
-        .document(uid)
-        .updateData({'isOnline': isOnline});
+    if (uid != 'PuFBc2GcqzaLh3gTGK8PryjDVC43' && uid != null) {
+      await fireStore
+          .collection('users')
+          .document(uid)
+          .updateData({'isOnline': isOnline});
+    }
   }
 }
