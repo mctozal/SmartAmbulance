@@ -9,11 +9,11 @@ import 'package:provider/provider.dart';
 class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final authenticationState = Provider.of<AuthenticationState>(context);
     return StreamBuilder<FirebaseUser>(
       stream: FirebaseAuth.instance.onAuthStateChanged,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
+          final authenticationState = Provider.of<AuthenticationState>(context);
           FirebaseUser user = snapshot.data;
           if (user == null) {
             return SignInPage();
@@ -21,7 +21,12 @@ class LandingPage extends StatelessWidget {
           if (user.email == "admin@admin.com") {
             return RouteManager();
           }
+          if (snapshot.hasError) {
+            authenticationState.isOnline = false;
+            authenticationState.updateFirebase();
+          }
           // If user is online MapState.uid = user.uid.
+
           authenticationState.uid = user.uid;
           authenticationState.isOnline = true;
           return HomePage();

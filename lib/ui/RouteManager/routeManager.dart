@@ -29,7 +29,7 @@ class _RouteManagerState extends State<RouteManager> {
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 14.0)),
-                  Icon(Icons.arrow_drop_down),
+                  Icon(Icons.arrow_left),
                   IconButton(
                     icon: Icon(
                       Icons.more_vert,

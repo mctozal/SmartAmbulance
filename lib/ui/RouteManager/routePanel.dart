@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:smart_ambulance/states/managerState.dart';
-import 'package:smart_ambulance/ui/firemap.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RoutePanel extends StatefulWidget {
   @override
@@ -251,7 +250,31 @@ class _RoutePanelState extends State<RoutePanel> {
                     children: <Widget>[
                       Text('Online Ambulances',
                           style: TextStyle(color: Colors.blueAccent)),
-                      managerState.showUsersOnline(),
+                      StreamBuilder<QuerySnapshot>(
+                          stream: managerState.showUsersOnline(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return CircularProgressIndicator();
+                            }
+                            List<DocumentSnapshot> list =
+                                snapshot.data.documents;
+                            int online = 0;
+                            Iterable<int>.generate(list.length)
+                                .forEach((index) => {
+                                      if (snapshot.data.documents[index]
+                                              .data["isOnline"]
+                                              .toString() ==
+                                          'true')
+                                        {
+                                          online++,
+                                        }
+                                    });
+                            return Text('$online',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 34.0));
+                          }),
                     ],
                   ),
                   Material(
@@ -264,6 +287,11 @@ class _RoutePanelState extends State<RoutePanel> {
                             color: Colors.white, size: 30.0),
                       )))
                 ]),
+          ),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (_) =>
+                    AmbulanceOnlineList(managerState: managerState)),
           ),
         ),
         _buildTile(
@@ -278,18 +306,21 @@ class _RoutePanelState extends State<RoutePanel> {
                       shape: CircleBorder(),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: Icon(Icons.settings_applications,
+                        child: Icon(Icons.donut_large,
                             color: Colors.white, size: 30.0),
                       )),
                   Padding(padding: EdgeInsets.only(bottom: 16.0)),
-                  Text('General',
+                  Text('All Ambulances',
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
-                          fontSize: 24.0)),
-                  Text('Images, Videos',
-                      style: TextStyle(color: Colors.black45)),
+                          fontSize: 15.0)),
+                  Text('Details, Ids', style: TextStyle(color: Colors.black45)),
                 ]),
+          ),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (_) => AmbulanceList(managerState: managerState)),
           ),
         ),
         _buildTile(
@@ -304,16 +335,16 @@ class _RoutePanelState extends State<RoutePanel> {
                       shape: CircleBorder(),
                       child: Padding(
                         padding: EdgeInsets.all(16.0),
-                        child: Icon(Icons.notifications,
+                        child: Icon(Icons.assignment_late,
                             color: Colors.white, size: 30.0),
                       )),
                   Padding(padding: EdgeInsets.only(bottom: 16.0)),
-                  Text('Alerts',
+                  Text('Assign',
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
-                          fontSize: 24.0)),
-                  Text('All ', style: TextStyle(color: Colors.black45)),
+                          fontSize: 15.0)),
+                  Text('Emergency', style: TextStyle(color: Colors.black45)),
                 ]),
           ),
         ),
@@ -332,9 +363,9 @@ class _RoutePanelState extends State<RoutePanel> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('Revenue',
+                          Text('Traffic',
                               style: TextStyle(color: Colors.green)),
-                          Text('\$16K',
+                          Text('\%12',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w700,
@@ -381,9 +412,9 @@ class _RoutePanelState extends State<RoutePanel> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('Shop Items',
+                      Text('Delete Assignment',
                           style: TextStyle(color: Colors.redAccent)),
-                      Text('173',
+                      Text('',
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w700,
@@ -401,8 +432,6 @@ class _RoutePanelState extends State<RoutePanel> {
                       )))
                 ]),
           ),
-          onTap: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => FireMap())),
         )
       ],
       staggeredTiles: [
@@ -428,5 +457,85 @@ class _RoutePanelState extends State<RoutePanel> {
                     print('Not set yet');
                   },
             child: child));
+  }
+}
+
+class AmbulanceList extends StatelessWidget {
+  const AmbulanceList({
+    Key key,
+    @required this.managerState,
+  }) : super(key: key);
+
+  final ManagerState managerState;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Material(
+        elevation: 14.0,
+        borderRadius: BorderRadius.circular(12.0),
+        shadowColor: Color(0x802196F3),
+        child: StreamBuilder<QuerySnapshot>(
+            stream: managerState.showUsersOnline(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              } else
+                return ListView.builder(
+                  itemCount: snapshot.data.documents.length,
+                  itemBuilder: (context, index) => ListTile(
+                    title:
+                        Text(snapshot.data.documents[index].data['name']),
+                    leading: snapshot.data.documents[index].data['isOnline']
+                                .toString() ==
+                            'true'
+                        ? Icon(Icons.offline_bolt)
+                        : Icon(Icons.offline_pin),
+                    trailing: Text(snapshot.data.documents[index].data['user-mail']),
+                  ),
+                );
+            }),
+      ),
+    );
+  }
+}
+
+class AmbulanceOnlineList extends StatelessWidget {
+  const AmbulanceOnlineList({
+    Key key,
+    @required this.managerState,
+  }) : super(key: key);
+
+  final ManagerState managerState;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Material(
+        elevation: 14.0,
+        borderRadius: BorderRadius.circular(12.0),
+        shadowColor: Color(0x802196F3),
+        child: StreamBuilder<QuerySnapshot>(
+            stream: managerState.showUsersOnline(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              } else
+                return ListView.builder(
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (context, index) => snapshot
+                                .data.documents[index].data['isOnline']
+                                .toString() ==
+                            'true'
+                        ? ListTile(
+                            title: Text(snapshot
+                                .data.documents[index].data['user-mail']),
+                          )
+                        : Text(''));
+            }),
+      ),
+    );
   }
 }
