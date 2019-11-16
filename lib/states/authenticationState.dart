@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:smart_ambulance/src/authentication/signInPage.dart';
+import 'package:smart_ambulance/ui/homepage.dart';
 
 class AuthenticationState with ChangeNotifier {
   bool _signUpActive = false;
@@ -60,6 +62,7 @@ class AuthenticationState with ChangeNotifier {
       return true;
     } catch (e) {
       print('Error: $e');
+
       return false;
     }
   }
@@ -73,7 +76,6 @@ class AuthenticationState with ChangeNotifier {
       isOnline = true;
       addToFirebase(email.text.trim().toLowerCase(), password.text,
           result.user.uid, name.text);
-
       print('Signed up: ${result.user.uid}');
       return true;
     } catch (e) {
@@ -84,6 +86,25 @@ class AuthenticationState with ChangeNotifier {
 
   Future tryToLogInUserViaEmail(context, email, password) async {
     if (await signInWithEmail(context, email, password) == true) {}
+    else{
+                   showDialog<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Authentication Error'),
+                      content: const Text('Invalid email/username or password'),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text('Ok'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+    }
     notifyListeners();
   }
 
