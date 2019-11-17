@@ -4,8 +4,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:smart_ambulance/states/managerState.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_ambulance/ui/RouteManager/ambulanceList.dart';
-import 'package:smart_ambulance/ui/RouteManager/ambulanceOnlineList.dart';
+import 'package:smart_ambulance/ui/Manager/ambulanceList.dart';
+import 'package:smart_ambulance/ui/Manager/ambulanceOnlineList.dart';
 
 class RoutePanel extends StatefulWidget {
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_ambulance/ui/RouteManager/routePanel.dart';
+import 'package:smart_ambulance/ui/Manager/routePanel.dart';
 
 import '../settings.dart';
 

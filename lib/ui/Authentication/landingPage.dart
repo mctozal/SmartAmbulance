@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_ambulance/states/authenticationState.dart';
-import 'package:smart_ambulance/ui/RouteManager/RouteHome.dart';
+import 'package:smart_ambulance/ui/Manager/RouteHome.dart';
 import 'package:smart_ambulance/ui/authentication/signInPage.dart';
 import 'package:smart_ambulance/ui/homepage.dart';
 import 'package:provider/provider.dart';

@@ -8,13 +8,10 @@ class AuthenticationState with ChangeNotifier {
   bool _signInActive = true;
   bool isOnline = true;
   Firestore fireStore = Firestore.instance;
-  String _docId;
   String uid;
 
   bool get signUpActive => _signUpActive;
-  String get docId => _docId;
   String get uids => uid;
-
   bool get signInActive => _signInActive;
 
   void changeToSignUp() {
