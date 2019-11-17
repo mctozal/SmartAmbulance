@@ -5,11 +5,11 @@ import 'package:location/location.dart' as locationa;
 import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_ambulance/model/location.dart';
-import 'package:smart_ambulance/requests/google_request.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:smart_ambulance/src/convertToLatLng.dart';
-import 'package:smart_ambulance/src/decodePoly.dart';
+import 'package:smart_ambulance/core/model/location.dart';
+import 'package:smart_ambulance/core/requests/google_request.dart';
+import 'package:smart_ambulance/core/src/convertToLatLng.dart';
+import 'package:smart_ambulance/core/src/decodePoly.dart';
 
 const _apiKey = "AIzaSyDjJdyuszYbdiK3eW6OFyx9uyNszjPBlyk";
 

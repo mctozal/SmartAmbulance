@@ -6,8 +6,10 @@ import 'package:smart_ambulance/states/managerState.dart';
 import 'package:smart_ambulance/states/mapState.dart';
 import 'package:smart_ambulance/states/settingState.dart';
 import 'package:smart_ambulance/ui/authentication/landingPage.dart';
+import 'locator.dart';
 
 void main() {
+  setupLocator();
   return runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider.value(value: MapState()),

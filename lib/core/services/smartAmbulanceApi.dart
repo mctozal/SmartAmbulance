@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Api {
+class FirebaseApi {
   // This class will be used for every request from Firestore
   final Firestore _db = Firestore.instance;
   final String path;
   CollectionReference ref;
 
-  Api(this.path) {
+  FirebaseApi(this.path) {
     ref = _db.collection(path);
   }
 

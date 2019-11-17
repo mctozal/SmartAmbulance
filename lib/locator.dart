@@ -1,11 +1,10 @@
 import 'package:get_it/get_it.dart';
-import 'package:smart_ambulance/services/smartAmbulanceApi.dart';
-
-import 'model/crudModel.dart';
+import 'core/services/smartAmbulanceApi.dart';
+import 'core/viewmodels/crudModel.dart';
 
 GetIt locator = GetIt.instance;
 
 void setupLocator() {
-  locator.registerLazySingleton(() => Api('products'));
+  locator.registerLazySingleton(() => FirebaseApi('users'));
   locator.registerLazySingleton(() => CRUDModel()) ;
 }

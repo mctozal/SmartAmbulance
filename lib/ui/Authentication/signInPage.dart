@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:smart_ambulance/model/authentication.dart';
+import 'package:smart_ambulance/core/model/authentication.dart';
 import 'package:smart_ambulance/states/authenticationState.dart';
 
 TextEditingController _emailController = TextEditingController();

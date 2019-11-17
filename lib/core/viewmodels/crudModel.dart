@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
-import 'package:smart_ambulance/services/smartAmbulanceApi.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../locator.dart';
-import 'users.dart';
+import 'package:smart_ambulance/core/model/users.dart';
+import 'package:smart_ambulance/core/services/smartAmbulanceApi.dart';
+
+import '../../locator.dart';
 
 class CRUDModel extends ChangeNotifier {
-  Api _api = locator<Api>();
+  FirebaseApi _api = locator<FirebaseApi>();
 
   List<User> products;
 
