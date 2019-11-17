@@ -13,16 +13,14 @@ List<SingleChildCloneableWidget> providers = [
 
 List<SingleChildCloneableWidget> independentServices = [
   // Registered our independent states.
-  Provider.value(value: AuthenticationState()),
-  Provider.value(value: MapState()),
-  Provider.value(value: ManagerState()),
-  Provider.value(value: HospitalState()),
-  Provider.value(value: SettingState()),
+  ChangeNotifierProvider.value(value: AuthenticationState()),
+  ChangeNotifierProvider.value(value: MapState()),
+  ChangeNotifierProvider.value(value: ManagerState()),
+  ChangeNotifierProvider.value(value: HospitalState()),
+  ChangeNotifierProvider.value(value: SettingState()),
 ];
 
-List<SingleChildCloneableWidget> dependentServices = [
-
-];
+List<SingleChildCloneableWidget> dependentServices = [];
 
 List<SingleChildCloneableWidget> uiConsumableProviders = [
 // Register stream providers.
@@ -30,5 +28,4 @@ List<SingleChildCloneableWidget> uiConsumableProviders = [
 //     builder: (context) =>
 //         Provider.of<AuthenticationService>(context, listen: false).user,
 //   ),
-
 ];
