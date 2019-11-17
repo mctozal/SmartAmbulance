@@ -5,7 +5,7 @@ import 'package:smart_ambulance/states/hospitalState.dart';
 import 'package:smart_ambulance/states/managerState.dart';
 import 'package:smart_ambulance/states/mapState.dart';
 import 'package:smart_ambulance/states/settingState.dart';
-import 'src/authentication/landingPage.dart';
+import 'package:smart_ambulance/ui/authentication/landingPage.dart';
 
 void main() {
   return runApp(MultiProvider(

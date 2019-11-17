@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_ambulance/src/authentication/signInPage.dart';
-import 'package:smart_ambulance/ui/homepage.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class AuthenticationState with ChangeNotifier {
   bool _signUpActive = false;
@@ -85,25 +84,24 @@ class AuthenticationState with ChangeNotifier {
   }
 
   Future tryToLogInUserViaEmail(context, email, password) async {
-    if (await signInWithEmail(context, email, password) == true) {}
-    else{
-                   showDialog<void>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Authentication Error'),
-                      content: const Text('Invalid email/username or password'),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: Text('Ok'),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
+    if (await signInWithEmail(context, email, password) == true) {
+    } else {
+      return Alert(
+        context: context,
+        type: AlertType.error,
+        title: "Authentication Error!",
+        desc: "Invalid email/username or password.",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "OK",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => Navigator.pop(context),
+            width: 120,
+          )
+        ],
+      ).show();
     }
     notifyListeners();
   }
@@ -121,10 +119,18 @@ class AuthenticationState with ChangeNotifier {
 
   Future<void> updateFirebase() async {
     if (uid != 'PuFBc2GcqzaLh3gTGK8PryjDVC43' && uid != null) {
-      await fireStore
-          .collection('users')
-          .document(uid)
-          .updateData({'isOnline': isOnline});
+      try {
+        await fireStore
+            .collection('users')
+            .document(uid)
+            .updateData({'isOnline': isOnline});
+      } catch (e) {
+        print(e);
+        // eğer id geldiyse yakala anonymous kullanıcı kaydını oluştur
+        await fireStore.collection('users-anonymous').document(uid).setData(
+            {'uid': uid, 'name': "anonymous", 'isOnline': isOnline},
+            merge: false);
+      }
     }
   }
 }
