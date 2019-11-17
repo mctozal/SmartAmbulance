@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:smart_ambulance/core/model/users.dart';
+import 'package:smart_ambulance/core/viewmodels/crudModel.dart';
+import '../locator.dart';
 
 class AuthenticationState with ChangeNotifier {
   bool _signUpActive = false;
   bool _signInActive = true;
   bool isOnline = true;
   Firestore fireStore = Firestore.instance;
+  User user = new User();
+  CRUDModel crudModel = locator<CRUDModel>();
   String uid;
 
   bool get signUpActive => _signUpActive;
@@ -103,24 +108,24 @@ class AuthenticationState with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addToFirebase(email, password, uid, name) async {
-    await fireStore.collection('users').document(uid).setData({
-      'user-mail': email,
-      'user-password': password,
-      'role': 'user',
-      'uid': uid,
-      'name': name,
-      'isOnline': isOnline
-    }, merge: false);
+  Future addToFirebase(email, password, uid, name) {
+    user = User(
+        name: name,
+        isOnline: isOnline,
+        mail: email,
+        password: password,
+        role: 'user',
+        uid: uid,
+        position: '',
+        time: null);
+    return crudModel.addProduct(user,uid);
   }
 
   Future<void> updateFirebase() async {
     if (uid != 'PuFBc2GcqzaLh3gTGK8PryjDVC43' && uid != null) {
       try {
-        await fireStore
-            .collection('users')
-            .document(uid)
-            .updateData({'isOnline': isOnline});
+        user = User(isOnline: isOnline);
+        crudModel.updateProduct(user, uid);
       } catch (e) {
         print(e);
         // eğer id geldiyse yakala anonymous kullanıcı kaydını oluştur

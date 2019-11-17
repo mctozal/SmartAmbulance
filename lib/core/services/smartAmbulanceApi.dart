@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:smart_ambulance/core/model/users.dart';
 
 class FirebaseApi {
   // This class will be used for every request from Firestore
@@ -26,12 +27,12 @@ class FirebaseApi {
     return ref.document(id).delete();
   }
 
-  Future<DocumentReference> addDocument(Map data) {
-    return ref.add(data);
+  Future<DocumentReference> addDocument(Map data,String id) {
+    return ref.document(id).setData(data);
   }
 
   Future<void> updateDocument(Map data, String id) {
-    return ref.document(id).updateData(data);
+    return ref.document(id).updateData({'isOnline': data[0].toString()});
   }
 
 }

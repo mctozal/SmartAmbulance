@@ -38,9 +38,9 @@ class CRUDModel extends ChangeNotifier {
     return ;
   }
 
-  Future addProduct(User data) async{
-    var result  = await _api.addDocument(data.toMap()) ;
-    return ;
+  Future addProduct(User data,String uid) async{
+    var result  = await _api.addDocument(data.toMap(),uid) ;
+    return result ;
   }
 
 
