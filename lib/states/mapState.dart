@@ -6,10 +6,12 @@ import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_ambulance/model/location.dart';
+import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/requests/google_request.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:smart_ambulance/src/convertToLatLng.dart';
 import 'package:smart_ambulance/src/decodePoly.dart';
+import 'package:smart_ambulance/states/crudState.dart';
 
 const _apiKey = "AIzaSyDjJdyuszYbdiK3eW6OFyx9uyNszjPBlyk";
 
@@ -19,6 +21,7 @@ class MapState with ChangeNotifier {
   final Set<Marker> _markers = {};
   final Set<Polyline> _polyLines = {};
   bool _traffic = false;
+  CRUDState crudState = new CRUDState();
   GoogleMapController _mapController;
   GoogleMapsServices _googleMapsServices = GoogleMapsServices();
   locationa.Location location = new locationa.Location();
@@ -69,15 +72,17 @@ class MapState with ChangeNotifier {
   }
 
   // Function to send GeoPoint to Firestore .
-  
+
   Future<DocumentReference> addGeoPoint(String uid) {
     GeoFirePoint point = geo.point(
         latitude: _initialPosition.latitude,
         longitude: _initialPosition.longitude);
-        DateTime time = DateTime.now();
+    DateTime time = DateTime.now();
     addMarker();
-    return fireStore
-        .collection('users').document(uid).updateData({'position': point.data, 'time':time});
+    User userlocation = User(position: point, time: time);
+    return crudState.updateProduct(userlocation, uid);
+    // return fireStore
+    //     .collection('users').document(uid).updateData({'position': point.data, 'time':time});
   }
 
   // Adding a marker to map
@@ -104,7 +109,7 @@ class MapState with ChangeNotifier {
     notifyListeners();
   }
 
-  void sendRequest(Prediction intendedLocation) async {
+  void sendRequest(Prediction intendedLocation, context) async {
     if (intendedLocation != null) {
       PlacesDetailsResponse detail =
           await places.getDetailsByPlaceId(intendedLocation.placeId);
@@ -114,12 +119,21 @@ class MapState with ChangeNotifier {
 
       String route = await _googleMapsServices.getRouteCoordinates(
           _initialPosition, destination);
+      Map distance = await _googleMapsServices.getMatrixDistance(
+          _initialPosition, destination);
 
       Marker marker2 = Marker(
         markerId: MarkerId("mymarker2"),
         infoWindow: InfoWindow(title: 'Hospital'),
         visible: true,
         draggable: true,
+        onTap: () {
+          showDialog(
+              context: context,
+              builder: (_) =>
+                  AlertDialog(title: Text(distance['rows'].toString())));
+          return;
+        },
         icon: BitmapDescriptor.defaultMarker,
         position: destination,
       );
@@ -179,6 +193,7 @@ class MapState with ChangeNotifier {
                       ),
                     ],
                   ));
+          return;
         },
         position: LatLng(
           list[i].latitude,

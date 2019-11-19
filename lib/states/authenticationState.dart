@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:smart_ambulance/model/users.dart';
+import 'package:smart_ambulance/states/crudState.dart';
 
 class AuthenticationState with ChangeNotifier {
   bool _signUpActive = false;
   bool _signInActive = true;
   bool isOnline = true;
-  Firestore fireStore = Firestore.instance;
+  CRUDState crudState = new CRUDState();
+
   String uid;
 
   bool get signUpActive => _signUpActive;
@@ -28,9 +30,9 @@ class AuthenticationState with ChangeNotifier {
 
   Future<void> signOut() async {
     try {
-      await FirebaseAuth.instance.signOut();
       isOnline = false;
       updateFirebase();
+      await FirebaseAuth.instance.signOut();
     } catch (e) {
       print(e);
     }
@@ -82,6 +84,8 @@ class AuthenticationState with ChangeNotifier {
 
   Future tryToLogInUserViaEmail(context, email, password) async {
     if (await signInWithEmail(context, email, password) == true) {
+      isOnline = true;
+      updateFirebase();
     } else {
       return Alert(
         context: context,
@@ -104,29 +108,29 @@ class AuthenticationState with ChangeNotifier {
   }
 
   Future<void> addToFirebase(email, password, uid, name) async {
-    await fireStore.collection('users').document(uid).setData({
-      'user-mail': email,
-      'user-password': password,
-      'role': 'user',
-      'uid': uid,
-      'name': name,
-      'isOnline': isOnline
-    }, merge: false);
+    User user = new User(
+        mail: email,
+        isOnline: true,
+        name: name,
+        password: password,
+        role: 'user',
+        uid: uid);
+    crudState.addProduct(user, uid);
   }
 
   Future<void> updateFirebase() async {
     if (uid != 'PuFBc2GcqzaLh3gTGK8PryjDVC43' && uid != null) {
       try {
-        await fireStore
-            .collection('users')
-            .document(uid)
-            .updateData({'isOnline': isOnline});
+        User user = new User(isOnline: isOnline);
+        crudState.updateProduct(user, uid);
       } catch (e) {
         print(e);
+
         // eğer id geldiyse yakala anonymous kullanıcı kaydını oluştur
-        await fireStore.collection('users-anonymous').document(uid).setData(
+        /*     await fireStore.collection('users-anonymous').document(uid).setData(
             {'uid': uid, 'name': "anonymous", 'isOnline': isOnline},
-            merge: false);
+            merge: false); */
+
       }
     }
   }

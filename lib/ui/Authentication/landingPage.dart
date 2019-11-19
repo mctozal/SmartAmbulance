@@ -21,14 +21,10 @@ class LandingPage extends StatelessWidget {
           if (user.email == "admin@admin.com") {
             return RouteManager();
           }
-          authenticationState.isOnline = true;
-          authenticationState.updateFirebase();
           // If user is online MapState.uid = user.uid.
           authenticationState.uid = user.uid;
           return HomePage();
         } else {
-          authenticationState.isOnline = false;
-          authenticationState.updateFirebase();
           return Scaffold(
             body: Center(
               child: CircularProgressIndicator(),

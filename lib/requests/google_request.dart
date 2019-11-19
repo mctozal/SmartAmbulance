@@ -27,4 +27,11 @@ class GoogleMapsServices {
 
     return locations;
   }
+
+  Future<Map> getMatrixDistance(LatLng l1,LatLng l2) async{
+    final String url ="https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${l1.latitude},${l1.longitude}&destinations=${l2.latitude},${l2.longitude}&key=$apiKey";
+    http.Response response = await http.get(url);
+    Map values = jsonDecode(response.body);
+    return values;
+  }
 }

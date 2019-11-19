@@ -63,7 +63,7 @@ class _FireMapState extends State<FireMap> {
                           mode: Mode.overlay,
                           context: context,
                           apiKey: appState.apiKey);
-                      appState.sendRequest(prediction);
+                      appState.sendRequest(prediction,context);
                     },
                     child: Icon(Icons.search),
                   ),
