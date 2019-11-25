@@ -12,7 +12,7 @@ class _SettingsUIState extends State<SettingsUI> {
   @override
   Widget build(BuildContext context) {
     final settingState = Provider.of<SettingState>(context);
-    final authenticationState = Provider.of<AuthenticationState>(context);
+    final authenticationState = Provider.of<AuthenticationState>(context,listen: false);
     return Scaffold(
       appBar: AppBar(
           title: Text(
@@ -24,18 +24,20 @@ class _SettingsUIState extends State<SettingsUI> {
       body: ListView(
         children: ListTile.divideTiles(context: context, tiles: [
           ListTile(
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQIY-DSBnzMRXqwKFnrCNTyiAMR2AqeiOb9Y6L9MuEyWNgPQgIK"),
-            ),
-            title: Text('Dark Mode'),
-            trailing: Switch(
-              value: settingState.darkModeEnabled,
-              onChanged: (newValue) {
-                settingState.setTheme(newValue);
-              },
-            ),
-          ),
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQIY-DSBnzMRXqwKFnrCNTyiAMR2AqeiOb9Y6L9MuEyWNgPQgIK"),
+              ),
+              title: Text('Dark Mode'),
+              trailing: ChangeNotifierProvider<SettingState>(
+                builder: (_) => SettingState(),
+                child: Switch(
+                  value: settingState.darkModeEnabled,
+                  onChanged: (newValue) {
+                    settingState.setTheme(newValue);
+                  },
+                ),
+              )),
           ListTile(
             leading: CircleAvatar(
               backgroundImage: NetworkImage(

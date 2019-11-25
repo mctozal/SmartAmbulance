@@ -4,6 +4,7 @@ import 'states/hospitalState.dart';
 import 'states/managerState.dart';
 import 'states/mapState.dart';
 import 'states/settingState.dart';
+import 'states/uiState.dart';
 
 List<SingleChildCloneableWidget> providers = [
   ...independentServices,
@@ -18,6 +19,7 @@ List<SingleChildCloneableWidget> independentServices = [
   ChangeNotifierProvider.value(value: ManagerState()),
   ChangeNotifierProvider.value(value: HospitalState()),
   ChangeNotifierProvider.value(value: SettingState()),
+  ChangeNotifierProvider.value(value: UIState()),
 ];
 
 List<SingleChildCloneableWidget> dependentServices = [];

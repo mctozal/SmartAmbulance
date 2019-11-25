@@ -5,6 +5,7 @@ import 'package:location/location.dart' as locationa;
 import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:smart_ambulance/model/distance.dart';
 import 'package:smart_ambulance/model/location.dart';
 import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/requests/google_request.dart';
@@ -119,7 +120,7 @@ class MapState with ChangeNotifier {
 
       String route = await _googleMapsServices.getRouteCoordinates(
           _initialPosition, destination);
-      Map distance = await _googleMapsServices.getMatrixDistance(
+      List<Distance> distance = await _googleMapsServices.getMatrixDistance(
           _initialPosition, destination);
 
       Marker marker2 = Marker(
@@ -131,7 +132,7 @@ class MapState with ChangeNotifier {
           showDialog(
               context: context,
               builder: (_) =>
-                  AlertDialog(title: Text(distance['rows'].toString())));
+                  AlertDialog(title: Text(distance.first.toString())));
           return;
         },
         icon: BitmapDescriptor.defaultMarker,

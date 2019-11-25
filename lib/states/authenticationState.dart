@@ -5,28 +5,11 @@ import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/states/crudState.dart';
 
 class AuthenticationState with ChangeNotifier {
-  bool _signUpActive = false;
-  bool _signInActive = true;
   bool isOnline = true;
   CRUDState crudState = new CRUDState();
 
   String uid;
-
-  bool get signUpActive => _signUpActive;
   String get uids => uid;
-  bool get signInActive => _signInActive;
-
-  void changeToSignUp() {
-    _signUpActive = true;
-    _signInActive = false;
-    notifyListeners();
-  }
-
-  void changeToSignIn() {
-    _signUpActive = false;
-    _signInActive = true;
-    notifyListeners();
-  }
 
   Future<void> signOut() async {
     try {
