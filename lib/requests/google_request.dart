@@ -32,19 +32,16 @@ class GoogleMapsServices {
     return locations;
   }
 
-  Future<List<Distance>> getMatrixDistance(LatLng l1, LatLng l2) async {
+  Future<Distance> getMatrixDistance(LatLng l1, LatLng l2) async {
     final String url =
         "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${l1.latitude},${l1.longitude}&destinations=${l2.latitude},${l2.longitude}&key=$apiKey";
     http.Response response = await http.get(url);
-    List data = jsonDecode(response.body);
+    Map data = json.decode(response.body);
 
-    var distance = <Distance>[];
-
-    data.forEach((f) => distance.add(new Distance(
-        f['destination_addresses'],
-        f['origin_addresses'],
-        f['rows']['elements']['distance'],
-        f['rows']['elements']['duration'])));
-    return distance;
+    return Distance(
+        data['destination_addresses'].toString(),
+        data['origin_addresses'].toString(),
+        data['rows'][0]['elements'][0]['distance']['value'].toString(),
+        data['rows'][0]['elements'][0]['duration']['value'].toString());
   }
 }

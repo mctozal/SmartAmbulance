@@ -120,7 +120,7 @@ class MapState with ChangeNotifier {
 
       String route = await _googleMapsServices.getRouteCoordinates(
           _initialPosition, destination);
-      List<Distance> distance = await _googleMapsServices.getMatrixDistance(
+      Distance distance = await _googleMapsServices.getMatrixDistance(
           _initialPosition, destination);
 
       Marker marker2 = Marker(
@@ -132,7 +132,7 @@ class MapState with ChangeNotifier {
           showDialog(
               context: context,
               builder: (_) =>
-                  AlertDialog(title: Text(distance.first.toString())));
+                  AlertDialog(title: Text(distance.duration)));
           return;
         },
         icon: BitmapDescriptor.defaultMarker,
