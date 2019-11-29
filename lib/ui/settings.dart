@@ -25,8 +25,7 @@ class _SettingsUIState extends State<SettingsUI> {
         children: ListTile.divideTiles(context: context, tiles: [
           ListTile(
               leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQIY-DSBnzMRXqwKFnrCNTyiAMR2AqeiOb9Y6L9MuEyWNgPQgIK"),
+                backgroundImage: AssetImage('images/darkmode.png'),
               ),
               title: Text('Dark Mode'),
               trailing: ChangeNotifierProvider<SettingState>(
@@ -40,21 +39,18 @@ class _SettingsUIState extends State<SettingsUI> {
               )),
           ListTile(
             leading: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://cdn0.iconfinder.com/data/icons/team-and-management-glyph/160/creative-team-512.png"),
+              backgroundImage: AssetImage('images/creators.png'),
             ),
             title: Text('Creators'),
           ),
           ListTile(
             leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    "https://png.pngtree.com/element_our/sm/20180509/sm_5af29f0524f68.png")),
+                backgroundImage: AssetImage('images/call.png')),
             title: Text("Contact"),
           ),
           ListTile(
             leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR9EraXc--8tPahHj7HYlNSGyFMyXdD5kENptlcy-R5tPIXgBT_")),
+                backgroundImage: AssetImage('images/aboutus.png')),
             title: Text("About Us"),
           ),
           ListTile(
