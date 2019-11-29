@@ -13,7 +13,12 @@ TextEditingController _newPasswordController = TextEditingController();
 
 Authentication model = new Authentication();
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
+  @override
+  _SignInPageState createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     final uiState = Provider.of<UIState>(context);
@@ -69,7 +74,7 @@ class SignInPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 OutlineButton(
-                                  onPressed: () =>  uiState.changeToSignIn(),
+                                  onPressed: () => uiState.changeToSignIn(),
                                   borderSide: new BorderSide(
                                     style: BorderStyle.solid,
                                   ),
@@ -316,10 +321,8 @@ Widget _showSignUp(context) {
                   model.signUpMenuButton,
                 ),
                 color: Colors.blueGrey,
-                onPressed: () => authenticationState.signUpWithEmailAndPassword(
-                    _newNameController,
-                    _newEmailController,
-                    _newPasswordController),
+                onPressed: () => authenticationState.signUpWithPhoneNumber(
+                     _newEmailController,context),
               ),
             ),
           ),

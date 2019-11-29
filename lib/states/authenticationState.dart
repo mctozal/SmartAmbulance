@@ -10,6 +10,8 @@ class AuthenticationState with ChangeNotifier {
 
   String uid;
   String get uids => uid;
+  String smsCode;
+  String verificationId;
 
   Future<void> signOut() async {
     try {
@@ -58,6 +60,79 @@ class AuthenticationState with ChangeNotifier {
       addToFirebase(email.text.trim().toLowerCase(), password.text,
           result.user.uid, name.text);
       print('Signed up: ${result.user.uid}');
+      return true;
+    } catch (e) {
+      print('Error: $e');
+      return false;
+    }
+  }
+
+  Future<bool> signUpWithPhoneNumber(
+      TextEditingController email, BuildContext context) async {
+    final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String id) {
+      verificationId = id;
+    };
+
+    Future<bool> smsCodeDialog(BuildContext context) {
+      return showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Enter SMS Code'),
+              content: TextField(
+                onChanged: (value) {
+                  smsCode = value;
+                },
+              ),
+              contentPadding: EdgeInsets.all(10),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Done'),
+                  onPressed: () {
+                    FirebaseAuth.instance.currentUser().then((user) {
+                      if (user != null) {
+                        Navigator.of(context).pop();
+                      } else {}
+                    });
+                  },
+                ),
+              ],
+            );
+          });
+    }
+
+    final PhoneCodeSent smsCodeSent = (String id, [int forceCodeResend]) {
+      verificationId = id;
+      smsCodeDialog(context).then((value) {
+        print('signed in');
+        notifyListeners();
+      });
+      notifyListeners();
+    };
+
+    final PhoneVerificationCompleted verifiedSuccess =
+        (AuthCredential phoneAuthCredential) {
+      print('verified');
+      notifyListeners();
+    };
+
+    final PhoneVerificationFailed verifiedFailed = (AuthException exception) {
+      print('verified');
+      notifyListeners();
+    };
+
+    try {
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: email.text,
+        codeSent: smsCodeSent,
+        timeout: Duration(seconds: 10),
+        codeAutoRetrievalTimeout: autoRetrieve,
+        verificationCompleted: verifiedSuccess,
+        verificationFailed: verifiedFailed,
+      );
+      isOnline = true;
+      print('Signed up: ');
       return true;
     } catch (e) {
       print('Error: $e');
