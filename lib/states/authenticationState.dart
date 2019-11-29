@@ -93,7 +93,7 @@ class AuthenticationState with ChangeNotifier {
                     FirebaseAuth.instance.currentUser().then((user) {
                       if (user != null) {
                         Navigator.of(context).pop();
-                      } else {}
+                      } else {Navigator.of(context).pop();}  // Düzenlenecek else blogu 
                     });
                   },
                 ),
@@ -105,7 +105,7 @@ class AuthenticationState with ChangeNotifier {
     final PhoneCodeSent smsCodeSent = (String id, [int forceCodeResend]) {
       verificationId = id;
       smsCodeDialog(context).then((value) {
-        print('signed in');
+        print('signed in'); 
         notifyListeners();
       });
       notifyListeners();
