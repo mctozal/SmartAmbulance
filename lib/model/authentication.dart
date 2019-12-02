@@ -23,7 +23,7 @@ class Authentication {
     this.hintTextName ="Name - Surname",
     this.hintTextEmail= "Email",
     this.hintTextPassword= "Password",
-    this.hintTextNewEmail= "Enter your Email",
+    this.hintTextNewEmail= "Enter your Phone Number ",
     this.hintTextNewPassword= "Enter a Password",
     this.signUpButtonText = "SIGN UP",
     this.signInWithEmailButtonText= "Sign in with Email",

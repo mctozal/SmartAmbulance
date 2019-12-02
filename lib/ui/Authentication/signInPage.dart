@@ -238,6 +238,64 @@ Widget _showSignUp(context) {
       Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            child: Padding(
+              padding: EdgeInsets.only(),
+              child: TextField(
+                obscureText: false,
+                controller: _newEmailController,
+                decoration: InputDecoration(
+                  //Add th Hint text here.
+                  hintText: model.hintTextNewEmail,
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).accentColor, width: 1.0)),
+                  focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).accentColor, width: 1.0)),
+                  prefixIcon: const Icon(
+                    Icons.phone,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          SizedBox(
+            height: 40,
+          ),
+          Container(
+            child: Padding(
+              padding: EdgeInsets.only(),
+              child: RaisedButton(
+                child: Text(
+                  model.signUpMenuButton,
+                ),
+                color: Colors.blueGrey,
+                onPressed: () => authenticationState.signUpWithPhoneNumber(
+                     _newEmailController,context),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
+/*  orjinal signup page
+Widget _showSignUp2(context) {
+  final authenticationState = Provider.of<AuthenticationState>(context);
+  return ListView(
+    shrinkWrap: true,
+    children: <Widget>[
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
           Container(
             child: Padding(
               padding: EdgeInsets.only(),
@@ -331,3 +389,4 @@ Widget _showSignUp(context) {
     ],
   );
 }
+*/

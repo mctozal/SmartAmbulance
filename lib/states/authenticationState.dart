@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/states/crudState.dart';
+import 'package:smart_ambulance/ui/homepage.dart';
 
 class AuthenticationState with ChangeNotifier {
   bool isOnline = true;
@@ -91,9 +92,14 @@ class AuthenticationState with ChangeNotifier {
                   child: Text('Done'),
                   onPressed: () {
                     FirebaseAuth.instance.currentUser().then((user) {
-                      if (user != null) {
+                      if (user!= null) {
                         Navigator.of(context).pop();
-                      } else {Navigator.of(context).pop();}  // Düzenlenecek else blogu 
+                      } else {
+                         Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => HomePage()),
+                                    );
+                      }  // Düzenlenecek else blogu 
                     });
                   },
                 ),
