@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_ambulance/states/mapState.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
- Distance distance;
+ List<Distance> distanceList;
 
 class HospitalUI extends StatelessWidget {
   @override
@@ -32,21 +32,21 @@ class _HospitalListState extends State<HospitalList> {
   @override
   Widget build(BuildContext context) {
     final hospitalState = Provider.of<HospitalState>(context);
-
+   final mapState = Provider.of<MapState>(context, listen: false);
     return hospitalState.list.isNotEmpty
         ? Scaffold(
             body: FutureBuilder(
-                future: hospitalState.showHospitals(),
+                future: hospitalState.showDistance(mapState.initialPosition),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   return snapshot.hasData == true
                       ? ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
-                            final mapState = Provider.of<MapState>(context, listen: false);
-                            getDistance(mapState.initialPosition,LatLng(snapshot.data[index].latitude,snapshot.data[index].longitude));
+                         
+                             hospitalState.showDistance(mapState.initialPosition);
                             return ListTile(
-                              leading: distance!=null ?Text(distance.duration):Text('no distance calculated'),
-                              title: Text(snapshot.data[index].name.toString()),
+                              leading: distanceList==null ?Text(snapshot.data[index].duration):Text('no distance calculated'),
+                              title: Text(snapshot.data[index].distance.toString()+' meter'),
                             );
                           },
                         )
@@ -60,10 +60,6 @@ class _HospitalListState extends State<HospitalList> {
         : Positioned(child: Container());
   }
 
-  getDistance( LatLng source,LatLng destination ) async {
-        final hospitalState = Provider.of<HospitalState>(context,listen: false);
-    distance = await hospitalState.showDistance(source,destination);
-    return distance;
-  }
+  
 
 }

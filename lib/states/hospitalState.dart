@@ -8,8 +8,8 @@ class HospitalState with ChangeNotifier {
   GoogleMapsServices _googleMapsServices = GoogleMapsServices();
   List<LocationHospital> _list;
   List<LocationHospital> get list => _list;
-  Distance _listDistance;
-  Distance get listDistance => _listDistance;
+  List<Distance> _listDistance = List<Distance>();
+  List<Distance> get listDistance => _listDistance;
 
   HospitalState() {
     showHospitals();
@@ -19,8 +19,12 @@ class HospitalState with ChangeNotifier {
     return _list = await _googleMapsServices.getHospitals();
   }
 
-  Future<Distance> showDistance(LatLng l1,LatLng l2) async {
-    return _listDistance = await _googleMapsServices.getMatrixDistance(l1, l2);
+  Future<List<Distance>> showDistance(LatLng l1) async {
+    for(int i =0 ; i<_list.length; i++){
+     Distance item = await _googleMapsServices.getMatrixDistance(
+          l1, LatLng(_list[i].latitude, _list[i].longitude));
+      _listDistance.add(new Distance(item.destinationAddress,item.distance,item.duration,item.originAddress));
+    }
+    return _listDistance;
   }
-
 }
