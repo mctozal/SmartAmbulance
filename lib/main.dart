@@ -148,7 +148,7 @@ class _MyAppPageState extends State<MyAppPage> {
         verificationId: verificationId,
         smsCode: smsOTP,
       );
-      final FirebaseUser user = (await _auth.signInWithCredential(credential)) as FirebaseUser;
+       Future<AuthResult> user = await _auth.signInWithCredential(credential);
       final FirebaseUser currentUser = await _auth.currentUser();
       assert(user.uid == currentUser.uid);
       Navigator.of(context).pop();
