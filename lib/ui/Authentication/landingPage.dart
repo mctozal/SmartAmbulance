@@ -23,7 +23,7 @@ class LandingPage extends StatelessWidget {
           }
           // If user is online MapState.uid = user.uid.
           authenticationState.uid = user.uid;
-          return HomePage();
+          return MyHomePage();
         } else {
           return Scaffold(
             body: Center(

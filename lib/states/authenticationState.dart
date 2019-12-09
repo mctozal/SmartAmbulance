@@ -97,7 +97,7 @@ class AuthenticationState with ChangeNotifier {
                       } else {
                          Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => HomePage()),
+                                      MaterialPageRoute(builder: (context) => MyHomePage()),
                                     );
                       }  // Düzenlenecek else blogu 
                     });
