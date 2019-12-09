@@ -257,7 +257,7 @@ Widget _showSignUp(context) {
                       borderSide: BorderSide(
                           color: Theme.of(context).accentColor, width: 1.0)),
                   prefixIcon: const Icon(
-                    Icons.phone,
+                    Icons.email,
                     color: Colors.white,
                   ),
                 ),
@@ -276,8 +276,8 @@ Widget _showSignUp(context) {
                   model.signUpMenuButton,
                 ),
                 color: Colors.blueGrey,
-                onPressed: () => authenticationState.signUpWithPhoneNumber(
-                     _newEmailController,context),
+                onPressed: () => authenticationState.signUpWithEmailAndPassword(
+                     _newEmailController,_newNameController, _newPasswordController),
               ),
             ),
           ),

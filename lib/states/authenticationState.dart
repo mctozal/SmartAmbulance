@@ -54,6 +54,7 @@ class AuthenticationState with ChangeNotifier {
   Future<bool> signUpWithEmailAndPassword(TextEditingController name,
       TextEditingController email, TextEditingController password) async {
     try {
+
       AuthResult result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: email.text.trim().toLowerCase(), password: password.text);
@@ -68,7 +69,7 @@ class AuthenticationState with ChangeNotifier {
     }
   }
 
-  Future<bool> signUpWithPhoneNumber(
+ /*  Future<bool> signUpWithPhoneNumber(
       TextEditingController email, BuildContext context) async {
     final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String id) {
       verificationId = id;
@@ -146,7 +147,7 @@ class AuthenticationState with ChangeNotifier {
     }
   }
 
-  Future tryToLogInUserViaEmail(context, email, password) async {
+ */  Future tryToLogInUserViaEmail(context, email, password) async {
     if (await signInWithEmail(context, email, password) == true) {
       isOnline = true;
       updateFirebase();
