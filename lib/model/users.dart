@@ -9,6 +9,8 @@ class User {
   String uid;
   String mail;
   String password;
+  String tc;
+  String phone;
   User({
     this.isOnline,
     this.name,
@@ -18,6 +20,8 @@ class User {
     this.uid,
     this.mail,
     this.password,
+    this.tc,
+    this.phone
   });
 
   User copyWith({

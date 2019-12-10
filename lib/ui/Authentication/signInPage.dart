@@ -8,8 +8,10 @@ import 'package:smart_ambulance/states/uiState.dart';
 TextEditingController _emailController = TextEditingController();
 TextEditingController _passwordController = TextEditingController();
 TextEditingController _newEmailController = TextEditingController();
+TextEditingController _newPhoneController = TextEditingController();
 TextEditingController _newNameController = TextEditingController();
 TextEditingController _newPasswordController = TextEditingController();
+TextEditingController _newTcController = TextEditingController();
 
 Authentication model = new Authentication();
 
@@ -229,7 +231,7 @@ Widget _showSignIn(context) {
     ),
   ]);
 }
-
+/*
 Widget _showSignUp(context) {
   final authenticationState = Provider.of<AuthenticationState>(context);
   return ListView(
@@ -286,9 +288,9 @@ Widget _showSignUp(context) {
     ],
   );
 }
-
-/*  orjinal signup page
-Widget _showSignUp2(context) {
+*/
+//  orjinal signup page
+Widget _showSignUp(context) {
   final authenticationState = Provider.of<AuthenticationState>(context);
   return ListView(
     shrinkWrap: true,
@@ -352,6 +354,59 @@ Widget _showSignUp2(context) {
             child: Padding(
               padding: EdgeInsets.only(),
               child: TextField(
+                obscureText: false,
+                controller: _newPhoneController,
+                decoration: InputDecoration(
+                  //Add th Hint text here.
+                  hintText: model.hintTextPhone,
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).accentColor, width: 1.0)),
+                  focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).accentColor, width: 1.0)),
+                  prefixIcon: const Icon(
+                    Icons.phone,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+           Container(
+            child: Padding(
+              padding: EdgeInsets.only(),
+              child: TextField(
+                obscureText: false,
+                controller: _newTcController,
+                decoration: InputDecoration(
+                  //Add th Hint text here.
+                  hintText: model.hintTextTc,
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).accentColor, width: 1.0)),
+                  focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Theme.of(context).accentColor, width: 1.0)),
+                  prefixIcon: const Icon(
+                    Icons.security,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+
+          Container(
+            child: Padding(
+              padding: EdgeInsets.only(),
+              child: TextField(
                 obscureText: true,
                 controller: _newPasswordController,
                 decoration: InputDecoration(
@@ -371,6 +426,7 @@ Widget _showSignUp2(context) {
           SizedBox(
             height: 40,
           ),
+          
           Container(
             child: Padding(
               padding: EdgeInsets.only(),
@@ -379,8 +435,8 @@ Widget _showSignUp2(context) {
                   model.signUpMenuButton,
                 ),
                 color: Colors.blueGrey,
-                onPressed: () => authenticationState.signUpWithPhoneNumber(
-                     _newEmailController,context),
+                onPressed: () => authenticationState.signUpWithEmailAndPassword(
+                    _newNameController, _newEmailController,_newPhoneController,_newTcController, _newPasswordController),
               ),
             ),
           ),
@@ -389,4 +445,3 @@ Widget _showSignUp2(context) {
     ],
   );
 }
-*/

@@ -52,15 +52,17 @@ class AuthenticationState with ChangeNotifier {
   }
 
   Future<bool> signUpWithEmailAndPassword(TextEditingController name,
-      TextEditingController email, TextEditingController password) async {
-    try {
-
+      TextEditingController email,TextEditingController phone, TextEditingController tc, TextEditingController password ) async {
+    try { /*
+      if(phone.text==null){   DUZELTILECEK 
+        print('HATA'); 
+      }*/  
       AuthResult result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-              email: email.text.trim().toLowerCase(), password: password.text);
+              email: email.text.trim().toLowerCase(), password: password.text );
       isOnline = true;
       addToFirebase(email.text.trim().toLowerCase(), password.text,
-          result.user.uid, name.text);
+          result.user.uid, name.text ,phone.text ,tc.text );
       print('Signed up: ${result.user.uid}');
       return true;
     } catch (e) {
@@ -69,7 +71,62 @@ class AuthenticationState with ChangeNotifier {
     }
   }
 
- /*  Future<bool> signUpWithPhoneNumber(
+  Future tryToLogInUserViaEmail(context, email, password) async {
+    if (await signInWithEmail(context, email, password) == true) {
+      isOnline = true;
+      updateFirebase();
+    } else {
+      return Alert(
+        context: context,
+        type: AlertType.error,
+        title: "Authentication Error!",
+        desc: "Invalid email/username or password.",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "OK",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => Navigator.pop(context),
+            width: 120,
+          )
+        ],
+      ).show();
+    }
+    notifyListeners();
+  }
+
+  Future<void> addToFirebase(email, password, uid, name , phone ,tc) async {
+    User user = new User(
+        mail: email,
+        isOnline: true,
+        name: name,
+        password: password,
+        role: 'user',
+        uid: uid ,
+        phone:phone,
+        tc :tc );
+    crudState.addProduct(user, uid);
+  }
+
+  Future<void> updateFirebase() async {
+    if (uid != 'PuFBc2GcqzaLh3gTGK8PryjDVC43' && uid != null) {
+      try {
+        User user = new User(isOnline: isOnline);
+        crudState.updateProduct(user, uid);
+      } catch (e) {
+        print(e);
+
+        // eğer id geldiyse yakala anonymous kullanıcı kaydını oluştur
+        /*     await fireStore.collection('users-anonymous').document(uid).setData(
+            {'uid': uid, 'name': "anonymous", 'isOnline': isOnline},
+            merge: false); */
+
+      }
+    }
+  }
+}
+/*  Future<bool> signUpWithPhoneNumber(
       TextEditingController email, BuildContext context) async {
     final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String id) {
       verificationId = id;
@@ -147,56 +204,4 @@ class AuthenticationState with ChangeNotifier {
     }
   }
 
- */  Future tryToLogInUserViaEmail(context, email, password) async {
-    if (await signInWithEmail(context, email, password) == true) {
-      isOnline = true;
-      updateFirebase();
-    } else {
-      return Alert(
-        context: context,
-        type: AlertType.error,
-        title: "Authentication Error!",
-        desc: "Invalid email/username or password.",
-        buttons: [
-          DialogButton(
-            child: Text(
-              "OK",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            onPressed: () => Navigator.pop(context),
-            width: 120,
-          )
-        ],
-      ).show();
-    }
-    notifyListeners();
-  }
-
-  Future<void> addToFirebase(email, password, uid, name) async {
-    User user = new User(
-        mail: email,
-        isOnline: true,
-        name: name,
-        password: password,
-        role: 'user',
-        uid: uid);
-    crudState.addProduct(user, uid);
-  }
-
-  Future<void> updateFirebase() async {
-    if (uid != 'PuFBc2GcqzaLh3gTGK8PryjDVC43' && uid != null) {
-      try {
-        User user = new User(isOnline: isOnline);
-        crudState.updateProduct(user, uid);
-      } catch (e) {
-        print(e);
-
-        // eğer id geldiyse yakala anonymous kullanıcı kaydını oluştur
-        /*     await fireStore.collection('users-anonymous').document(uid).setData(
-            {'uid': uid, 'name': "anonymous", 'isOnline': isOnline},
-            merge: false); */
-
-      }
-    }
-  }
-}
+ */ 

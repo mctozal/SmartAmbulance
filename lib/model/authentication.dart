@@ -13,6 +13,9 @@ class Authentication {
   String signInWithAnonymouslyButtonText ;
   String alternativeLogInSeparatorText ;
   String emailLogInFailed ;
+  String hintTextPhone;
+  String hintTextTc;
+
 
 
   Authentication({
@@ -22,14 +25,17 @@ class Authentication {
     this.signUpMenuButton= "SIGN UP",
     this.hintTextName ="Name - Surname",
     this.hintTextEmail= "Email",
+    this.hintTextPhone= "Enter Your Phone",
+    this.hintTextTc= "Enter Your TC",
     this.hintTextPassword= "Password",
-    this.hintTextNewEmail= "Enter your Phone Number ",
+    this.hintTextNewEmail= "Enter your Mail Adress ",
     this.hintTextNewPassword= "Enter a Password",
     this.signUpButtonText = "SIGN UP",
     this.signInWithEmailButtonText= "Sign in with Email",
     this.signInWithAnonymouslyButtonText= "Sign in with Anonymously",
     this.alternativeLogInSeparatorText= "or",
     this.emailLogInFailed= "Email or Password was incorrect. Please try again",
+    
   });
 
   
