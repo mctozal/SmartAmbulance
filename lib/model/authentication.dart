@@ -15,7 +15,9 @@ class Authentication {
   String emailLogInFailed ;
   String hintTextPhone;
   String hintTextTc;
-
+  String hintTextAmbulancePlate;
+  String hintTextVehicleLicence;
+  String hintTextVehicleLicenceDate;
 
 
   Authentication({
@@ -35,6 +37,10 @@ class Authentication {
     this.signInWithAnonymouslyButtonText= "Sign in with Anonymously",
     this.alternativeLogInSeparatorText= "or",
     this.emailLogInFailed= "Email or Password was incorrect. Please try again",
+    this.hintTextAmbulancePlate="Enter Your Ambulance Plate Number",
+    this.hintTextVehicleLicence="Enter Your Vehicle Licence ",
+    this.hintTextVehicleLicenceDate="Enter Your Vehicle Licence Date"
+    
     
   });
 

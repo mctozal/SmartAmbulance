@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/states/crudState.dart';
-import 'package:smart_ambulance/ui/homepage.dart';
+
 
 class AuthenticationState with ChangeNotifier {
   bool isOnline = true;
@@ -52,7 +52,7 @@ class AuthenticationState with ChangeNotifier {
   }
 
   Future<bool> signUpWithEmailAndPassword(TextEditingController name,
-      TextEditingController email,TextEditingController phone, TextEditingController tc, TextEditingController password ) async {
+      TextEditingController email,TextEditingController phone, TextEditingController tc, TextEditingController password , TextEditingController ambulancePlate, TextEditingController vehicleLicence , TextEditingController vehicleLicenceDate ) async {
     try { /*
       if(phone.text==null){   DUZELTILECEK 
         print('HATA'); 
@@ -62,7 +62,7 @@ class AuthenticationState with ChangeNotifier {
               email: email.text.trim().toLowerCase(), password: password.text );
       isOnline = true;
       addToFirebase(email.text.trim().toLowerCase(), password.text,
-          result.user.uid, name.text ,phone.text ,tc.text );
+          result.user.uid, name.text ,phone.text ,tc.text ,ambulancePlate.text, vehicleLicence, vehicleLicenceDate);
       print('Signed up: ${result.user.uid}');
       return true;
     } catch (e) {
@@ -96,7 +96,7 @@ class AuthenticationState with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addToFirebase(email, password, uid, name , phone ,tc) async {
+  Future<void> addToFirebase(email, password, uid, name , phone ,tc , ambulancePlate ,vehicleLicence, vehicleLicenceDate) async {
     User user = new User(
         mail: email,
         isOnline: true,
@@ -105,7 +105,10 @@ class AuthenticationState with ChangeNotifier {
         role: 'user',
         uid: uid ,
         phone:phone,
-        tc :tc );
+        tc :tc ,
+        ambulancePlate: ambulancePlate,
+        vehicleLicence: vehicleLicence,
+        vehicleLicenceDate: vehicleLicenceDate);
     crudState.addProduct(user, uid);
   }
 

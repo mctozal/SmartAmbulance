@@ -4,14 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:smart_ambulance/model/authentication.dart';
 import 'package:smart_ambulance/states/authenticationState.dart';
 import 'package:smart_ambulance/states/uiState.dart';
+import 'package:smart_ambulance/ui/Authentication/signUpPage.dart';
 
 TextEditingController _emailController = TextEditingController();
 TextEditingController _passwordController = TextEditingController();
-TextEditingController _newEmailController = TextEditingController();
-TextEditingController _newPhoneController = TextEditingController();
-TextEditingController _newNameController = TextEditingController();
-TextEditingController _newPasswordController = TextEditingController();
-TextEditingController _newTcController = TextEditingController();
+
 
 Authentication model = new Authentication();
 
@@ -85,7 +82,10 @@ class _SignInPageState extends State<SignInPage> {
                                   ),
                                 ),
                                 OutlineButton(
-                                  onPressed: () => uiState.changeToSignUp(),
+                                  onPressed: () => Navigator.push(
+                            context,
+                          MaterialPageRoute(builder: (context) => Test()),
+                           ),
                                   borderSide: BorderSide(
                                     style: BorderStyle.solid,
                                   ),
@@ -108,7 +108,8 @@ class _SignInPageState extends State<SignInPage> {
                             padding: EdgeInsets.only(left: 30.0, right: 30.0),
                             child: uiState.signInActive
                                 ? _showSignIn(context)
-                                : _showSignUp(context)),
+                                : _showSignIn(context)     
+                                ),
                         width: 750,
                       ),
                     ],
@@ -231,65 +232,9 @@ Widget _showSignIn(context) {
     ),
   ]);
 }
-/*
-Widget _showSignUp(context) {
-  final authenticationState = Provider.of<AuthenticationState>(context);
-  return ListView(
-    shrinkWrap: true,
-    children: <Widget>[
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            child: Padding(
-              padding: EdgeInsets.only(),
-              child: TextField(
-                obscureText: false,
-                controller: _newEmailController,
-                decoration: InputDecoration(
-                  //Add th Hint text here.
-                  hintText: model.hintTextNewEmail,
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Theme.of(context).accentColor, width: 1.0)),
-                  focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Theme.of(context).accentColor, width: 1.0)),
-                  prefixIcon: const Icon(
-                    Icons.email,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
 
-          SizedBox(
-            height: 40,
-          ),
-          Container(
-            child: Padding(
-              padding: EdgeInsets.only(),
-              child: RaisedButton(
-                child: Text(
-                  model.signUpMenuButton,
-                ),
-                color: Colors.blueGrey,
-                onPressed: () => authenticationState.signUpWithEmailAndPassword(
-                     _newEmailController,_newNameController, _newPasswordController),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ],
-  );
-}
-*/
-//  orjinal signup page
+
+/*
 Widget _showSignUp(context) {
   final authenticationState = Provider.of<AuthenticationState>(context);
   return ListView(
@@ -425,8 +370,7 @@ Widget _showSignUp(context) {
           ),
           SizedBox(
             height: 40,
-          ),
-          
+          ),     
           Container(
             child: Padding(
               padding: EdgeInsets.only(),
@@ -440,8 +384,11 @@ Widget _showSignUp(context) {
               ),
             ),
           ),
+          
+
         ],
       ),
     ],
   );
-}
+  
+}*/

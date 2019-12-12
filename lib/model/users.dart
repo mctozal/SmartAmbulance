@@ -11,6 +11,11 @@ class User {
   String password;
   String tc;
   String phone;
+  String ambulancePlate;
+  String vehicleLicence;
+  String vehicleLicenceDate;
+
+
   User({
     this.isOnline,
     this.name,
@@ -21,7 +26,10 @@ class User {
     this.mail,
     this.password,
     this.tc,
-    this.phone
+    this.phone,
+    this.ambulancePlate,
+    this.vehicleLicence,
+    this.vehicleLicenceDate
   });
 
   User copyWith({

@@ -3,7 +3,7 @@ import 'package:smart_ambulance/model/distance.dart';
 import 'package:smart_ambulance/states/hospitalState.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_ambulance/states/mapState.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
  List<Distance> distanceList;
 
