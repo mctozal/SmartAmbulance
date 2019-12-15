@@ -131,8 +131,7 @@ class MapState with ChangeNotifier {
         onTap: () {
           showDialog(
               context: context,
-              builder: (_) =>
-                  AlertDialog(title: Text(distance.duration)));
+              builder: (_) => AlertDialog(title: Text(distance.duration)));
           return;
         },
         icon: BitmapDescriptor.defaultMarker,
@@ -150,6 +149,149 @@ class MapState with ChangeNotifier {
         _initialPosition, destination);
     createRoute(route);
     notifyListeners();
+  }
+
+  showAmbulances(BuildContext context) async {
+    List<LocationHospital> list = List<LocationHospital>();
+
+    list.add(new LocationHospital(40.996107, 28.866550, "1", "Ambulance1"));
+    list.add(new LocationHospital(40.995109, 28.863828, "2", "Ambulance2"));
+    list.add(new LocationHospital(40.989785, 28.851911, "3", "Ambulance3"));
+    list.add(new LocationHospital(41.000134, 28.866931, "4", "Ambulance4"));
+    list.add(new LocationHospital(41.005151, 28.868954, "5", "Ambulance5"));
+    list.add(new LocationHospital(41.014471, 28.862007, "6", "Ambulance6"));
+    list.add(new LocationHospital(41.010983, 28.876609, "7", "Ambulance7"));
+    list.add(new LocationHospital(41.006207, 28.880256, "8", "Ambulance8"));
+    list.add(new LocationHospital(41.001592, 28.870901, "9", "Ambulance9"));
+    list.add(new LocationHospital(40.987848, 28.872178, "10", "Ambulance10"));
+
+    for (var i = 0; i < list.length; i++) {
+      final MarkerId markerId = MarkerId(list[i].id);
+      final Marker marker = Marker(
+        markerId: markerId,
+        visible: true,
+        infoWindow: InfoWindow(title: list[i].name),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+        draggable: false,
+        consumeTapEvents: true,
+        onTap: () {
+          showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                    title: Text(
+                      'Routing',
+                      style: TextStyle(
+                          fontSize: 22.0, fontWeight: FontWeight.w600),
+                    ),
+                    content: Text("Do you want to go to ${list[i].name} ?"),
+                    actions: <Widget>[
+                      Image(
+                        height: 100,
+                        width: 100,
+                        image: AssetImage('images/hospital.png'),
+                      ),
+                      FlatButton(
+                        child: Icon(Icons.close),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      FlatButton(
+                        child: Icon(Icons.done),
+                        onPressed: () async {
+                          await createRouteToHospital(
+                              LatLng(list[i].latitude, list[i].longitude));
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ));
+          return;
+        },
+        position: LatLng(
+          list[i].latitude,
+          list[i].longitude,
+        ),
+      );
+      _markers.add(marker);
+      _mapController.animateCamera(
+        CameraUpdate.newCameraPosition(CameraPosition(
+          target: LatLng(_initialPosition.latitude, _initialPosition.longitude),
+          zoom: 12.0,
+        )),
+      );
+    }
+     notifyListeners();
+  }
+
+
+  showEmergency(BuildContext context) async {
+    List<LocationHospital> list = List<LocationHospital>();
+
+    list.add(new LocationHospital(40.986429,28.876541, "1", "Emergency1"));
+    list.add(new LocationHospital(40.995109, 28.864500, "2", "Emergency2"));
+    list.add(new LocationHospital(40.989785, 28.852420, "3", "Emergency3"));
+    list.add(new LocationHospital(41.000134, 28.867500, "4", "Emergency4"));
+    list.add(new LocationHospital(41.005151, 28.867222, "5", "Emergency5"));
+    list.add(new LocationHospital(41.014471, 28.863075, "6", "Emergency6"));
+    list.add(new LocationHospital(41.010983, 28.875200, "7", "Emergency7"));
+    list.add(new LocationHospital(41.006207, 28.881124, "8", "Emergency8"));
+    list.add(new LocationHospital(41.001592, 28.871111, "9", "Emergency9"));
+    list.add(new LocationHospital(40.987848, 28.873666, "10", "Emergency10"));
+
+    for (var i = 0; i < list.length; i++) {
+      final MarkerId markerId = MarkerId(list[i].id);
+      final Marker marker = Marker(
+        markerId: markerId,
+        visible: true,
+        infoWindow: InfoWindow(title: list[i].name),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
+        draggable: false,
+        consumeTapEvents: true,
+        onTap: () {
+          showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                    title: Text(
+                      'Routing',
+                      style: TextStyle(
+                          fontSize: 22.0, fontWeight: FontWeight.w600),
+                    ),
+                    content: Text("Do you want to go to ${list[i].name} ?"),
+                    actions: <Widget>[
+                      Image(
+                        height: 100,
+                        width: 100,
+                        image: AssetImage('images/hospital.png'),
+                      ),
+                      FlatButton(
+                        child: Icon(Icons.close),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      FlatButton(
+                        child: Icon(Icons.done),
+                        onPressed: () async {
+                          await createRouteToHospital(
+                              LatLng(list[i].latitude, list[i].longitude));
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ));
+          return;
+        },
+        position: LatLng(
+          list[i].latitude,
+          list[i].longitude,
+        ),
+      );
+      _markers.add(marker);
+      _mapController.animateCamera(
+        CameraUpdate.newCameraPosition(CameraPosition(
+          target: LatLng(_initialPosition.latitude, _initialPosition.longitude),
+          zoom: 12.0,
+        )),
+      );
+    }
+     notifyListeners();
   }
 
   showHospitals(BuildContext context) async {

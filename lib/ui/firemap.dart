@@ -125,14 +125,37 @@ class _FireMapState extends State<FireMap> {
               Positioned(
                 top: 170,
                 right: 5,
-                child: Switch(
-                  value: appState.traffic,
-                  onChanged: (newValue) {
-                    appState.checkTraffic(newValue);
-                    setState(() {
-                      traffic = appState.traffic ? true : false;
-                    });
-                  },
+                child: Container(
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(100.0)),
+                    color: Colors.blue,
+                    onPressed: () async {
+                      appState.showAmbulances(context);
+                    },
+                    child: Icon(
+                      Icons.equalizer,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 210,
+                right: 5,
+                child: Container(
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(100.0)),
+                    color: Colors.blue,
+                    onPressed: () async {
+                      appState.showEmergency(context);
+                    },
+                    child: Icon(
+                      Icons.accessible_forward,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               )
             ],
