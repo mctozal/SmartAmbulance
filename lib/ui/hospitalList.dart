@@ -44,9 +44,9 @@ class _HospitalListState extends State<HospitalList> {
                           itemBuilder: (BuildContext context, int index) {
                          
                              hospitalState.showDistance(mapState.initialPosition);
-                            return ListTile(
-                              leading: distanceList==null ?Text(snapshot.data[index].duration):Text('no distance calculated'),
-                              title: Text(snapshot.data[index].distance.toString()+' meter'),
+                            return ListTile(  
+                              title: distanceList==null ?Text(snapshot.data[index].originAddress+'  duration(sec)'):Text('no distance calculated'),
+                              subtitle: distanceList==null ?Text(snapshot.data[index].destinationAddress):Text('no address calculated'),
                             );
                           },
                         )
