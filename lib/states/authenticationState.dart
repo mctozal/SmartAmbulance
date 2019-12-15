@@ -62,7 +62,7 @@ class AuthenticationState with ChangeNotifier {
               email: email.text.trim().toLowerCase(), password: password.text );
       isOnline = true;
       addToFirebase(email.text.trim().toLowerCase(), password.text,
-          result.user.uid, name.text ,phone.text ,tc.text ,ambulancePlate.text, vehicleLicence, vehicleLicenceDate);
+          result.user.uid, name.text ,phone.text ,tc.text ,ambulancePlate.text, vehicleLicence.text, vehicleLicenceDate.text);
       print('Signed up: ${result.user.uid}');
       return true;
     } catch (e) {
