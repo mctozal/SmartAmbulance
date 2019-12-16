@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/states/crudState.dart';
+import 'package:smart_ambulance/ui/Authentication/signInPage.dart';
 import 'package:smart_ambulance/ui/homepage.dart';
+
 
 class AuthenticationState with ChangeNotifier {
   bool isOnline = true;
@@ -51,8 +53,8 @@ class AuthenticationState with ChangeNotifier {
     }
   }
 
-  Future<bool> signUpWithEmailAndPassword(TextEditingController name,
-      TextEditingController email,TextEditingController phone, TextEditingController tc, TextEditingController password ) async {
+  Future<bool> signUpWithEmailAndPassword(dynamic context ,TextEditingController name,
+      TextEditingController email,TextEditingController phone, TextEditingController tc, TextEditingController password , TextEditingController ambulancePlate, TextEditingController vehicleLicence , TextEditingController vehicleLicenceDate ) async {
     try { /*
       if(phone.text==null){   DUZELTILECEK 
         print('HATA'); 
@@ -62,9 +64,28 @@ class AuthenticationState with ChangeNotifier {
               email: email.text.trim().toLowerCase(), password: password.text );
       isOnline = true;
       addToFirebase(email.text.trim().toLowerCase(), password.text,
-          result.user.uid, name.text ,phone.text ,tc.text );
+          result.user.uid, name.text ,phone.text ,tc.text ,ambulancePlate.text, vehicleLicence.text, vehicleLicenceDate.text);
       print('Signed up: ${result.user.uid}');
-      return true;
+      
+      return Alert(
+        context: context,
+        type: AlertType.success,
+        title: "Authentication Succesfull!",
+        
+        buttons: [
+          DialogButton(
+            child: Text(
+              "Go to Homepage",
+              style: TextStyle(color: Colors.white, fontSize: 10),
+            ),
+            onPressed: () =>Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SignInPage()),  //    homepage yönlendirme yapılabilir
+                ),
+            width: 120,
+          )
+        ],
+      ).show();
     } catch (e) {
       print('Error: $e');
       return false;
@@ -90,13 +111,14 @@ class AuthenticationState with ChangeNotifier {
             onPressed: () => Navigator.pop(context),
             width: 120,
           )
+          
         ],
       ).show();
     }
     notifyListeners();
   }
 
-  Future<void> addToFirebase(email, password, uid, name , phone ,tc) async {
+  Future<void> addToFirebase(email, password, uid, name , phone ,tc , ambulancePlate ,vehicleLicence, vehicleLicenceDate) async {
     User user = new User(
         mail: email,
         isOnline: true,
@@ -105,7 +127,10 @@ class AuthenticationState with ChangeNotifier {
         role: 'user',
         uid: uid ,
         phone:phone,
-        tc :tc );
+        tc :tc ,
+        ambulancePlate: ambulancePlate,
+        vehicleLicence: vehicleLicence,
+        vehicleLicenceDate: vehicleLicenceDate);
     crudState.addProduct(user, uid);
   }
 
