@@ -80,7 +80,7 @@ class AuthenticationState with ChangeNotifier {
             ),
             onPressed: () =>Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SignInPage()),
+                  MaterialPageRoute(builder: (context) => SignInPage()),  //    homepage yönlendirme yapılabilir
                 ),
             width: 120,
           )

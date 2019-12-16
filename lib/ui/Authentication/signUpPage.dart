@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_ambulance/model/authentication.dart';
 import 'package:smart_ambulance/states/authenticationState.dart';
-
 import 'package:multi_page_form/multi_page_form.dart';
-
 
 TextEditingController _newEmailController = TextEditingController();
 TextEditingController _newPhoneController = TextEditingController();
