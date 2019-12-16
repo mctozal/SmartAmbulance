@@ -295,7 +295,7 @@ class _TestState extends State<Test2> {
                   model.signUpMenuButton,
                 ),
                 color: Colors.blueGrey,
-                onPressed: () => authenticationState.signUpWithEmailAndPassword(
+                onPressed: () => authenticationState.signUpWithEmailAndPassword(context,
                     _newNameController, _newEmailController,_newPhoneController,_newTcController, _newPasswordController ,_newAmbulancePlateController , _newVehicleLicenceController,_newVehicleLicenceDateController),
               ),
             ),

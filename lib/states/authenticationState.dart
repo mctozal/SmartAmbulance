@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/states/crudState.dart';
+import 'package:smart_ambulance/ui/Authentication/signInPage.dart';
+import 'package:smart_ambulance/ui/homepage.dart';
 
 
 class AuthenticationState with ChangeNotifier {
@@ -51,7 +53,7 @@ class AuthenticationState with ChangeNotifier {
     }
   }
 
-  Future<bool> signUpWithEmailAndPassword(TextEditingController name,
+  Future<bool> signUpWithEmailAndPassword(dynamic context ,TextEditingController name,
       TextEditingController email,TextEditingController phone, TextEditingController tc, TextEditingController password , TextEditingController ambulancePlate, TextEditingController vehicleLicence , TextEditingController vehicleLicenceDate ) async {
     try { /*
       if(phone.text==null){   DUZELTILECEK 
@@ -64,7 +66,26 @@ class AuthenticationState with ChangeNotifier {
       addToFirebase(email.text.trim().toLowerCase(), password.text,
           result.user.uid, name.text ,phone.text ,tc.text ,ambulancePlate.text, vehicleLicence.text, vehicleLicenceDate.text);
       print('Signed up: ${result.user.uid}');
-      return true;
+      
+      return Alert(
+        context: context,
+        type: AlertType.success,
+        title: "Authentication Succesfull!",
+        
+        buttons: [
+          DialogButton(
+            child: Text(
+              "Go to Homepage",
+              style: TextStyle(color: Colors.white, fontSize: 10),
+            ),
+            onPressed: () =>Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SignInPage()),
+                ),
+            width: 120,
+          )
+        ],
+      ).show();
     } catch (e) {
       print('Error: $e');
       return false;
@@ -90,6 +111,7 @@ class AuthenticationState with ChangeNotifier {
             onPressed: () => Navigator.pop(context),
             width: 120,
           )
+          
         ],
       ).show();
     }
