@@ -66,26 +66,8 @@ class AuthenticationState with ChangeNotifier {
       addToFirebase(email.text.trim().toLowerCase(), password.text,
           result.user.uid, name.text ,phone.text ,tc.text ,ambulancePlate.text, vehicleLicence.text, vehicleLicenceDate.text);
       print('Signed up: ${result.user.uid}');
-      
-      return Alert(
-        context: context,
-        type: AlertType.success,
-        title: "Authentication Succesfull!",
-        
-        buttons: [
-          DialogButton(
-            child: Text(
-              "Go to Homepage",
-              style: TextStyle(color: Colors.white, fontSize: 10),
-            ),
-            onPressed: () =>Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SignInPage()),  //    homepage yönlendirme yapılabilir
-                ),
-            width: 120,
-          )
-        ],
-      ).show();
+      notifyListeners();
+      return true;
     } catch (e) {
       print('Error: $e');
       return false;
@@ -111,7 +93,6 @@ class AuthenticationState with ChangeNotifier {
             onPressed: () => Navigator.pop(context),
             width: 120,
           )
-          
         ],
       ).show();
     }
