@@ -77,7 +77,7 @@ class _TestState extends State<Test2> {
                           color: Theme.of(context).accentColor, width: 1.0)),
                   prefixIcon: const Icon(
                     Icons.account_circle,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -103,7 +103,7 @@ class _TestState extends State<Test2> {
                           color: Theme.of(context).accentColor, width: 1.0)),
                   prefixIcon: const Icon(
                     Icons.email,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -129,7 +129,7 @@ class _TestState extends State<Test2> {
                           color: Theme.of(context).accentColor, width: 1.0)),
                   prefixIcon: const Icon(
                     Icons.phone,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -155,7 +155,7 @@ class _TestState extends State<Test2> {
                           color: Theme.of(context).accentColor, width: 1.0)),
                   prefixIcon: const Icon(
                     Icons.security,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -179,7 +179,7 @@ class _TestState extends State<Test2> {
                           color: Theme.of(context).accentColor, width: 1.0)),
                   prefixIcon: const Icon(
                     Icons.lock,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -223,7 +223,7 @@ class _TestState extends State<Test2> {
                           color: Theme.of(context).accentColor, width: 1.0)),
                   prefixIcon: const Icon(
                     Icons.account_circle,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -249,7 +249,7 @@ class _TestState extends State<Test2> {
                           color: Theme.of(context).accentColor, width: 1.0)),
                   prefixIcon: const Icon(
                     Icons.email,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -275,7 +275,7 @@ class _TestState extends State<Test2> {
                           color: Theme.of(context).accentColor, width: 1.0)),
                   prefixIcon: const Icon(
                     Icons.phone,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
               ),
