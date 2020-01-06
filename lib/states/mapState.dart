@@ -228,15 +228,7 @@ class MapState with ChangeNotifier {
     List<LocationHospital> list = List<LocationHospital>();
 
     list.add(new LocationHospital(40.986429,28.876541, "1", "Emergency1"));
-    list.add(new LocationHospital(40.995109, 28.864500, "2", "Emergency2"));
-    list.add(new LocationHospital(40.989785, 28.852420, "3", "Emergency3"));
-    list.add(new LocationHospital(41.000134, 28.867500, "4", "Emergency4"));
-    list.add(new LocationHospital(41.005151, 28.867222, "5", "Emergency5"));
-    list.add(new LocationHospital(41.014471, 28.863075, "6", "Emergency6"));
-    list.add(new LocationHospital(41.010983, 28.875200, "7", "Emergency7"));
-    list.add(new LocationHospital(41.006207, 28.881124, "8", "Emergency8"));
-    list.add(new LocationHospital(41.001592, 28.871111, "9", "Emergency9"));
-    list.add(new LocationHospital(40.987848, 28.873666, "10", "Emergency10"));
+    
     final bitmapIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(40,45)), 'images/patient.png');
     for (var i = 0; i < list.length; i++) {
       final MarkerId markerId = MarkerId(list[i].id);
