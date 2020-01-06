@@ -150,7 +150,7 @@ class _FireMapState extends State<FireMap> {
                     color: Colors.blue,
                     onPressed: () async {
                       appState.showEmergency(context);
-                    },
+                    }, //ss
                     child: Icon(
                       Icons.accessible_forward,
                       color: Colors.white,
