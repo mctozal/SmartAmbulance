@@ -164,6 +164,7 @@ class MapState with ChangeNotifier {
     list.add(new LocationHospital(41.006207, 28.880256, "8", "Ambulance8"));
     list.add(new LocationHospital(41.001592, 28.870901, "9", "Ambulance9"));
     list.add(new LocationHospital(40.987848, 28.872178, "10", "Ambulance10"));
+  final bitmapIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(40,45)), 'images/ambulance.png');
 
     for (var i = 0; i < list.length; i++) {
       final MarkerId markerId = MarkerId(list[i].id);
@@ -171,7 +172,7 @@ class MapState with ChangeNotifier {
         markerId: markerId,
         visible: true,
         infoWindow: InfoWindow(title: list[i].name),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+        icon: bitmapIcon,
         draggable: false,
         consumeTapEvents: true,
         onTap: () {
@@ -236,14 +237,14 @@ class MapState with ChangeNotifier {
     list.add(new LocationHospital(41.006207, 28.881124, "8", "Emergency8"));
     list.add(new LocationHospital(41.001592, 28.871111, "9", "Emergency9"));
     list.add(new LocationHospital(40.987848, 28.873666, "10", "Emergency10"));
-
+    final bitmapIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(40,45)), 'images/patient.png');
     for (var i = 0; i < list.length; i++) {
       final MarkerId markerId = MarkerId(list[i].id);
       final Marker marker = Marker(
         markerId: markerId,
         visible: true,
         infoWindow: InfoWindow(title: list[i].name),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
+        icon: bitmapIcon,
         draggable: false,
         consumeTapEvents: true,
         onTap: () {
@@ -296,14 +297,14 @@ class MapState with ChangeNotifier {
 
   showHospitals(BuildContext context) async {
     List<LocationHospital> list = await _googleMapsServices.getHospitals();
-
+    final bitmapIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(40,45)), 'images/hospitalicon.png');
     for (var i = 0; i < list.length; i++) {
       final MarkerId markerId = MarkerId(list[i].id);
       final Marker marker = Marker(
         markerId: markerId,
         visible: true,
         infoWindow: InfoWindow(title: list[i].name),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        icon: bitmapIcon,
         draggable: false,
         consumeTapEvents: true,
         onTap: () {

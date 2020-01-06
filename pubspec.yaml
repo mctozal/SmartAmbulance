@@ -59,6 +59,9 @@ flutter:
     - images/aboutus.png
     - images/call.png
     - images/darkmode.png
+    - images/ambulance.png
+    - images/patient.png
+    - images/hospitalicon.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
