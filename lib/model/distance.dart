@@ -1,8 +1,8 @@
 class Distance {
   String destinationAddress;
   String originAddress;
-  String distance;
-  String duration;
+  int distance;
+  int duration;
 
   Distance(this.destinationAddress, this.originAddress, this.distance,
       this.duration);

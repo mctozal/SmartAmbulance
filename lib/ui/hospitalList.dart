@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:smart_ambulance/model/distance.dart';
 import 'package:smart_ambulance/states/hospitalState.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_ambulance/states/mapState.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
- List<Distance> distanceList;
 
 class HospitalUI extends StatelessWidget {
   @override
@@ -32,7 +28,7 @@ class _HospitalListState extends State<HospitalList> {
   @override
   Widget build(BuildContext context) {
     final hospitalState = Provider.of<HospitalState>(context);
-   final mapState = Provider.of<MapState>(context, listen: false);
+    final mapState = Provider.of<MapState>(context, listen: false);
     return hospitalState.list.isNotEmpty
         ? Scaffold(
             body: FutureBuilder(
@@ -42,11 +38,14 @@ class _HospitalListState extends State<HospitalList> {
                       ? ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
-                         
-                             hospitalState.showDistance(mapState.initialPosition);
-                            return ListTile(  
-                              title: distanceList==null ?Text(snapshot.data[index].originAddress+'  duration(sec)'):Text('no distance calculated'),
-                              subtitle: distanceList==null ?Text(snapshot.data[index].destinationAddress):Text('no address calculated'),
+                            hospitalState
+                                .showDistance(mapState.initialPosition);
+                            return ListTile(
+                              title: Text(
+                                  snapshot.data[index].duration.toString() +
+                                      'duration(sec)'),
+                              subtitle: Text(
+                                  snapshot.data[index].distance.toString()),
                             );
                           },
                         )
@@ -59,7 +58,4 @@ class _HospitalListState extends State<HospitalList> {
                 }))
         : Positioned(child: Container());
   }
-
-  
-
 }

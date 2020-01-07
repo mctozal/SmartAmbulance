@@ -20,11 +20,14 @@ class HospitalState with ChangeNotifier {
   }
 
   Future<List<Distance>> showDistance(LatLng l1) async {
-    for(int i =0 ; i<_list.length; i++){
-     Distance item = await _googleMapsServices.getMatrixDistance(
+    for (int i = 0; i < _list.length; i++) {
+      Distance item = await _googleMapsServices.getMatrixDistance(
           l1, LatLng(_list[i].latitude, _list[i].longitude));
-      _listDistance.add(new Distance(item.destinationAddress,item.distance,item.duration,item.originAddress));
+      _listDistance.add(new Distance(item.destinationAddress,
+          item.originAddress, item.distance, item.duration));
+      _listDistance.sort((a, b) => a.duration.compareTo(b.duration));
     }
+
     return _listDistance;
   }
 }

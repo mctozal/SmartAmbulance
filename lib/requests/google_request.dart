@@ -41,7 +41,7 @@ class GoogleMapsServices {
     return Distance(
         data['destination_addresses'].toString(),
         data['origin_addresses'].toString(),
-        data['rows'][0]['elements'][0]['distance']['value'].toString(),
-        data['rows'][0]['elements'][0]['duration']['value'].toString());
+        data['rows'][0]['elements'][0]['distance']['value'],
+        data['rows'][0]['elements'][0]['duration']['value']);
   }
 }

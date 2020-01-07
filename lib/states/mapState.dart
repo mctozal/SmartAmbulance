@@ -131,7 +131,7 @@ class MapState with ChangeNotifier {
         onTap: () {
           showDialog(
               context: context,
-              builder: (_) => AlertDialog(title: Text(distance.duration)));
+              builder: (_) => AlertDialog(title: Text(distance.duration.toString())));
           return;
         },
         icon: BitmapDescriptor.defaultMarker,

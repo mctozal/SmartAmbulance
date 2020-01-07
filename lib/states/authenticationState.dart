@@ -3,9 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/states/crudState.dart';
-import 'package:smart_ambulance/ui/Authentication/signInPage.dart';
-import 'package:smart_ambulance/ui/homepage.dart';
-
 
 class AuthenticationState with ChangeNotifier {
   bool isOnline = true;
