@@ -109,6 +109,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.16"
+  haversine:
+    dependency: "direct dev"
+    description:
+      name: haversine
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   http:
     dependency: "direct dev"
     description:

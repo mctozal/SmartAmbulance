@@ -8,12 +8,22 @@ class HospitalUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-        'Nearby Hospitals',
-        style: TextStyle(
-          fontSize: 16,
+        title: Text(
+          'Nearby Hospitals',
+          style: TextStyle(
+            fontSize: 16,
+          ),
         ),
-      )),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            final hospitalState =
+                Provider.of<HospitalState>(context, listen: false);
+            hospitalState.listDistance.clear();
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
       body: HospitalList(),
     );
   }
@@ -38,14 +48,16 @@ class _HospitalListState extends State<HospitalList> {
                       ? ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
-                            hospitalState
-                                .showDistance(mapState.initialPosition);
                             return ListTile(
                               title: Text(
                                   snapshot.data[index].duration.toString() +
-                                      ' duration(sec)'), 
+                                      ' duration(sec)'),
                               subtitle: Text(
-                                  snapshot.data[index].distance.toString() + ' meter (m)'),
+                                  snapshot.data[index].distance.toString() +
+                                      ' meter (m)'),
+                              onTap: () => hospitalState.showDetailedHospital(
+                                  snapshot.data[index].destinationId,
+                                  context),
                             );
                           },
                         )

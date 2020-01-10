@@ -13,7 +13,7 @@ class GoogleMapsServices {
     Map values = jsonDecode(response.body);
     return values["routes"][0]["overview_polyline"]["points"];
   }
-  
+
 /* Sadece hastane sayımızı ve bilgileri database'e alırken kulanacağız.
   Future<List<HospitalsInfo>> getHospitals() async {
     final String url =
@@ -56,6 +56,7 @@ class GoogleMapsServices {
     return Distance(
         data['destination_addresses'].toString(),
         data['origin_addresses'].toString(),
+        '',
         data['rows'][0]['elements'][0]['distance']['value'],
         data['rows'][0]['elements'][0]['duration']['value']);
   }

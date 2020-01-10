@@ -5,7 +5,6 @@ import 'package:location/location.dart' as locationa;
 import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:smart_ambulance/model/distance.dart';
 import 'package:smart_ambulance/model/hospitalsInfo.dart';
 import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/requests/google_request.dart';
@@ -120,22 +119,17 @@ class MapState with ChangeNotifier {
 
       String route = await _googleMapsServices.getRouteCoordinates(
           _initialPosition, destination);
-      Distance distance = await _googleMapsServices.getMatrixDistance(
-          _initialPosition, destination);
-
+      final bitmapIcon = await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(size: Size(40, 45)), 'images/hospitalicon.png');
       Marker marker2 = Marker(
         markerId: MarkerId("mymarker2"),
         infoWindow: InfoWindow(title: 'Hospital'),
         visible: true,
         draggable: true,
         onTap: () {
-          showDialog(
-              context: context,
-              builder: (_) =>
-                  AlertDialog(title: Text(distance.duration.toString())));
           return;
         },
-        icon: BitmapDescriptor.defaultMarker,
+        icon: bitmapIcon,
         position: destination,
       );
       _markers.add(marker2);
@@ -286,36 +280,9 @@ class MapState with ChangeNotifier {
         icon: bitmapIcon,
         draggable: false,
         consumeTapEvents: true,
-        onTap: () {
-          showDialog(
-              context: context,
-              builder: (_) => AlertDialog(
-                    title: Text(
-                      'Routing',
-                      style: TextStyle(
-                          fontSize: 22.0, fontWeight: FontWeight.w600),
-                    ),
-                    content: Text("Do you want to go to ${list[i].name} ?"),
-                    actions: <Widget>[
-                      Image(
-                        height: 100,
-                        width: 100,
-                        image: AssetImage('images/hospital.png'),
-                      ),
-                      FlatButton(
-                        child: Icon(Icons.close),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                      FlatButton(
-                        child: Icon(Icons.done),
-                        onPressed: () async {
-                          await createRouteToHospital(
-                              LatLng(list[i].latitude, list[i].longitude));
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  ));
+        onTap: () async {
+          await createRouteToHospital(
+              LatLng(list[i].latitude, list[i].longitude));
           return;
         },
         position: LatLng(
@@ -348,36 +315,9 @@ class MapState with ChangeNotifier {
         icon: bitmapIcon,
         draggable: false,
         consumeTapEvents: true,
-        onTap: () {
-          showDialog(
-              context: context,
-              builder: (_) => AlertDialog(
-                    title: Text(
-                      'Routing',
-                      style: TextStyle(
-                          fontSize: 22.0, fontWeight: FontWeight.w600),
-                    ),
-                    content: Text("Do you want to go to ${list[i].name} ?"),
-                    actions: <Widget>[
-                      Image(
-                        height: 100,
-                        width: 100,
-                        image: AssetImage('images/hospital.png'),
-                      ),
-                      FlatButton(
-                        child: Icon(Icons.close),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                      FlatButton(
-                        child: Icon(Icons.done),
-                        onPressed: () async {
-                          await createRouteToHospital(
-                              LatLng(list[i].latitude, list[i].longitude));
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  ));
+        onTap: () async {
+          await createRouteToHospital(
+              LatLng(list[i].latitude, list[i].longitude));
           return;
         },
         position: LatLng(
