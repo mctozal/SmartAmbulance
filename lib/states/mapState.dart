@@ -7,6 +7,7 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_ambulance/model/distance.dart';
 import 'package:smart_ambulance/model/location.dart';
+import 'package:smart_ambulance/model/hospitalsInfo.dart';
 import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/requests/google_request.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -288,7 +289,7 @@ class MapState with ChangeNotifier {
   }
 
   showHospitals(BuildContext context) async {
-    List<LocationHospital> list = await _googleMapsServices.getHospitals();
+    List<HospitalsInfo> list = await _googleMapsServices.getHospitals();    // Databaseden Konumları almak icin olusturuldu
     final bitmapIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(40,45)), 'images/hospitalicon.png');
     for (var i = 0; i < list.length; i++) {
       final MarkerId markerId = MarkerId(list[i].id);

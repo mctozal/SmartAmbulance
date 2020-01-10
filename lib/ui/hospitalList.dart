@@ -43,9 +43,9 @@ class _HospitalListState extends State<HospitalList> {
                             return ListTile(
                               title: Text(
                                   snapshot.data[index].duration.toString() +
-                                      'duration(sec)'),
+                                      ' duration(sec)'), 
                               subtitle: Text(
-                                  snapshot.data[index].distance.toString()),
+                                  snapshot.data[index].distance.toString() + ' meter (m)'),
                             );
                           },
                         )

@@ -17,20 +17,21 @@ class GoogleMapsServices {
     return values["routes"][0]["overview_polyline"]["points"];
   }
 
-  Future<List<LocationHospital>> getHospitals() async {
+  Future<List<HospitalsInfo>> getHospitals() async {
     final String url =
         "https://maps.googleapis.com/maps/api/place/textsearch/json?query=hospitals+in+Turkey&key=$apiKey";
     http.Response response = await http.get(url);
     List data = json.decode(response.body)["results"];
-    var locations = <LocationHospital>[];
+   // var locations = <LocationHospital>[];
     var hospitals = <HospitalsInfo>[];
     CRUDState crudState = new CRUDState();
+    /*
     data.forEach((f) => locations.add(new LocationHospital(
         f["geometry"]["location"]["lat"],
-        f["geometry"]["location"]["lng"],
+        f["geometry"]["location"]["lng"],                   // geri donen bilgi databaseden olmasi icin  turu ve ici degistirildi
         f["id"],
         f["name"])));
-     
+     */
        for(int i=0; i<data.length;i++){
          HospitalsInfo user;
         hospitals.add(user=new HospitalsInfo(
@@ -41,7 +42,7 @@ class GoogleMapsServices {
         crudState.addHospital(user, user.id);
       }
         
-    return locations;
+    return hospitals;
   }
 
   Future<Distance> getMatrixDistance(LatLng l1, LatLng l2) async {

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:smart_ambulance/model/distance.dart';
 import 'package:smart_ambulance/model/location.dart';
+import 'package:smart_ambulance/model/hospitalsInfo.dart';
 import 'package:smart_ambulance/requests/google_request.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HospitalState with ChangeNotifier {
   GoogleMapsServices _googleMapsServices = GoogleMapsServices();
-  List<LocationHospital> _list;
-  List<LocationHospital> get list => _list;
+  List<HospitalsInfo> _list;
+  List<HospitalsInfo> get list => _list;
   List<Distance> _listDistance = List<Distance>();
   List<Distance> get listDistance => _listDistance;
 
@@ -15,7 +16,7 @@ class HospitalState with ChangeNotifier {
     showHospitals();
   }
 
-  Future<List<LocationHospital>> showHospitals() async {
+  Future<List<HospitalsInfo>> showHospitals() async {
     return _list = await _googleMapsServices.getHospitals();
   }
 
