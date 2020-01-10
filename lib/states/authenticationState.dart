@@ -4,7 +4,6 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/states/crudState.dart';
 
-
 class AuthenticationState with ChangeNotifier {
   bool isOnline = true;
   CRUDState crudState = new CRUDState();
@@ -51,20 +50,36 @@ class AuthenticationState with ChangeNotifier {
     }
   }
 
-  Future<bool> signUpWithEmailAndPassword(dynamic context ,TextEditingController name,
-      TextEditingController email,TextEditingController phone, TextEditingController tc, TextEditingController password , TextEditingController ambulancePlate, TextEditingController vehicleLicence , TextEditingController vehicleLicenceDate ) async {
-    try { /*
+  Future<bool> signUpWithEmailAndPassword(
+      dynamic context,
+      TextEditingController name,
+      TextEditingController email,
+      TextEditingController phone,
+      TextEditingController tc,
+      TextEditingController password,
+      TextEditingController ambulancePlate,
+      TextEditingController vehicleLicence,
+      TextEditingController vehicleLicenceDate) async {
+    try {
+      /*
       if(phone.text==null){   DUZELTILECEK 
         print('HATA'); 
-      }*/  
+      }*/
       AuthResult result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-              email: email.text.trim().toLowerCase(), password: password.text );
+              email: email.text.trim().toLowerCase(), password: password.text);
       isOnline = true;
-      addToFirebase(email.text.trim().toLowerCase(), password.text,
-          result.user.uid, name.text ,phone.text ,tc.text ,ambulancePlate.text, vehicleLicence.text, vehicleLicenceDate.text);
+      addToFirebase(
+          email.text.trim().toLowerCase(),
+          password.text,
+          result.user.uid,
+          name.text,
+          phone.text,
+          tc.text,
+          ambulancePlate.text,
+          vehicleLicence.text,
+          vehicleLicenceDate.text);
       print('Signed up: ${result.user.uid}');
-      notifyListeners();
       return true;
     } catch (e) {
       print('Error: $e');
@@ -97,26 +112,22 @@ class AuthenticationState with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addToFirebase(email, password, uid, name , phone ,tc , ambulancePlate ,vehicleLicence, vehicleLicenceDate) async {
+  Future<void> addToFirebase(email, password, uid, name, phone, tc,
+      ambulancePlate, vehicleLicence, vehicleLicenceDate) async {
     User user = new User(
         mail: email,
         isOnline: true,
         name: name,
         password: password,
         role: 'user',
-        uid: uid ,
-        phone:phone,
-        tc :tc ,
+        uid: uid,
+        phone: phone,
+        tc: tc,
         ambulancePlate: ambulancePlate,
         vehicleLicence: vehicleLicence,
         vehicleLicenceDate: vehicleLicenceDate);
     crudState.addProduct(user, uid);
   }
-
-
-
-
-
 
   Future<void> updateFirebase() async {
     if (uid != 'PuFBc2GcqzaLh3gTGK8PryjDVC43' && uid != null) {
@@ -213,4 +224,4 @@ class AuthenticationState with ChangeNotifier {
     }
   }
 
- */ 
+ */
