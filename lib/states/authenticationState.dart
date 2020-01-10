@@ -4,6 +4,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/states/crudState.dart';
 
+
 class AuthenticationState with ChangeNotifier {
   bool isOnline = true;
   CRUDState crudState = new CRUDState();
@@ -111,6 +112,11 @@ class AuthenticationState with ChangeNotifier {
         vehicleLicenceDate: vehicleLicenceDate);
     crudState.addProduct(user, uid);
   }
+
+
+
+
+
 
   Future<void> updateFirebase() async {
     if (uid != 'PuFBc2GcqzaLh3gTGK8PryjDVC43' && uid != null) {

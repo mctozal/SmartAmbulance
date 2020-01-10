@@ -29,7 +29,9 @@ class FirebaseApi {
   Future<DocumentReference> addDocument(Map data, String id) {
     return ref.document(id).setData(data);
   }
-
+    Future<void> addDocument2(Map data, String id) {
+    return ref.document(id).setData(data);   // dongu ile hastane eklemek icin eklendi
+  }
   Future<DocumentReference> updateDocument(Map data, String id) {
     if (data['isOnline'] == null) {
       data.remove('isOnline');

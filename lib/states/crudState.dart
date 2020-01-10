@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/services/FirebaseApi.dart';
+import 'package:smart_ambulance/model/hospitalsInfo.dart';
 
 class CRUDState  {
 
   FirebaseApi _firebaseApi = new FirebaseApi('users');
+   FirebaseApi _firebaseApi2 = new FirebaseApi('hospitalsInfo');
 
   List<User> products;
 
@@ -41,5 +43,11 @@ class CRUDState  {
     return result;
   }
 
+   Future addHospital(HospitalsInfo data,String uid) async{
+    var result  = await _firebaseApi2.addDocument2(data.toMap(),uid);
+    return result;
+  }
+
 
 }
+

@@ -21,4 +21,6 @@ class LocationHospital {
       'id': id,
       'name': name,
     };
+
+    
 }

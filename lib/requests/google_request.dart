@@ -2,8 +2,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:smart_ambulance/model/distance.dart';
 import 'dart:convert';
-
+import 'package:smart_ambulance/states/crudState.dart';
 import 'package:smart_ambulance/model/location.dart';
+import 'package:smart_ambulance/model/hospitalsInfo.dart';
 
 const apiKey = "AIzaSyDjJdyuszYbdiK3eW6OFyx9uyNszjPBlyk";
 
@@ -22,13 +23,24 @@ class GoogleMapsServices {
     http.Response response = await http.get(url);
     List data = json.decode(response.body)["results"];
     var locations = <LocationHospital>[];
-
+    var hospitals = <HospitalsInfo>[];
+    CRUDState crudState = new CRUDState();
     data.forEach((f) => locations.add(new LocationHospital(
         f["geometry"]["location"]["lat"],
         f["geometry"]["location"]["lng"],
         f["id"],
         f["name"])));
-
+     
+       for(int i=0; i<data.length;i++){
+         HospitalsInfo user;
+        hospitals.add(user=new HospitalsInfo(
+        data[i]["geometry"]["location"]["lat"],
+        data[i]["geometry"]["location"]["lng"],
+        data[i]["id"],
+        data[i]["name"]));
+        crudState.addHospital(user, user.id);
+      }
+        
     return locations;
   }
 
