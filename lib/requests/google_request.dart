@@ -2,9 +2,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:smart_ambulance/model/distance.dart';
 import 'dart:convert';
-import 'package:smart_ambulance/states/crudState.dart';
-import 'package:smart_ambulance/model/location.dart';
-import 'package:smart_ambulance/model/hospitalsInfo.dart';
 
 const apiKey = "AIzaSyDjJdyuszYbdiK3eW6OFyx9uyNszjPBlyk";
 
@@ -16,13 +13,14 @@ class GoogleMapsServices {
     Map values = jsonDecode(response.body);
     return values["routes"][0]["overview_polyline"]["points"];
   }
-
+  
+/* Sadece hastane sayımızı ve bilgileri database'e alırken kulanacağız.
   Future<List<HospitalsInfo>> getHospitals() async {
     final String url =
-        "https://maps.googleapis.com/maps/api/place/textsearch/json?query=hospitals+in+Turkey&key=$apiKey";
+        "https://maps.googleapis.com/maps/api/place/textsearch/json?query=devlethastanesi+in+Istanbul&key=$apiKey";
     http.Response response = await http.get(url);
     List data = json.decode(response.body)["results"];
-   // var locations = <LocationHospital>[];
+    // var locations = <LocationHospital>[];
     var hospitals = <HospitalsInfo>[];
     CRUDState crudState = new CRUDState();
     /*
@@ -32,18 +30,22 @@ class GoogleMapsServices {
         f["id"],
         f["name"])));
      */
-       for(int i=0; i<data.length;i++){
-         HospitalsInfo user;
-        hospitals.add(user=new HospitalsInfo(
-        data[i]["geometry"]["location"]["lat"],
-        data[i]["geometry"]["location"]["lng"],
-        data[i]["id"],
-        data[i]["name"]));
-        crudState.addHospital(user, user.id);
-      }
-        
+    for (int i = 0; i < data.length; i++) {
+      HospitalsInfo user;
+      hospitals.add(user = new HospitalsInfo(
+          data[i]["geometry"]["location"]["lat"],
+          data[i]["geometry"]["location"]["lng"],
+          data[i]["id"],
+          data[i]["name"],
+          data[i]["rating"].toString(),
+          data[i]["icon"],
+          data[i]["formatted_address"]));
+      crudState.addHospital(user, user.id);
+    }
+
     return hospitals;
   }
+*/
 
   Future<Distance> getMatrixDistance(LatLng l1, LatLng l2) async {
     final String url =

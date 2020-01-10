@@ -8,14 +8,23 @@ class CRUDState  {
   FirebaseApi _firebaseApi = new FirebaseApi('users');
    FirebaseApi _firebaseApi2 = new FirebaseApi('hospitalsInfo');
 
-  List<User> products;
+  List<User> users;
+  List<HospitalsInfo> hospitals;
 
-  Future<List<User>> fetchProducts() async {
+  Future<List<User>> fetchUsers() async {
     var result = await _firebaseApi.getDataCollection();
-    products = result.documents
+    users = result.documents
         .map((doc) => User.fromMap(doc.data, doc.documentID))
         .toList();
-    return products;
+    return users;
+  }
+
+    Future<List<HospitalsInfo>> fetchHospitals() async {
+    var result = await _firebaseApi2.getDataCollection();
+    hospitals = result.documents
+        .map((doc) => HospitalsInfo.fromMap(doc.data))
+        .toList();
+    return hospitals;
   }
 
   Stream<QuerySnapshot> fetchProductsAsStream() {
@@ -43,8 +52,8 @@ class CRUDState  {
     return result;
   }
 
-   Future addHospital(HospitalsInfo data,String uid) async{
-    var result  = await _firebaseApi2.addDocument2(data.toMap(),uid);
+   Future addHospital(HospitalsInfo data,String id) async{
+    var result  = await _firebaseApi2.addDocument2(data.toMap(),id);
     return result;
   }
 

@@ -6,7 +6,6 @@ import 'package:flutter/widgets.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_ambulance/model/distance.dart';
-import 'package:smart_ambulance/model/location.dart';
 import 'package:smart_ambulance/model/hospitalsInfo.dart';
 import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/requests/google_request.dart';
@@ -132,7 +131,8 @@ class MapState with ChangeNotifier {
         onTap: () {
           showDialog(
               context: context,
-              builder: (_) => AlertDialog(title: Text(distance.duration.toString())));
+              builder: (_) =>
+                  AlertDialog(title: Text(distance.duration.toString())));
           return;
         },
         icon: BitmapDescriptor.defaultMarker,
@@ -153,19 +153,61 @@ class MapState with ChangeNotifier {
   }
 
   showAmbulances(BuildContext context) async {
-    List<LocationHospital> list = List<LocationHospital>();
+    List<HospitalsInfo> list = List<HospitalsInfo>();
 
-    list.add(new LocationHospital(40.996107, 28.866550, "1", "Ambulance1"));
-    list.add(new LocationHospital(40.995109, 28.863828, "2", "Ambulance2"));
-    list.add(new LocationHospital(40.989785, 28.851911, "3", "Ambulance3"));
-    list.add(new LocationHospital(41.000134, 28.866931, "4", "Ambulance4"));
-    list.add(new LocationHospital(41.005151, 28.868954, "5", "Ambulance5"));
-    list.add(new LocationHospital(41.014471, 28.862007, "6", "Ambulance6"));
-    list.add(new LocationHospital(41.010983, 28.876609, "7", "Ambulance7"));
-    list.add(new LocationHospital(41.006207, 28.880256, "8", "Ambulance8"));
-    list.add(new LocationHospital(41.001592, 28.870901, "9", "Ambulance9"));
-    list.add(new LocationHospital(40.987848, 28.872178, "10", "Ambulance10"));
-  final bitmapIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(40,45)), 'images/ambulance.png');
+    list.add(new HospitalsInfo(
+        latitude: 40.996107,
+        longitude: 28.866550,
+        id: "1",
+        name: "Ambulance1"));
+    list.add(new HospitalsInfo(
+        latitude: 40.995109,
+        longitude: 28.863828,
+        id: "2",
+        name: "Ambulance2"));
+    list.add(new HospitalsInfo(
+        latitude: 40.989785,
+        longitude: 28.851911,
+        id: "3",
+        name: "Ambulance3"));
+    list.add(new HospitalsInfo(
+        latitude: 41.000134,
+        longitude: 28.866931,
+        id: "4",
+        name: "Ambulance4"));
+    list.add(new HospitalsInfo(
+        latitude: 41.005151,
+        longitude: 28.868954,
+        id: "5",
+        name: "Ambulance5"));
+    list.add(new HospitalsInfo(
+        latitude: 41.014471,
+        longitude: 28.862007,
+        id: "6",
+        name: "Ambulance6"));
+    list.add(new HospitalsInfo(
+        latitude: 41.010983,
+        longitude: 28.876609,
+        id: "7",
+        name: "Ambulance7"));
+    list.add(new HospitalsInfo(
+        latitude: 41.006207,
+        longitude: 28.880256,
+        id: "8",
+        name: "Ambulance8"));
+    list.add(new HospitalsInfo(
+        latitude: 41.001592,
+        longitude: 28.870901,
+        id: "9",
+        name: "Ambulance9"));
+    list.add(new HospitalsInfo(
+        latitude: 40.987848,
+        longitude: 28.872178,
+        id: "10",
+        name: "Ambulance10"));
+
+    final bitmapIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(40, 45)), 'images/ambulance.png');
 
     for (var i = 0; i < list.length; i++) {
       final MarkerId markerId = MarkerId(list[i].id);
@@ -221,16 +263,20 @@ class MapState with ChangeNotifier {
         )),
       );
     }
-     notifyListeners();
+    notifyListeners();
   }
 
-
   showEmergency(BuildContext context) async {
-    List<LocationHospital> list = List<LocationHospital>();
+    List<HospitalsInfo> list = List<HospitalsInfo>();
 
-    list.add(new LocationHospital(40.986429,28.876541, "1", "Emergency1"));
-    
-    final bitmapIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(40,45)), 'images/patient.png');
+    list.add(new HospitalsInfo(
+        latitude: 40.986429,
+        longitude: 28.876541,
+        id: "1",
+        name: "Emergency1"));
+
+    final bitmapIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(40, 45)), 'images/patient.png');
     for (var i = 0; i < list.length; i++) {
       final MarkerId markerId = MarkerId(list[i].id);
       final Marker marker = Marker(
@@ -285,12 +331,14 @@ class MapState with ChangeNotifier {
         )),
       );
     }
-     notifyListeners();
+    notifyListeners();
   }
 
   showHospitals(BuildContext context) async {
-    List<HospitalsInfo> list = await _googleMapsServices.getHospitals();    // Databaseden Konumları almak icin olusturuldu
-    final bitmapIcon = await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(40,45)), 'images/hospitalicon.png');
+    //   List<HospitalsInfo> list = await _googleMapsServices.getHospitals();    // Databaseden Konumları almak icin olusturuldu
+    List<HospitalsInfo> list = await crudState.fetchHospitals();
+    final bitmapIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(40, 45)), 'images/hospitalicon.png');
     for (var i = 0; i < list.length; i++) {
       final MarkerId markerId = MarkerId(list[i].id);
       final Marker marker = Marker(
