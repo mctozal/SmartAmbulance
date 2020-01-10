@@ -56,6 +56,7 @@ class _TestState extends State<Test2> {
             _newAmbulancePlateController,
             _newVehicleLicenceController,
             _newVehicleLicenceDateController);
+        Navigator.of(context).pop();
       },
     );
   }

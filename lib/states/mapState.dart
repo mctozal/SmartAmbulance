@@ -201,7 +201,7 @@ class MapState with ChangeNotifier {
         name: "Ambulance10"));
 
     final bitmapIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(40, 45)), 'images/ambulance.png');
+        ImageConfiguration(size: Size(100, 100)), 'images/ambulance.png');
 
     for (var i = 0; i < list.length; i++) {
       final MarkerId markerId = MarkerId(list[i].id);
