@@ -12,7 +12,8 @@ class _SettingsUIState extends State<SettingsUI> {
   @override
   Widget build(BuildContext context) {
     final settingState = Provider.of<SettingState>(context);
-    final authenticationState = Provider.of<AuthenticationState>(context,listen: false);
+    final authenticationState =
+        Provider.of<AuthenticationState>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
           title: Text(
@@ -44,13 +45,13 @@ class _SettingsUIState extends State<SettingsUI> {
             title: Text('Creators'),
           ),
           ListTile(
-            leading: CircleAvatar(
-                backgroundImage: AssetImage('images/call.png')),
+            leading:
+                CircleAvatar(backgroundImage: AssetImage('images/call.png')),
             title: Text("Contact"),
           ),
           ListTile(
-            leading: CircleAvatar(
-                backgroundImage: AssetImage('images/aboutus.png')),
+            leading:
+                CircleAvatar(backgroundImage: AssetImage('images/aboutus.png')),
             title: Text("About Us"),
           ),
           ListTile(

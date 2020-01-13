@@ -91,7 +91,7 @@ class _FireMapState extends State<FireMap> {
                 ),
               ),
               Positioned(
-                  top: 130,
+                  top: 90,
                   right: 5,
                   child: FlatButton(
                     shape: RoundedRectangleBorder(
@@ -105,7 +105,7 @@ class _FireMapState extends State<FireMap> {
                     },
                   )),
               Positioned(
-                top: 170,
+                top: 130,
                 right: 5,
                 child: Container(
                   child: RaisedButton(
@@ -123,7 +123,7 @@ class _FireMapState extends State<FireMap> {
                 ),
               ),
               Positioned(
-                top: 210,
+                top: 170,
                 right: 5,
                 child: Container(
                   child: RaisedButton(
