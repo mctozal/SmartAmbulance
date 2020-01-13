@@ -27,6 +27,16 @@ class HospitalState with ChangeNotifier {
     return _list = await crudState.fetchHospitals();
   }
 
+  String hospitalName(id) {
+    String name = '';
+    for (int i = 0; i < _list.length; i++) {
+      if (id == _list[i].id) {
+        name = _list[i].name;
+      }
+    }
+    return name;
+  }
+
   Future<List<Distance>> showDistance(LatLng l1) async {
     for (int i = 0; i < _list.length; i++) {
       double meter = distanceCalculator.calculate(

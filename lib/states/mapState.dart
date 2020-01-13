@@ -266,6 +266,134 @@ class MapState with ChangeNotifier {
     notifyListeners();
   }
 
+  /*
+showAmbulances(BuildContext context) async {
+    List<AmbulanceInfo> list = List<AmbulanceInfo>();
+    AmbulanceInfo ambulance;     
+    list.add(ambulance=new AmbulanceInfo(
+        latitude: 40.985284,
+        longitude: 28.868074,
+        id: "1",
+        name: "Ambulance1"));
+      crudState.addAmbulance(ambulance, ambulance.id);
+         
+    list.add(ambulance=new AmbulanceInfo(
+        latitude: 40.983470,
+        longitude: 28.903078,
+        id: "2",
+        name: "Ambulance2"));
+         crudState.addAmbulance(ambulance, ambulance.aid);
+    list.add(ambulance=new AmbulanceInfo(
+        latitude: 40.996686,
+        longitude: 28.845081,
+        id: "3",
+        name: "Ambulance3"));
+         crudState.addAmbulance(ambulance, ambulance.id);
+    list.add(ambulance=new AmbulanceInfo(
+        latitude: 40.983211,
+        longitude: 28.830668,
+        id: "4",
+        name: "Ambulance4"));
+         crudState.addAmbulance(ambulance, ambulance.id);
+    list.add(ambulance=new AmbulanceInfo(
+        latitude: 41.018190,
+        longitude: 28.874594,
+        id: "5",
+        name: "Ambulance5"));
+         crudState.addAmbulance(ambulance, ambulance.id);
+    list.add(ambulance=new AmbulanceInfo(
+        latitude: 41.021816,
+        longitude: 28.836845,
+        id: "6",
+        name: "Ambulance6"));
+         crudState.addAmbulance(ambulance, ambulance.id);
+    list.add(ambulance=new AmbulanceInfo(
+        latitude: 41.011714,
+        longitude: 28.917142,
+        id: "7",
+        name: "Ambulance7"));
+         crudState.addAmbulance(ambulance, ambulance.id);
+    list.add(ambulance=new AmbulanceInfo(
+        latitude: 41.029846,
+        longitude: 28.861548,
+        id: "8",
+        name: "Ambulance8"));
+         crudState.addAmbulance(ambulance, ambulance.id);
+    list.add(ambulance=new AmbulanceInfo(
+        latitude: 41.022853,
+        longitude: 28.911651,
+        id: "9",
+        name: "Ambulance9"));
+         crudState.addAmbulance(ambulance, ambulance.id);
+    list.add(ambulance=new AmbulanceInfo(
+        latitude: 41.026220,
+        longitude: 28.938762,
+        id: "10",
+        name: "Ambulance10"));
+        crudState.addAmbulance(ambulance, ambulance.id);
+
+    final bitmapIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(100, 100)), 'images/ambulance.png');
+
+    for (var i = 0; i < list.length; i++) {
+      final MarkerId markerId = MarkerId(list[i].id);
+      final Marker marker = Marker(
+        markerId: markerId,
+        visible: true,
+        infoWindow: InfoWindow(title: list[i].name),
+        icon: bitmapIcon,
+        draggable: false,
+        consumeTapEvents: true,
+        onTap: () {
+          showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                    title: Text(
+                      'Routing',
+                      style: TextStyle(
+                          fontSize: 22.0, fontWeight: FontWeight.w600),
+                    ),
+                    content: Text("Do you want to go to ${list[i].name} ?"),
+                    actions: <Widget>[
+                      Image(
+                        height: 100,
+                        width: 100,
+                        image: AssetImage('images/hospital.png'),
+                      ),
+                      FlatButton(
+                        child: Icon(Icons.close),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      FlatButton(
+                        child: Icon(Icons.done),
+                        onPressed: () async {
+                          await createRouteToHospital(
+                              LatLng(list[i].latitude, list[i].longitude));
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ));
+          return;
+        },
+        position: LatLng(
+          list[i].latitude,
+          list[i].longitude,
+        ),
+      );
+      _markers.add(marker);
+      _mapController.animateCamera(
+        CameraUpdate.newCameraPosition(CameraPosition(
+          target: LatLng(_initialPosition.latitude, _initialPosition.longitude),
+          zoom: 12.0,
+        )),
+      );
+    }
+    notifyListeners();
+  }
+
+*/
+
   showEmergency(BuildContext context) async {
     List<HospitalsInfo> list = List<HospitalsInfo>();
 
