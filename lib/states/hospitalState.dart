@@ -8,6 +8,7 @@ import 'package:smart_ambulance/src/distanceCalculator.dart';
 import 'package:smart_ambulance/states/crudState.dart';
 import 'package:smart_ambulance/states/mapState.dart';
 import 'package:smart_ambulance/ui/firemap.dart';
+import 'package:smart_ambulance/ui/homepage.dart';
 
 class HospitalState with ChangeNotifier {
   GoogleMapsServices _googleMapsServices = GoogleMapsServices();

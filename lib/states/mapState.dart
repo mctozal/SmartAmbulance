@@ -40,6 +40,7 @@ class MapState with ChangeNotifier {
   Set<Polyline> get polyLines => _polyLines;
   Firestore fireStore = Firestore.instance;
   Geoflutterfire geo = Geoflutterfire();
+  String uid;
 
   MapState() {
     getUserLocation();
@@ -48,11 +49,16 @@ class MapState with ChangeNotifier {
   getUserLocation() async {
     var pos = await location.getLocation();
     _initialPosition = LatLng(pos.latitude, pos.longitude);
+
     notifyListeners();
   }
 
   onMapCreated(GoogleMapController controller) {
+    BuildContext context;
     _mapController = controller;
+    
+    addMarker();
+    showHospitals(context);
     notifyListeners();
   }
 

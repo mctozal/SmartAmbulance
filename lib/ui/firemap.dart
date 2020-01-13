@@ -26,7 +26,7 @@ class _FireMapState extends State<FireMap> {
   @override
   Widget build(BuildContext context) {
     final appState = Provider.of<MapState>(context);
-   return appState.initialPosition == null
+    return appState.initialPosition == null
         ? Container(
             alignment: Alignment.center,
             child: Center(
@@ -36,8 +36,8 @@ class _FireMapState extends State<FireMap> {
         : Stack(
             children: <Widget>[
               GoogleMap(
-                initialCameraPosition: CameraPosition(
-                    target: LatLng(40.990178, 28.8233053), zoom: 15),
+                initialCameraPosition:
+                    CameraPosition(target: appState.initialPosition, zoom: 15),
                 onMapCreated: appState.onMapCreated,
                 trafficEnabled: traffic,
                 myLocationButtonEnabled: true,
@@ -63,7 +63,7 @@ class _FireMapState extends State<FireMap> {
                           mode: Mode.overlay,
                           context: context,
                           apiKey: appState.apiKey);
-                      appState.sendRequest(prediction,context);
+                      appState.sendRequest(prediction, context);
                     },
                     child: Icon(Icons.search),
                   ),
@@ -91,24 +91,6 @@ class _FireMapState extends State<FireMap> {
                 ),
               ),
               Positioned(
-                top: 90,
-                right: 5,
-                child: Container(
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(100.0)),
-                    color: Colors.blue,
-                    onPressed: () async {
-                      appState.showHospitals(context);
-                    },
-                    child: Icon(
-                      Icons.local_hospital,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
                   top: 130,
                   right: 5,
                   child: FlatButton(
@@ -119,7 +101,7 @@ class _FireMapState extends State<FireMap> {
                     onPressed: () {
                       final authenticationState =
                           Provider.of<AuthenticationState>(context);
-                     appState.addGeoPoint(authenticationState.uids);
+                      appState.addGeoPoint(authenticationState.uids);
                     },
                   )),
               Positioned(
