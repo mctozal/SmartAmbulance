@@ -156,53 +156,53 @@ class MapState with ChangeNotifier {
     List<HospitalsInfo> list = List<HospitalsInfo>();
 
     list.add(new HospitalsInfo(
-        latitude: 40.996107,
-        longitude: 28.866550,
+        latitude: 40.985284,
+        longitude: 28.868074,
         id: "1",
-        name: "Ambulance1"));
+        name: "Ambulance1")); 
     list.add(new HospitalsInfo(
-        latitude: 40.995109,
-        longitude: 28.863828,
+        latitude: 40.983470,
+        longitude: 28.903078,
         id: "2",
         name: "Ambulance2"));
     list.add(new HospitalsInfo(
-        latitude: 40.989785,
-        longitude: 28.851911,
+        latitude: 40.996686,
+        longitude: 28.845081,
         id: "3",
         name: "Ambulance3"));
     list.add(new HospitalsInfo(
-        latitude: 41.000134,
-        longitude: 28.866931,
+        latitude: 40.983211,
+        longitude: 28.830668,
         id: "4",
         name: "Ambulance4"));
     list.add(new HospitalsInfo(
-        latitude: 41.005151,
-        longitude: 28.868954,
+        latitude: 41.018190,
+        longitude: 28.874594,
         id: "5",
         name: "Ambulance5"));
     list.add(new HospitalsInfo(
-        latitude: 41.014471,
-        longitude: 28.862007,
+        latitude: 41.021816,
+        longitude: 28.836845,
         id: "6",
         name: "Ambulance6"));
     list.add(new HospitalsInfo(
-        latitude: 41.010983,
-        longitude: 28.876609,
+        latitude: 41.011714,
+        longitude: 28.917142,
         id: "7",
         name: "Ambulance7"));
     list.add(new HospitalsInfo(
-        latitude: 41.006207,
-        longitude: 28.880256,
+        latitude: 41.029846,
+        longitude: 28.861548,
         id: "8",
         name: "Ambulance8"));
     list.add(new HospitalsInfo(
-        latitude: 41.001592,
-        longitude: 28.870901,
+        latitude: 41.022853,
+        longitude: 28.911651,
         id: "9",
         name: "Ambulance9"));
     list.add(new HospitalsInfo(
-        latitude: 40.987848,
-        longitude: 28.872178,
+        latitude: 41.026220,
+        longitude: 28.938762,
         id: "10",
         name: "Ambulance10"));
 
@@ -270,8 +270,8 @@ class MapState with ChangeNotifier {
     List<HospitalsInfo> list = List<HospitalsInfo>();
 
     list.add(new HospitalsInfo(
-        latitude: 40.986429,
-        longitude: 28.876541,
+        latitude: 41.009123,
+        longitude: 28.899298,
         id: "1",
         name: "Emergency1"));
 
