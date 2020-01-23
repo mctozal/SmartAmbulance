@@ -3,6 +3,7 @@ import 'package:smart_ambulance/states/hospitalState.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_ambulance/states/mapState.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 
 class HospitalUI extends StatelessWidget {
   @override
@@ -31,11 +32,9 @@ class HospitalUI extends StatelessWidget {
 //aa
 }
 
-
 class HospitalList extends StatefulWidget {
   @override
   _HospitalListState createState() => _HospitalListState();
-  
 }
 
 class _HospitalListState extends State<HospitalList> {
@@ -46,7 +45,7 @@ class _HospitalListState extends State<HospitalList> {
     return hospitalState.list.isNotEmpty
         ? Scaffold(
             body: FutureBuilder(
-                future: hospitalState.showDistance(mapState.initialPosition), 
+                future: hospitalState.showDistance(mapState.initialPosition),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   return snapshot.hasData == true
                       ? ListView.builder(
@@ -97,41 +96,59 @@ class _HospitalListState extends State<HospitalList> {
                                           Wrap(
                                             spacing: 2.0,
                                             runSpacing: 5.0,
-                                            children: <Widget>[  
+                                            children: <Widget>[
                                               IconButton(
-                                            icon: Icon(Icons.local_hospital),
-                                            onPressed: () => showDialog(context: context,builder: (context){
-                                              return Dialog(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                                              elevation: 16,
-                                              child: Container(height: 300.0,
-                                              width: 360.0,
-                                              child: ListView(children: <Widget>[
-                                                SizedBox(height: 20,),
-                                                Center(child: Text(
-                                                '\t\t Information Of Hospital\n\nSurger Availability : '+
-                                                  hospitalState.surgeryRoom(
-                                                      snapshot.data[index].destinationId)+'\n\n'+
-                                                      'Doctor Availability : '+
-                                                  hospitalState.availableDoctors(snapshot.data[index].destinationId)+'\n\n'+
-                                                     'Emergency Availability : '+
-                                                      hospitalState.emergency(snapshot.data[index].destinationId),                                     
-                                                style: TextStyle(fontSize: 18, color: Colors.blue, fontWeight: FontWeight.bold),)
-                                                ,)
-                                                ],)
-                                                ,)
-                                               ,);
-                                            })  
-                                          ),
-                                          IconButton(
-                                            icon: Icon(Icons.phone),
-                                            onPressed: () => _callPhone(hospitalState.phone(snapshot.data[index].destinationId)),
-                                          ),
+                                                  icon: Icon(
+                                                      Icons.local_hospital),
+                                                  onPressed: () => showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return NetworkGiffyDialog(
+                                                          image: Image.asset(
+                                                              "images/hospitaldialog.png"),
+                                                          title: Text(
+                                                              'Information Of Hospital \nSurger Availability : ' +
+                                                                  hospitalState
+                                                                      .surgeryRoom(snapshot
+                                                                          .data[
+                                                                              index]
+                                                                          .destinationId),
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black)),
+                                                          description: Text('Doctor Availability : ' +
+                                                              hospitalState
+                                                                  .availableDoctors(snapshot
+                                                                      .data[
+                                                                          index]
+                                                                      .destinationId) +
+                                                              '\n' +
+                                                              'Emergency Availability : ' +
+                                                              hospitalState
+                                                                  .emergency(snapshot
+                                                                      .data[
+                                                                          index]
+                                                                      .destinationId)),
+                                                          onlyOkButton: true,
+                                                          onOkButtonPressed:
+                                                              () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                        );
+                                                      })),
+                                              IconButton(
+                                                icon: Icon(Icons.phone),
+                                                onPressed: () => _callPhone(
+                                                    hospitalState.phone(snapshot
+                                                        .data[index]
+                                                        .destinationId)),
+                                              ),
                                               Text(
                                                   '${snapshot.data[index].destinationAddress}'),
                                             ],
-                                            
                                           ),
-                                         
                                         ],
                                       ),
                                     ),
@@ -143,9 +160,9 @@ class _HospitalListState extends State<HospitalList> {
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 40.0, vertical: 10.0),
                                       child: Column(
-                                        children: <Widget>[ 
+                                        children: <Widget>[
                                           Text(
-                                             '${snapshot.data[index].duration} sec',
+                                            '${snapshot.data[index].duration} sec',
                                             style: TextStyle(
                                                 fontSize: 14.0,
                                                 fontWeight: FontWeight.bold),
@@ -190,11 +207,10 @@ class _HospitalListState extends State<HospitalList> {
   }
 }
 
-
-  _callPhone(String phone) async {
-    if (await canLaunch(phone)) {
-      await launch(phone);
-    } else {
-      throw 'Could not Call Phone';
-    }
+_callPhone(String phone) async {
+  if (await canLaunch(phone)) {
+    await launch(phone);
+  } else {
+    throw 'Could not Call Phone';
   }
+}
