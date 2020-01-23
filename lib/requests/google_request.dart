@@ -3,6 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:smart_ambulance/model/distance.dart';
 import 'dart:convert';
 
+import 'package:smart_ambulance/model/hospitalsInfo.dart';
+import 'package:smart_ambulance/states/crudState.dart';
+
 const apiKey = "AIzaSyDjJdyuszYbdiK3eW6OFyx9uyNszjPBlyk";
 
 class GoogleMapsServices {
@@ -17,7 +20,7 @@ class GoogleMapsServices {
 /* Sadece hastane sayımızı ve bilgileri database'e alırken kulanacağız.
   Future<List<HospitalsInfo>> getHospitals() async {
     final String url =
-        "https://maps.googleapis.com/maps/api/place/textsearch/json?query=devlethastanesi+in+Istanbul&key=$apiKey";
+        "https://maps.googleapis.com/maps/api/place/textsearch/json?query=hospital+in+Istanbul&key=$apiKey";
     http.Response response = await http.get(url);
     List data = json.decode(response.body)["results"];
     // var locations = <LocationHospital>[];
@@ -33,13 +36,18 @@ class GoogleMapsServices {
     for (int i = 0; i < data.length; i++) {
       HospitalsInfo user;
       hospitals.add(user = new HospitalsInfo(
-          data[i]["geometry"]["location"]["lat"],
-          data[i]["geometry"]["location"]["lng"],
-          data[i]["id"],
-          data[i]["name"],
-          data[i]["rating"].toString(),
-          data[i]["icon"],
-          data[i]["formatted_address"]));
+          latitude:data[i]["geometry"]["location"]["lat"],
+          longitude:data[i]["geometry"]["location"]["lng"],
+          id:data[i]["id"],
+          name:data[i]["name"],
+          rating:data[i]["rating"].toString(),
+          icon:data[i]["icon"],
+          formatted_address:data[i]["formatted_address"],
+          surgeryRoom:'Not Available',
+          availableDoctors:'Available',
+          emergency:'available',
+          phone:'tel:(0212)5232288',
+          ));
       crudState.addHospital(user, user.id);
     }
 

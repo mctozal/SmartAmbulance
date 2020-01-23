@@ -67,6 +67,12 @@ class HospitalsInfo {
       'rating': rating,
       'icon': icon,
       'formatted_address': formatted_address,
+      'surgeryRoom':surgeryRoom,
+      'availableDoctors':availableDoctors,
+      'emergency':emergency,
+      'phone':phone,
+
+
     };
   }
 
@@ -81,6 +87,11 @@ class HospitalsInfo {
       rating: map['rating'],
       icon: map['icon'],
       formatted_address: map['formatted_address'],
+      surgeryRoom: map['surgeryRoom'],
+      availableDoctors:map['availableDoctors'],
+      emergency:map['emergency'],
+      phone: map['phone'],
+
     );
   }
 
@@ -90,7 +101,7 @@ class HospitalsInfo {
 
   @override
   String toString() {
-    return 'HospitalsInfo latitude: $latitude, longitude: $longitude, id: $id, name: $name, rating: $rating, icon: $icon, formatted_address: $formatted_address';
+    return 'HospitalsInfo latitude: $latitude, longitude: $longitude, id: $id, name: $name, rating: $rating, icon: $icon, formatted_address: $formatted_address , surgeryRoom:$surgeryRoom , availableDoctors:$availableDoctors ,emergency:$emergency , phone:$phone ';
   }
 
   @override
@@ -104,7 +115,11 @@ class HospitalsInfo {
         o.name == name &&
         o.rating == rating &&
         o.icon == icon &&
-        o.formatted_address == formatted_address;
+        o.formatted_address == formatted_address&&
+        o.surgeryRoom == surgeryRoom &&
+        o.availableDoctors == availableDoctors &&
+        o.emergency == emergency &&
+        o.phone == phone;
   }
 
   @override
@@ -115,6 +130,10 @@ class HospitalsInfo {
         name.hashCode ^
         rating.hashCode ^
         icon.hashCode ^
-        formatted_address.hashCode;
+        formatted_address.hashCode ^
+        surgeryRoom.hashCode  ^
+        availableDoctors.hashCode ^
+        emergency.hashCode ^
+        phone.hashCode; 
   }
 }

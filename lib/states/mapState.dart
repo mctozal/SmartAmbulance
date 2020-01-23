@@ -436,7 +436,7 @@ showAmbulances(BuildContext context) async {
   }
 
   showHospitals(BuildContext context) async {
-    //   List<HospitalsInfo> list = await _googleMapsServices.getHospitals();    // Databaseden Konumları almak icin olusturuldu
+     //  List<HospitalsInfo> list = await _googleMapsServices.getHospitals();    // Databaseden Konumları almak icin olusturuldu
     List<HospitalsInfo> list = await crudState.fetchHospitals();
     final bitmapIcon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(40, 45)), 'images/hospitalicon.png');
