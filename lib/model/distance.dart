@@ -1,10 +1,13 @@
 
+
 class Distance {
   String destinationAddress;
   String originAddress;
   String destinationId;
   int distance;
   int duration;
+
+   
 
   Distance(this.destinationAddress, this.originAddress,this.destinationId, this.distance,
       this.duration);
@@ -23,3 +26,5 @@ class Distance {
         'duration': duration,
       };
 }
+
+

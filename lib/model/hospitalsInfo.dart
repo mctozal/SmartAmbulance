@@ -8,6 +8,10 @@ class HospitalsInfo {
   String rating;
   String icon;
   String formatted_address;
+  String surgeryRoom;
+  String availableDoctors;
+  String emergency;
+  String phone;
 
   HospitalsInfo({
     this.latitude,
@@ -17,6 +21,12 @@ class HospitalsInfo {
     this.rating,
     this.icon,
     this.formatted_address,
+    this.surgeryRoom="Available",
+    this.availableDoctors="Not Available",
+    this.emergency="Available",
+    this.phone='tel:(0212)5232288',
+    
+    
   });
 
   HospitalsInfo copyWith({
@@ -27,6 +37,10 @@ class HospitalsInfo {
     String rating,
     String icon,
     String formatted_address,
+    String surgeryRoom,
+    String availableDoctors,
+    String emergency,
+    String phone,
   }) {
     return HospitalsInfo(
       latitude: latitude ?? this.latitude,
@@ -36,6 +50,11 @@ class HospitalsInfo {
       rating: rating ?? this.rating,
       icon: icon ?? this.icon,
       formatted_address: formatted_address ?? this.formatted_address,
+      surgeryRoom: surgeryRoom ?? this.surgeryRoom,
+      availableDoctors: availableDoctors ?? this.availableDoctors,
+      emergency:emergency ?? this.emergency,
+      phone: phone ?? this.phone,
+
     );
   }
 

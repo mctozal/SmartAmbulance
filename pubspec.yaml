@@ -42,6 +42,7 @@ dev_dependencies:
   rflutter_alert: ^1.0.3
   multi_page_form:
   haversine: ^1.0.2
+  url_launcher: ^4.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
