@@ -37,52 +37,64 @@ class HospitalState with ChangeNotifier {
     return name;
   }
 
-String surgeryRoom(String id){
-    String surgeryRoom ;
+  LatLng destinationLatLng(id) {
+    LatLng location;
     for (int i = 0; i < _list.length; i++) {
       if (id == _list[i].id) {
-        surgeryRoom=_list[i].surgeryRoom;
+        location = LatLng(_list[i].latitude, _list[i].longitude);
+      }
+    }
+    return location;
+  }
+
+  String surgeryRoom(String id) {
+    String surgeryRoom;
+    for (int i = 0; i < _list.length; i++) {
+      if (id == _list[i].id) {
+        surgeryRoom = _list[i].surgeryRoom;
       }
     }
     return surgeryRoom;
-}
+  }
 
-
-String availableDoctors(String id){
-    String availableDoctors ;
+  String availableDoctors(String id) {
+    String availableDoctors;
     for (int i = 0; i < _list.length; i++) {
       if (id == _list[i].id) {
-        availableDoctors=_list[i].availableDoctors;
+        availableDoctors = _list[i].availableDoctors;
       }
     }
     return availableDoctors;
-}
+  }
 
-String emergency(String id){
-    String emergency ;
+  String emergency(String id) {
+    String emergency;
     for (int i = 0; i < _list.length; i++) {
       if (id == _list[i].id) {
-        emergency=_list[i].emergency;
+        emergency = _list[i].emergency;
       }
     }
     return emergency;
-}
-String phone(String id){
-    String phone ;
+  }
+
+  String phone(String id) {
+    String phone;
     for (int i = 0; i < _list.length; i++) {
       if (id == _list[i].id) {
-        phone=_list[i].phone;
+        phone = _list[i].phone;
       }
     }
     return phone;
-}
+  }
 
-
-
-  Future<List<Distance>> showDistance(LatLng l1) async { 
+  Future<List<Distance>> showDistance(LatLng l1) async {
     for (int i = 0; i < _list.length; i++) {
       double meter = distanceCalculator.calculate(
-          l1.latitude, l1.longitude, _list[i].latitude, _list[i].longitude,);
+        l1.latitude,
+        l1.longitude,
+        _list[i].latitude,
+        _list[i].longitude,
+      );
       if (meter < 5000) {
         Distance item = await _googleMapsServices.getMatrixDistance(
             l1, LatLng(_list[i].latitude, _list[i].longitude));

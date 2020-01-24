@@ -6,7 +6,6 @@ import 'package:smart_ambulance/states/authenticationState.dart';
 import 'package:smart_ambulance/states/mapState.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:smart_ambulance/requests/google_request.dart';
 
 class FireMap extends StatefulWidget {
   @override

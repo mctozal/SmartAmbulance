@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_ambulance/states/mapState.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HospitalUI extends StatelessWidget {
   @override
@@ -175,13 +176,18 @@ class _HospitalListState extends State<HospitalList> {
                                                 color: Colors.grey),
                                           ),
                                           IconButton(
-                                            icon: Icon(Icons.directions),
-                                            onPressed: () => hospitalState
-                                                .showDetailedHospital(
-                                                    snapshot.data[index]
-                                                        .destinationId,
-                                                    context),
-                                          )
+                                              icon: Icon(Icons.directions),
+                                              onPressed: () {
+                                                LatLng locationDestination =
+                                                    hospitalState
+                                                        .destinationLatLng(
+                                                            snapshot.data[index]
+                                                                .destinationId);
+                                                final url =
+                                                    //'https://www.google.com/maps/dir/?api=1&origin=${snapshot.data[index].originAddress}&destination=${snapshot.data[index].destinationAddress}&travelmode=driving';
+                                                    'https://www.google.com/maps/dir/?api=1&origin=${mapState.initialPosition.latitude},${mapState.initialPosition.longitude}&destination=${snapshot.data[index].destinationAddress},&travelmode=driving';
+                                                _launchURL(url);
+                                              })
                                         ],
                                       ),
                                       decoration: BoxDecoration(
@@ -212,5 +218,13 @@ _callPhone(String phone) async {
     await launch(phone);
   } else {
     throw 'Could not Call Phone';
+  }
+}
+
+_launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }
