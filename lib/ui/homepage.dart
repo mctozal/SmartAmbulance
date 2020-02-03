@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FilterUI()),
+                  MaterialPageRoute(builder: (context) => HospitalUI()),
                 );
               },
             ),

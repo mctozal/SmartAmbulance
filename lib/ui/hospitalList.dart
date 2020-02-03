@@ -28,7 +28,7 @@ class HospitalUI extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
-        actions: <Widget>[
+       /* actions: <Widget>[
           IconButton(
             icon: Icon(Icons.filter_list),
             onPressed: (){ 
@@ -38,7 +38,7 @@ class HospitalUI extends StatelessWidget {
                 );
                                         
             },)
-            ],
+            ],*/
       ),
       body: HospitalList(),
     );
@@ -58,7 +58,8 @@ class _HospitalListState extends State<HospitalList> {
     return hospitalState.list.isNotEmpty
         ? Scaffold(
             body: FutureBuilder(
-                future: hospitalState.showDistance(mapState.initialPosition,distance: 1000,doctorAvailable: doctorAvailable,roomAvailable: roomAvailable),
+            //    future: hospitalState.showDistance(mapState.initialPosition,distance: 1000,doctorAvailable: doctorAvailable,roomAvailable: roomAvailable),
+             future: hospitalState.showDistance(mapState.initialPosition),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   return snapshot.hasData == true
                       ? ListView.builder(

@@ -90,7 +90,7 @@ class HospitalState with ChangeNotifier {
   }
 
 
-  Future<List<Distance>> showDistance(LatLng l1 ,{double distance=5000 ,  String doctorAvailable='Available' , String roomAvailable='Not Available'} ) async {
+  Future<List<Distance>> showDistance(LatLng l1  ) async {
     for (int i = 0; i < _list.length; i++) {
       double meter = distanceCalculator.calculate(
         l1.latitude,
@@ -98,11 +98,11 @@ class HospitalState with ChangeNotifier {
         _list[i].latitude,
         _list[i].longitude,
       );  
-      String doctors=_list[i].availableDoctors;
-      String rooms=_list[i].surgeryRoom;
+     // String doctors=_list[i].availableDoctors;
+      //String rooms=_list[i].surgeryRoom;
       
            
-      if (meter < distance && doctors == doctorAvailable && rooms==roomAvailable) {
+      if (meter < 5000 ) {
         Distance item = await _googleMapsServices.getMatrixDistance(
             l1, LatLng(_list[i].latitude, _list[i].longitude));
         _listDistance.add(new Distance(item.destinationAddress,
