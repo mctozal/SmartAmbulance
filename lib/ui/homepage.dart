@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_ambulance/ui/hospitalList.dart';
+import 'package:smart_ambulance/ui/filter.dart';
 import 'firemap.dart';
 import 'settings.dart';
 
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HospitalUI()),
+                  MaterialPageRoute(builder: (context) => FilterUI()),
                 );
               },
             ),

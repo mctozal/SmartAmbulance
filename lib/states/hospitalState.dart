@@ -9,6 +9,7 @@ import 'package:smart_ambulance/states/crudState.dart';
 import 'package:smart_ambulance/states/mapState.dart';
 import 'package:smart_ambulance/ui/firemap.dart';
 
+
 class HospitalState with ChangeNotifier {
   GoogleMapsServices _googleMapsServices = GoogleMapsServices();
   DistanceCalculator distanceCalculator = new DistanceCalculator();
@@ -18,6 +19,7 @@ class HospitalState with ChangeNotifier {
   List<Distance> _listDistance = List<Distance>();
   List<Distance> get listDistance => _listDistance;
   List<Distance> get listDistanceCalculated => _listDistance;
+
 
   HospitalState() {
     showHospitals();
@@ -87,21 +89,27 @@ class HospitalState with ChangeNotifier {
     return phone;
   }
 
-  Future<List<Distance>> showDistance(LatLng l1) async {
+
+  Future<List<Distance>> showDistance(LatLng l1 ,{double distance=5000 ,  String doctorAvailable='Available' , String roomAvailable='Not Available'} ) async {
     for (int i = 0; i < _list.length; i++) {
       double meter = distanceCalculator.calculate(
         l1.latitude,
         l1.longitude,
         _list[i].latitude,
         _list[i].longitude,
-      );
-      if (meter < 5000) {
+      );  
+      String doctors=_list[i].availableDoctors;
+      String rooms=_list[i].surgeryRoom;
+      
+           
+      if (meter < distance && doctors == doctorAvailable && rooms==roomAvailable) {
         Distance item = await _googleMapsServices.getMatrixDistance(
             l1, LatLng(_list[i].latitude, _list[i].longitude));
         _listDistance.add(new Distance(item.destinationAddress,
             item.originAddress, _list[i].id, item.distance, item.duration));
-        _listDistance.sort((a, b) => a.duration.compareTo(b.duration));
+        _listDistance.sort((a, b) => a.duration.compareTo(b.duration));  
       }
+      
     }
     return _listDistance;
   }
@@ -146,3 +154,4 @@ class HospitalState with ChangeNotifier {
     return;
   }
 }
+
