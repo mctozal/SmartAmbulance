@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smart_ambulance/ui/filter.dart';
-  
+
 class HospitalUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -22,13 +22,10 @@ class HospitalUI extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            final hospitalState =
-                Provider.of<HospitalState>(context, listen: false);
-            hospitalState.listDistance.clear();
             Navigator.of(context).pop();
           },
         ),
-       /* actions: <Widget>[
+        /* actions: <Widget>[
           IconButton(
             icon: Icon(Icons.filter_list),
             onPressed: (){ 
@@ -50,6 +47,7 @@ class HospitalList extends StatefulWidget {
   @override
   _HospitalListState createState() => _HospitalListState();
 }
+
 class _HospitalListState extends State<HospitalList> {
   @override
   Widget build(BuildContext context) {
@@ -58,8 +56,8 @@ class _HospitalListState extends State<HospitalList> {
     return hospitalState.list.isNotEmpty
         ? Scaffold(
             body: FutureBuilder(
-            //    future: hospitalState.showDistance(mapState.initialPosition,distance: 1000,doctorAvailable: doctorAvailable,roomAvailable: roomAvailable),
-             future: hospitalState.showDistance(mapState.initialPosition),
+                //    future: hospitalState.showDistance(mapState.initialPosition,distance: 1000,doctorAvailable: doctorAvailable,roomAvailable: roomAvailable),
+                future: hospitalState.showDistance(mapState.initialPosition),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   return snapshot.hasData == true
                       ? ListView.builder(
@@ -121,7 +119,7 @@ class _HospitalListState extends State<HospitalList> {
                                                           image: Image.asset(
                                                               "images/hospitaldialog.png"),
                                                           title: Text(
-                                                              'Information Of Hospital \nSurger Availability : ' + 
+                                                              'Information Of Hospital \nSurger Availability : ' +
                                                                   hospitalState
                                                                       .surgeryRoom(snapshot
                                                                           .data[

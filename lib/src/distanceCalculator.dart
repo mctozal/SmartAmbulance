@@ -7,9 +7,6 @@ class DistanceCalculator {
         longitude1: sourceLon,
         latitude2: destLat,
         longitude2: destLon);
-
-    print('Distance from location 1 to 2 is : ${harvesine.distance()}');
-
     // meter = 422591.551
     // final int meter = distance(source, destination);
     return harvesine.distance();

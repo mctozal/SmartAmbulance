@@ -9,7 +9,6 @@ import 'package:smart_ambulance/states/crudState.dart';
 import 'package:smart_ambulance/states/mapState.dart';
 import 'package:smart_ambulance/ui/firemap.dart';
 
-
 class HospitalState with ChangeNotifier {
   GoogleMapsServices _googleMapsServices = GoogleMapsServices();
   DistanceCalculator distanceCalculator = new DistanceCalculator();
@@ -20,10 +19,7 @@ class HospitalState with ChangeNotifier {
   List<Distance> get listDistance => _listDistance;
   List<Distance> get listDistanceCalculated => _listDistance;
 
-
-  HospitalState() {
-    showHospitals();
-  }
+  HospitalState() {}
 
   Future<List<HospitalsInfo>> showHospitals() async {
     return _list = await crudState.fetchHospitals();
@@ -89,27 +85,26 @@ class HospitalState with ChangeNotifier {
     return phone;
   }
 
+  Future<List<Distance>> showDistance(LatLng l1) async {
+    if (_listDistance.isEmpty) {
+      for (int i = 0; i < _list.length; i++) {
+        double meter = distanceCalculator.calculate(
+          l1.latitude,
+          l1.longitude,
+          _list[i].latitude,
+          _list[i].longitude,
+        );
+        // String doctors=_list[i].availableDoctors;
+        //String rooms=_list[i].surgeryRoom;
 
-  Future<List<Distance>> showDistance(LatLng l1  ) async {
-    for (int i = 0; i < _list.length; i++) {
-      double meter = distanceCalculator.calculate(
-        l1.latitude,
-        l1.longitude,
-        _list[i].latitude,
-        _list[i].longitude,
-      );  
-     // String doctors=_list[i].availableDoctors;
-      //String rooms=_list[i].surgeryRoom;
-      
-           
-      if (meter < 5000 ) {
-        Distance item = await _googleMapsServices.getMatrixDistance(
-            l1, LatLng(_list[i].latitude, _list[i].longitude));
-        _listDistance.add(new Distance(item.destinationAddress,
-            item.originAddress, _list[i].id, item.distance, item.duration));
-        _listDistance.sort((a, b) => a.duration.compareTo(b.duration));  
+        if (meter < 5000) {
+          Distance item = await _googleMapsServices.getMatrixDistance(
+              l1, LatLng(_list[i].latitude, _list[i].longitude));
+          _listDistance.add(new Distance(item.destinationAddress,
+              item.originAddress, _list[i].id, item.distance, item.duration));
+          _listDistance.sort((a, b) => a.duration.compareTo(b.duration));
+        }
       }
-      
     }
     return _listDistance;
   }
@@ -154,4 +149,3 @@ class HospitalState with ChangeNotifier {
     return;
   }
 }
-
