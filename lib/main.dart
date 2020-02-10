@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_ambulance/provider.dart';
 import 'package:smart_ambulance/states/settingState.dart';
-import 'package:smart_ambulance/ui/authentication/landingPage.dart';
-import 'provider.dart';
+import 'package:smart_ambulance/ui/Authentication/landingPage.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 void main() {
   return runApp(MultiProvider(
@@ -26,7 +27,13 @@ class _MyAppState extends State<MyApp> {
       theme:
           settingState.darkModeEnabled ? ThemeData.dark() : ThemeData.light(),
       debugShowCheckedModeBanner: false,
-      home: LandingPage(),
+      home: SplashScreen(
+        seconds: 2,
+        navigateAfterSeconds: LandingPage(),
+        loadingText: Text('Smart Ambulance'),
+        image: Image.asset('images/ambulance.png'),
+        photoSize: 100,
+      ),
     );
   }
 }
