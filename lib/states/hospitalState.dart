@@ -100,12 +100,15 @@ class HospitalState with ChangeNotifier {
         if (meter < 5000) {
           Distance item = await _googleMapsServices.getMatrixDistance(
               l1, LatLng(_list[i].latitude, _list[i].longitude));
+           if(item.distance<5000.0){
           _listDistance.add(new Distance(item.destinationAddress,
-              item.originAddress, _list[i].id, item.distance, item.duration));
-          _listDistance.sort((a, b) => a.duration.compareTo(b.duration));
+              item.originAddress, _list[i].id, item.distance, item.duration)); 
+              }
+         
         }
       }
     }
+     _listDistance.sort((a, b) => a.duration.compareTo(b.duration));
     return _listDistance;
   }
 
