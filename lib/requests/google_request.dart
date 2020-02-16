@@ -1,10 +1,10 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/geolocation.dart';
 import 'package:http/http.dart' as http;
 import 'package:smart_ambulance/model/distance.dart';
 import 'dart:convert';
 
-import 'package:smart_ambulance/model/hospitalsInfo.dart';
-import 'package:smart_ambulance/states/crudState.dart';
+import 'package:smart_ambulance/model/distanceMatrix.dart';
 
 const apiKey = "AIzaSyDjJdyuszYbdiK3eW6OFyx9uyNszjPBlyk";
 
@@ -55,17 +55,20 @@ class GoogleMapsServices {
   }
 */
 
-  Future<Distance> getMatrixDistance(LatLng l1, LatLng l2) async {
+  Future getMatrixDistance(LatLng l1, List<Location> l2) async {
+    DistanceMatrix distanceMatrix;
+
+    // King of Solution of Solution ***
+
+    String destList = "";
+    l2.forEach((f) =>
+        destList = f.lat.toString() + "," + f.lng.toString() + "|" + destList);
+        
     final String url =
-        "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${l1.latitude},${l1.longitude}&destinations=${l2.latitude},${l2.longitude}&key=$apiKey";
+        "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${l1.latitude},${l1.longitude}&destinations=${destList}&key=$apiKey";
     http.Response response = await http.get(url);
     Map data = json.decode(response.body);
-
-    return Distance(
-        data['destination_addresses'].toString(),
-        data['origin_addresses'].toString(),
-        '',
-        data['rows'][0]['elements'][0]['distance']['value'],
-        data['rows'][0]['elements'][0]['duration']['value']);
+    distanceMatrix = DistanceMatrix.fromMap(data);
+    return distanceMatrix;
   }
 }
