@@ -37,6 +37,16 @@ class HospitalState with ChangeNotifier {
     return name;
   }
 
+  String hospitalNameAddress(id) {
+    String name = '';
+    for (int i = 0; i < _list.length; i++) {
+      if (id == _list[i].formatted_address) {
+        name = _list[i].name;
+      }
+    }
+    return name;
+  }
+
   LatLng destinationLatLng(id) {
     LatLng location;
     for (int i = 0; i < _list.length; i++) {
@@ -113,6 +123,7 @@ class HospitalState with ChangeNotifier {
           _listDistance.add(new Distance(
               item.destination_addresses[i].toString(),
               item.origin_addresses[0].toString(),
+              hospitalNameAddress(item.destination_addresses[i].toString()),
               _list[i].id,
               item.rows[0]['elements'][i]['distance']['value'],
               item.rows[0]['elements'][i]['duration']['value']));

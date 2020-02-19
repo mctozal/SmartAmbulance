@@ -93,9 +93,8 @@ class _HospitalListState extends State<HospitalList> {
                                                   height: 50,
                                                   width: 160,
                                                   child: Text(
-                                                    hospitalState.hospitalName(
-                                                        snapshot.data[index]
-                                                            .destinationId),
+                                                    snapshot.data[index]
+                                                        .destinationName,
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
