@@ -3,9 +3,9 @@ import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:smart_ambulance/states/managerState.dart';
 import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:smart_ambulance/ui/Manager/ambulanceList.dart';
 import 'package:smart_ambulance/ui/Manager/ambulanceOnlineList.dart';
+import 'package:smart_ambulance/ui/Manager/assignEmergency.dart';
 
 class RoutePanel extends StatefulWidget {
   @override
@@ -252,31 +252,11 @@ class _RoutePanelState extends State<RoutePanel> {
                     children: <Widget>[
                       Text('Online Ambulances',
                           style: TextStyle(color: Colors.blueAccent)),
-                      StreamBuilder<QuerySnapshot>(
-                          stream: managerState.showUsersOnline(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return CircularProgressIndicator();
-                            }
-                            List<DocumentSnapshot> list =
-                                snapshot.data.documents;
-                            int online = 0;
-                            Iterable<int>.generate(list.length)
-                                .forEach((index) => {
-                                      if (snapshot.data.documents[index]
-                                              .data["isOnline"]
-                                              .toString() ==
-                                          'true')
-                                        {
-                                          online++,
-                                        }
-                                    });
-                            return Text('$online',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 34.0));
-                          }),
+                      Text(managerState.isOnline.toString(),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 34.0))
                     ],
                   ),
                   Material(
@@ -348,6 +328,10 @@ class _RoutePanelState extends State<RoutePanel> {
                           fontSize: 15.0)),
                   Text('Emergency', style: TextStyle(color: Colors.black45)),
                 ]),
+          ),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (_) => AssignEmergency(managerState: managerState)),
           ),
         ),
         _buildTile(

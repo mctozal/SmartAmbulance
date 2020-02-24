@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:smart_ambulance/model/users.dart';
 import 'package:smart_ambulance/states/managerState.dart';
 
 class AmbulanceOnlineList extends StatelessWidget {
@@ -18,23 +18,20 @@ class AmbulanceOnlineList extends StatelessWidget {
         elevation: 14.0,
         borderRadius: BorderRadius.circular(12.0),
         shadowColor: Color(0x802196F3),
-        child: StreamBuilder<QuerySnapshot>(
-            stream: managerState.showUsersOnline(),
+        child: FutureBuilder<List<User>>(
+            future: managerState.fetchAllUsers(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Center(child: CircularProgressIndicator());
               } else
                 return ListView.builder(
-                    itemCount: snapshot.data.documents.length,
-                    itemBuilder: (context, index) => snapshot
-                                .data.documents[index].data['isOnline']
-                                .toString() ==
-                            'true'
-                        ? ListTile(
-                            title: Text(snapshot
-                                .data.documents[index].data['user-mail']),
-                          )
-                        : Text(''));
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) =>
+                        snapshot.data[index].isOnline.toString() == 'true'
+                            ? ListTile(
+                                title: Text(snapshot.data[index].name),
+                              )
+                            : Text(''));
             }),
       ),
     );
