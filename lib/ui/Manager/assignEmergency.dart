@@ -33,8 +33,8 @@ class AssignEmergency extends StatelessWidget {
                   itemBuilder: (context, index) => ListTile(
                     title: Text(snapshot.data[index].name),
                     leading: snapshot.data[index].name.isNotEmpty
-                        ? Icon(Icons.offline_bolt)
-                        : Icon(Icons.offline_pin),
+                        ? Icon(Icons.error_outline)
+                        : Icon(Icons.error_outline),
                     trailing: Text(snapshot.data[index].address),
                     onTap: () {
                       double destLat = snapshot.data[index].latitude;
