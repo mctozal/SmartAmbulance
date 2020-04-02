@@ -110,73 +110,62 @@ class HospitalState with ChangeNotifier {
         // String doctors=_list[i].availableDoctors;
         //String rooms=_list[i].surgeryRoom;
 
-        if (meter < 5000) {
+        if (meter < 1000) {
           listHost.add(HospitalsInfo(
+              name: _list[i].name,
+              formatted_address: _list[i].formatted_address,
               latitude: _list[i].latitude,
               longitude: _list[i].longitude,
               id: _list[i].id));
         }
       }
 
-      DistanceMatrix item =
+      List<Distance> item =
           await _googleMapsServices.getMatrixDistance(l1, listHost);
+          
+      return item;
+    }
 
-      for (int i = 0; i < item.destination_addresses.length; i++) {
-        if (item.rows[0]['elements'][i]['distance']['value'] < 5000) {
-          if (hospitalNameAddress(item.destination_addresses[i].toString()) !=
-              "") {
-            _listDistance.add(new Distance(
-                item.destination_addresses[i].toString(),
-                item.origin_addresses[0].toString(),
-                hospitalNameAddress(item.destination_addresses[i].toString()),
-                _list[i].id,
-                item.rows[0]['elements'][i]['distance']['value'],
-                item.rows[0]['elements'][i]['duration']['value']));
-          }
+    showDetailedHospital(destinationId, context) {
+      for (int i = 0; i < _list.length; i++) {
+        if (_list[i].id == destinationId) {
+          showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                    title: Text(
+                      'Routing',
+                      style: TextStyle(
+                          fontSize: 22.0, fontWeight: FontWeight.w600),
+                    ),
+                    content: Text("Do you want to go to ${list[i].name} ?"),
+                    actions: <Widget>[
+                      Image(
+                        height: 100,
+                        width: 100,
+                        image: AssetImage('images/hospital.png'),
+                      ),
+                      FlatButton(
+                        child: Icon(Icons.close),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      FlatButton(
+                        child: Icon(Icons.done),
+                        onPressed: () async {
+                          final mapState =
+                              Provider.of<MapState>(context, listen: false);
+                          await mapState.createRouteToHospital(
+                              LatLng(list[i].latitude, list[i].longitude));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FireMap()));
+                        },
+                      ),
+                    ],
+                  ));
         }
       }
+      return;
     }
-    _listDistance.sort((a, b) => a.duration.compareTo(b.duration));
-    return _listDistance;
-  }
-
-  showDetailedHospital(destinationId, context) {
-    for (int i = 0; i < _list.length; i++) {
-      if (_list[i].id == destinationId) {
-        showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-                  title: Text(
-                    'Routing',
-                    style:
-                        TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600),
-                  ),
-                  content: Text("Do you want to go to ${list[i].name} ?"),
-                  actions: <Widget>[
-                    Image(
-                      height: 100,
-                      width: 100,
-                      image: AssetImage('images/hospital.png'),
-                    ),
-                    FlatButton(
-                      child: Icon(Icons.close),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                    FlatButton(
-                      child: Icon(Icons.done),
-                      onPressed: () async {
-                        final mapState =
-                            Provider.of<MapState>(context, listen: false);
-                        await mapState.createRouteToHospital(
-                            LatLng(list[i].latitude, list[i].longitude));
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => FireMap()));
-                      },
-                    ),
-                  ],
-                ));
-      }
-    }
-    return;
   }
 }

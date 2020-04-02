@@ -1,5 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:smart_ambulance/model/distance.dart';
 import 'dart:convert';
 import 'package:smart_ambulance/model/distanceMatrix.dart';
 import 'package:smart_ambulance/model/hospitalsInfo.dart';
@@ -54,26 +55,30 @@ class GoogleMapsServices {
 */
 
   Future getMatrixDistance(LatLng l1, List<HospitalsInfo> l2) async {
-    DistanceMatrix distanceMatrix ;
+    DistanceMatrix distanceMatrix;
+    List<Distance> _listDistance = List<Distance>();
 
     // King of Solution of Solution ***
 
-    String destList = "";
-
     for (int i = 0; i < l2.length; i++) {
-      destList = l2[i].latitude.toString() +
-          "," +
-          l2[i].longitude.toString() +
-          "|" +
-          destList;
+      final String url =
+          "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${l1.latitude},${l1.longitude}&destinations=${l2[i].latitude.toString()},${l2[i].longitude.toString()}&key=$apiKey";
+
+      http.Response response = await http.get(url);
+      Map data = json.decode(response.body);
+      distanceMatrix = DistanceMatrix.fromMap(data);
+
+      if (distanceMatrix.rows[0]['elements'][0]['distance']['value'] < 5000) {
+        _listDistance.add(new Distance(
+            distanceMatrix.destination_addresses[0].toString(),
+            distanceMatrix.origin_addresses[0].toString(),
+            l2[i].name,
+            l2[i].id,
+            distanceMatrix.rows[0]['elements'][0]['distance']['value'],
+            distanceMatrix.rows[0]['elements'][0]['duration']['value']));
+      }
     }
-
-    final String url =
-        "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${l1.latitude},${l1.longitude}&destinations=${destList}&key=$apiKey";
-    http.Response response = await http.get(url);
-    Map data = json.decode(response.body);
-    distanceMatrix = DistanceMatrix.fromMap(data);
-
-    return distanceMatrix;
+    _listDistance.sort((a, b) => a.duration.compareTo(b.duration));
+    return _listDistance;
   }
 }
