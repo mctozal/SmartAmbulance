@@ -4,7 +4,6 @@ import 'package:smart_ambulance/model/distance.dart';
 import 'package:smart_ambulance/model/distanceMatrix.dart';
 import 'package:smart_ambulance/model/hospitalsInfo.dart';
 import 'package:smart_ambulance/requests/google_request.dart';
-import 'package:google_maps_webservice/geolocation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:smart_ambulance/src/distanceCalculator.dart';
 import 'package:smart_ambulance/states/crudState.dart';
@@ -98,7 +97,8 @@ class HospitalState with ChangeNotifier {
   }
 
   Future<List<Distance>> showDistance(LatLng l1) async {
-    List<Location> listDest = List<Location>();
+    List<HospitalsInfo> listHost = List<HospitalsInfo>();
+
     if (_listDistance.isEmpty) {
       for (int i = 0; i < _list.length; i++) {
         double meter = distanceCalculator.calculate(
@@ -111,22 +111,28 @@ class HospitalState with ChangeNotifier {
         //String rooms=_list[i].surgeryRoom;
 
         if (meter < 5000) {
-          listDest.add(Location(_list[i].latitude, _list[i].longitude));
+          listHost.add(HospitalsInfo(
+              latitude: _list[i].latitude,
+              longitude: _list[i].longitude,
+              id: _list[i].id));
         }
       }
 
       DistanceMatrix item =
-          await _googleMapsServices.getMatrixDistance(l1, listDest);
+          await _googleMapsServices.getMatrixDistance(l1, listHost);
 
       for (int i = 0; i < item.destination_addresses.length; i++) {
         if (item.rows[0]['elements'][i]['distance']['value'] < 5000) {
-          _listDistance.add(new Distance(
-              item.destination_addresses[i].toString(),
-              item.origin_addresses[0].toString(),
-              hospitalNameAddress(item.destination_addresses[i].toString()),
-              _list[i].id,
-              item.rows[0]['elements'][i]['distance']['value'],
-              item.rows[0]['elements'][i]['duration']['value']));
+          if (hospitalNameAddress(item.destination_addresses[i].toString()) !=
+              "") {
+            _listDistance.add(new Distance(
+                item.destination_addresses[i].toString(),
+                item.origin_addresses[0].toString(),
+                hospitalNameAddress(item.destination_addresses[i].toString()),
+                _list[i].id,
+                item.rows[0]['elements'][i]['distance']['value'],
+                item.rows[0]['elements'][i]['duration']['value']));
+          }
         }
       }
     }

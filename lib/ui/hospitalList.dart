@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:smart_ambulance/states/hospitalState.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_ambulance/states/mapState.dart';
-import 'package:smart_ambulance/ui/homepage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:smart_ambulance/ui/filter.dart';
 
 class HospitalUI extends StatelessWidget {
   @override
@@ -93,8 +91,7 @@ class _HospitalListState extends State<HospitalList> {
                                                   height: 50,
                                                   width: 160,
                                                   child: Text(
-                                                    snapshot.data[index]
-                                                        .destinationName,
+                                                     snapshot.data[index].destinationName,
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
