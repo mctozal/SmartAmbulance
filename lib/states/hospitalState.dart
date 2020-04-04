@@ -20,7 +20,7 @@ class HospitalState with ChangeNotifier {
   List<Distance> _listDistance = List<Distance>();
   List<Distance> get listDistance => _listDistance;
   List<Distance> get listDistanceCalculated => _listDistance;
-  List<Distance>  filtredHospital = List<Distance>();
+  List<Distance> filtredHospital = List<Distance>();
 
   HospitalState() {}
 
@@ -118,20 +118,25 @@ class HospitalState with ChangeNotifier {
 
       DistanceMatrix item =
           await _googleMapsServices.getMatrixDistance(l1, listDest);
-
-    for(int i=0; i<listDest.length;i++){
-      for(int j=0;j<_list.length;j++){
-          if( item.destination_addresses[i].toString()==_list[j].formatted_address){
-                 if (item.rows[0]['elements'][i]['distance']['value'] < 10000) {
+      if (filtredHospital.isEmpty) {
+        for (int i = 0; i < listDest.length; i++) {
+          for (int j = 0; j < _list.length; j++) {
+            if (item.destination_addresses[i].toString() ==
+                _list[j].formatted_address) {
+              if (item.rows[0]['elements'][i]['distance']['value'] < 10000) {
                 filtredHospital.add(new Distance(
-              item.destination_addresses[i].toString(),
-              item.origin_addresses[0].toString(),
-              hospitalNameAddress(item.destination_addresses[i].toString()),
-              _list[j].id,
-              item.rows[0]['elements'][i]['distance']['value'],
-              item.rows[0]['elements'][i]['duration']['value']));
-          }}      }
-    }
+                    item.destination_addresses[i].toString(),
+                    item.origin_addresses[0].toString(),
+                    hospitalNameAddress(
+                        item.destination_addresses[i].toString()),
+                    _list[j].id,
+                    item.rows[0]['elements'][i]['distance']['value'],
+                    item.rows[0]['elements'][i]['duration']['value']));
+              }
+            }
+          }
+        }
+      }
 /*
       for (int i = 0; i < item.destination_addresses.length; i++) {
         if (item.rows[0]['elements'][i]['distance']['value'] < 5000) {
